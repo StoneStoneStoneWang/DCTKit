@@ -1,23 +1,23 @@
 //
-//  CATUserCenterBridge.swift
-//  CATBridge
+//  DCTUserCenterBridge.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/3/30.
 //  Copyright © 2020 王磊. All rights reserved.
 //
 
 import Foundation
-import CATCollection
+import DCTCollection
 import RxDataSources
-import CATCocoa
-import CATCache
+import DCTCocoa
+import DCTCache
 import RxCocoa
 import RxSwift
-import CATBean
+import DCTBean
 import RxGesture
 
-@objc(CATUserCenterActionType)
-public enum CATUserCenterActionType: Int ,Codable {
+@objc(DCTUserCenterActionType)
+public enum DCTUserCenterActionType: Int ,Codable {
     
     case header
     
@@ -48,15 +48,15 @@ public enum CATUserCenterActionType: Int ,Codable {
     case feedBack
 }
 
-public typealias CATUserCenterAction = (_ action: CATUserCenterActionType ) -> ()
+public typealias DCTUserCenterAction = (_ action: DCTUserCenterActionType ) -> ()
 
 private var key: Void?
 
-extension CATCollectionHeaderView {
+extension DCTCollectionHeaderView {
     
-    @objc public var user: CATUserBean? {
+    @objc public var user: DCTUserBean? {
         get {
-            return objc_getAssociatedObject(self, &key) as? CATUserBean
+            return objc_getAssociatedObject(self, &key) as? DCTUserBean
         }
         set{
             objc_setAssociatedObject(self, &key,newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -64,9 +64,9 @@ extension CATCollectionHeaderView {
     }
 }
 
-extension Reactive where Base: CATCollectionHeaderView {
+extension Reactive where Base: DCTCollectionHeaderView {
     
-    var user: Binder<CATUserBean?> {
+    var user: Binder<DCTUserBean?> {
         
         return Binder(base) { view, user in
             
@@ -75,28 +75,28 @@ extension Reactive where Base: CATCollectionHeaderView {
     }
 }
 
-@objc (CATUserCenterBridge)
-public final class CATUserCenterBridge: CATBaseBridge {
+@objc (DCTUserCenterBridge)
+public final class DCTUserCenterBridge: DCTBaseBridge {
     
-    typealias Section = CATSectionModel<(), CATUserCenterBean>
+    typealias Section = DCTSectionModel<(), DCTUserCenterBean>
     
     var dataSource: RxCollectionViewSectionedReloadDataSource<Section>!
     
-    var viewModel: CATUserCenterViewModel!
+    var viewModel: DCTUserCenterViewModel!
     
-    weak var vc: CATCollectionNoLoadingViewController!
+    weak var vc: DCTCollectionNoLoadingViewController!
 }
 
-extension CATUserCenterBridge {
+extension DCTUserCenterBridge {
     
-    @objc public func createUserCenter(_ vc: CATCollectionNoLoadingViewController,headerView: CATCollectionHeaderView,centerAction:@escaping CATUserCenterAction) {
+    @objc public func createUserCenter(_ vc: DCTCollectionNoLoadingViewController,headerView: DCTCollectionHeaderView,centerAction:@escaping DCTUserCenterAction) {
         
         self.vc = vc
         
-        let input = CATUserCenterViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(CATUserCenterBean.self),
+        let input = DCTUserCenterViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(DCTUserCenterBean.self),
                                                    itemSelect: vc.collectionView.rx.itemSelected)
         
-        viewModel = CATUserCenterViewModel(input, disposed: disposed)
+        viewModel = DCTUserCenterViewModel(input, disposed: disposed)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<Section>(
             configureCell: { ds, cv, ip, item in return vc.configCollectionViewCell(item, for: ip)})
@@ -118,7 +118,7 @@ extension CATUserCenterBridge {
                 
                 vc.collectionView.deselectItem(at: ip, animated: true)
                 
-                let isLogin = CATAccountCache.default.isLogin()
+                let isLogin = DCTAccountCache.default.isLogin()
                 
                 switch type.type {
                 case .setting: centerAction(.setting)
@@ -160,7 +160,7 @@ extension CATUserCenterBridge {
             .when(.recognized)
             .subscribe(onNext: { (_) in
                 
-                let isLogin = CATAccountCache.default.isLogin()
+                let isLogin = DCTAccountCache.default.isLogin()
                 
                 centerAction(isLogin ? .header : .unLogin)
                 
@@ -169,7 +169,7 @@ extension CATUserCenterBridge {
     }
 }
 
-extension CATUserCenterBridge: UICollectionViewDelegateFlowLayout {
+extension DCTUserCenterBridge: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         

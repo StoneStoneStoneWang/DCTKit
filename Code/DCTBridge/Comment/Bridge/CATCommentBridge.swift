@@ -1,47 +1,47 @@
 //
-//  CATCommentBridge.swift
-//  CATBridge
+//  DCTCommentBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/9/11.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATBean
-import CATHud
+import DCTCocoa
+import DCTBean
+import DCTHud
 import MJRefresh
 
-@objc (CATCommentBridge)
-public final class CATCommentBridge: CATBaseBridge {
+@objc (DCTCommentBridge)
+public final class DCTCommentBridge: DCTBaseBridge {
     
-    typealias Section = CATAnimationSetionModel<CATCommentBean>
+    typealias Section = DCTAnimationSetionModel<DCTCommentBean>
     
     var dataSource: RxTableViewSectionedAnimatedDataSource<Section>!
     
-    var viewModel: CATCommentViewModel!
+    var viewModel: DCTCommentViewModel!
     
-    weak var vc: CATTableLoadingViewController!
+    weak var vc: DCTTableLoadingViewController!
     
-    var circleBean: CATCircleBean!
+    var circleBean: DCTCircleBean!
 }
-extension CATCommentBridge {
+extension DCTCommentBridge {
     
-    @objc public func createComment(_ vc: CATTableLoadingViewController,encode: String ,circle: CATCircleBean) {
+    @objc public func createComment(_ vc: DCTTableLoadingViewController,encode: String ,circle: DCTCircleBean) {
         
         self.vc = vc
         
         self.circleBean = circle
         
-        let input = CATCommentViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATCommentBean.self),
+        let input = DCTCommentViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTCommentBean.self),
                                               itemSelect: vc.tableView.rx.itemSelected,
-                                              headerRefresh: vc.tableView.mj_header!.rx.CATRefreshing.asDriver(),
-                                              footerRefresh: vc.tableView.mj_footer!.rx.CATRefreshing.asDriver(),
+                                              headerRefresh: vc.tableView.mj_header!.rx.DCTRefreshing.asDriver(),
+                                              footerRefresh: vc.tableView.mj_footer!.rx.DCTRefreshing.asDriver(),
                                               encoded: encode)
         
-        viewModel = CATCommentViewModel(input, disposed: disposed)
+        viewModel = DCTCommentViewModel(input, disposed: disposed)
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<Section>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .fade, deleteAnimation: .left),
@@ -60,7 +60,7 @@ extension CATCommentBridge {
         
         endHeaderRefreshing
             .map({ _ in return true })
-            .drive(vc.tableView.mj_header!.rx.CATEndRefreshing)
+            .drive(vc.tableView.mj_header!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         endHeaderRefreshing
@@ -69,7 +69,7 @@ extension CATCommentBridge {
                 case .fetchList:
                     vc.loadingStatus = .succ
                 case let .failed(msg):
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                     vc.loadingStatus = .fail
                     
                 case .empty:
@@ -85,7 +85,7 @@ extension CATCommentBridge {
         
         endFooterRefreshing
             .map({ _ in return true })
-            .drive(vc.tableView.mj_footer!.rx.CATEndRefreshing)
+            .drive(vc.tableView.mj_footer!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         self.dataSource = dataSource
@@ -112,7 +112,7 @@ extension CATCommentBridge {
             .setDelegate(self)
             .disposed(by: disposed)
     }
-    @objc public func insertComment(_ comment: CATCommentBean) {
+    @objc public func insertComment(_ comment: DCTCommentBean) {
         
         var value = self.viewModel.output.tableData.value
         
@@ -138,28 +138,28 @@ extension CATCommentBridge {
         self.vc.tableView.scrollsToTop = true
 
     }
-    @objc public func addComment(_ encoded: String,content: String ,commentAction: @escaping (_ comment: CATCommentBean? ,_ circleBean: CATCircleBean) -> () ) {
+    @objc public func addComment(_ encoded: String,content: String ,commentAction: @escaping (_ comment: DCTCommentBean? ,_ circleBean: DCTCircleBean) -> () ) {
         
-        CATHud.show(withStatus: "发布评论中....")
+        DCTHud.show(withStatus: "发布评论中....")
         
-        CATCommentViewModel
+        DCTCommentViewModel
             .addComment(encoded, content: content)
             .drive(onNext: { [unowned self](result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .operation(let comment):
                     
-                    CATHud.showInfo("发布评论成功!")
+                    DCTHud.showInfo("发布评论成功!")
                     
                     self.circleBean.countComment += 1
                     
-                    commentAction(comment as? CATCommentBean ,self.circleBean)
+                    commentAction(comment as? DCTCommentBean ,self.circleBean)
 
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -168,7 +168,7 @@ extension CATCommentBridge {
     }
 }
 
-extension CATCommentBridge: UITableViewDelegate {
+extension DCTCommentBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

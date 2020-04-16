@@ -1,19 +1,19 @@
 //
-//  CATSettingBridge.swift
-//  CATBridge
+//  DCTSettingBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATCache
+import DCTCocoa
+import DCTCache
 
-@objc(CATSettingActionType)
-public enum CATSettingActionType: Int ,Codable {
+@objc(DCTSettingActionType)
+public enum DCTSettingActionType: Int ,Codable {
     
     case gotoFindPassword = 0
     
@@ -26,29 +26,29 @@ public enum CATSettingActionType: Int ,Codable {
     case black = 4
 }
 
-public typealias CATSettingAction = (_ action: CATSettingActionType ) -> ()
+public typealias DCTSettingAction = (_ action: DCTSettingActionType ) -> ()
 
-@objc (CATSettingBridge)
-public final class CATSettingBridge: CATBaseBridge {
+@objc (DCTSettingBridge)
+public final class DCTSettingBridge: DCTBaseBridge {
     
-    typealias Section = CATSectionModel<(), CATSettingBean>
+    typealias Section = DCTSectionModel<(), DCTSettingBean>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var viewModel: CATSettingViewModel!
+    var viewModel: DCTSettingViewModel!
     
-    weak var vc: CATTableNoLoadingViewController!
+    weak var vc: DCTTableNoLoadingViewController!
 }
-extension CATSettingBridge {
+extension DCTSettingBridge {
     
-    @objc public func createSetting(_ vc: CATTableNoLoadingViewController ,hasSpace: Bool,settingAction: @escaping CATSettingAction) {
+    @objc public func createSetting(_ vc: DCTTableNoLoadingViewController ,hasSpace: Bool,settingAction: @escaping DCTSettingAction) {
         
         self.vc = vc
         
-        let input = CATSettingViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATSettingBean.self),
+        let input = DCTSettingViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTSettingBean.self),
                                                 itemSelect: vc.tableView.rx.itemSelected, hasSpace: hasSpace)
         
-        viewModel = CATSettingViewModel(input)
+        viewModel = DCTSettingViewModel(input)
         
         let dataSource = RxTableViewSectionedReloadDataSource<Section>(
             configureCell: { ds, tv, ip, item in  return vc.configTableViewCell(item, for: ip) })
@@ -84,7 +84,7 @@ extension CATSettingBridge {
                     
                 case .black:
                     
-                    if CATAccountCache.default.isLogin() {
+                    if DCTAccountCache.default.isLogin() {
                         
                         settingAction(.black)
                         
@@ -121,10 +121,10 @@ extension CATSettingBridge {
     
     @objc public func updateTableData(_ hasPlace: Bool) {
         
-        viewModel.output.tableData.accept(CATSettingBean.createTabledata(hasPlace))
+        viewModel.output.tableData.accept(DCTSettingBean.createTabledata(hasPlace))
     }
 }
-extension CATSettingBridge: UITableViewDelegate {
+extension DCTSettingBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

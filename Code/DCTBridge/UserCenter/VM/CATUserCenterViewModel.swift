@@ -1,6 +1,6 @@
 //
-//  CATUserCenterViewModel.swift
-//  CATBridge
+//  DCTUserCenterViewModel.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/3/30.
 //  Copyright © 2020 王磊. All rights reserved.
@@ -10,21 +10,21 @@ import Foundation
 import WLBaseViewModel
 import RxCocoa
 import RxSwift
-import CATBean
-import CATSign
-import CATApi
-import CATRReq
-import CATCache
+import DCTBean
+import DCTSign
+import DCTApi
+import DCTRReq
+import DCTCache
 
-@objc public final class CATUserCenterBean: NSObject {
+@objc public final class DCTUserCenterBean: NSObject {
     
-    @objc public var type: CATUserCenterType = .userInfo
+    @objc public var type: DCTUserCenterType = .userInfo
     
     @objc public var title: String = ""
     
-    @objc public static func createUserCenter(_ type: CATUserCenterType ,title: String) -> CATUserCenterBean {
+    @objc public static func createUserCenter(_ type: DCTUserCenterType ,title: String) -> DCTUserCenterBean {
         
-        let profile = CATUserCenterBean()
+        let profile = DCTUserCenterBean()
         
         profile.type = type
         
@@ -33,13 +33,13 @@ import CATCache
         return profile
     }
     
-    static public func createUserCenterTypes() -> [CATUserCenterBean] {
+    static public func createUserCenterTypes() -> [DCTUserCenterBean] {
         
-        var result: [CATUserCenterBean] = []
+        var result: [DCTUserCenterBean] = []
         
-        for item in CATUserCenterType.types {
+        for item in DCTUserCenterType.types {
             
-            result += [CATUserCenterBean.createUserCenter(item, title: item.title)]
+            result += [DCTUserCenterBean.createUserCenter(item, title: item.title)]
         }
         
         return result
@@ -49,8 +49,8 @@ import CATCache
     }
 }
 
-@objc (CATUserCenterType)
-public enum CATUserCenterType : Int{
+@objc (DCTUserCenterType)
+public enum DCTUserCenterType : Int{
     
     case about
     
@@ -75,11 +75,11 @@ public enum CATUserCenterType : Int{
     case feedBack
 }
 
-extension CATUserCenterType {
+extension DCTUserCenterType {
     
-    static var types: [CATUserCenterType] {
+    static var types: [DCTUserCenterType] {
         
-        if CATConfigure.fetchPType() == .cleaner {
+        if DCTConfigure.fetchPType() == .cleaner {
             
             return [.order,.privacy,.contactUS,.feedBack,.setting]
         }
@@ -126,7 +126,7 @@ extension CATUserCenterType {
     }
 }
 
-struct CATUserCenterViewModel: WLBaseViewModel {
+struct DCTUserCenterViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -134,30 +134,30 @@ struct CATUserCenterViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATUserCenterBean>
+        let modelSelect: ControlEvent<DCTUserCenterBean>
         
         let itemSelect: ControlEvent<IndexPath>
     }
     
     struct WLOutput {
         
-        let zip: Observable<(CATUserCenterBean,IndexPath)>
+        let zip: Observable<(DCTUserCenterBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATUserCenterBean]> = BehaviorRelay<[CATUserCenterBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTUserCenterBean]> = BehaviorRelay<[DCTUserCenterBean]>(value: [])
         
-        let userInfo: Observable<CATUserBean?>
+        let userInfo: Observable<DCTUserBean?>
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         
         self.input = input
         
-        let userInfo: Observable<CATUserBean?> = CATUserInfoCache.default.rx.observe(CATUserBean.self, "userBean")
+        let userInfo: Observable<DCTUserBean?> = DCTUserInfoCache.default.rx.observe(DCTUserBean.self, "userBean")
         
-        CATUserInfoCache.default.userBean = CATUserInfoCache.default.queryUser()
+        DCTUserInfoCache.default.userBean = DCTUserInfoCache.default.queryUser()
         
-        CATDictResp(CATApi.fetchProfile)
-            .mapObject(type: CATUserBean.self)
-            .map({ CATUserInfoCache.default.saveUser(data: $0) })
+        DCTDictResp(DCTApi.fetchProfile)
+            .mapObject(type: DCTUserBean.self)
+            .map({ DCTUserInfoCache.default.saveUser(data: $0) })
             .subscribe(onNext: { (_) in })
             .disposed(by: disposed)
         
@@ -165,7 +165,7 @@ struct CATUserCenterViewModel: WLBaseViewModel {
         
         self.output = WLOutput(zip: zip, userInfo: userInfo)
         
-        self.output.tableData.accept(CATUserCenterBean.createUserCenterTypes())
+        self.output.tableData.accept(DCTUserCenterBean.createUserCenterTypes())
     }
 }
 

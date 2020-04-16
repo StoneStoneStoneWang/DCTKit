@@ -1,6 +1,6 @@
 //
 //  ZNickameViewModel.swift
-//  CATBridge
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/28.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -11,12 +11,12 @@ import RxCocoa
 import WLReqKit
 import WLBaseViewModel
 import WLBaseResult
-import CATRReq
-import CATApi
-import CATBean
-import CATCache
+import DCTRReq
+import DCTApi
+import DCTBean
+import DCTCache
 
-struct CATNameViewModel: WLBaseViewModel {
+struct DCTNameViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -53,9 +53,9 @@ struct CATNameViewModel: WLBaseViewModel {
         let completed: Driver<WLBaseResult> = input.completTaps
             .withLatestFrom(input.updated)
             .flatMapLatest({
-                return CATDictResp(CATApi.updateUserInfo("users.nickname", value: $0))
-                    .mapObject(type: CATUserBean.self)
-                    .map({ CATUserInfoCache.default.saveUser(data: $0) })
+                return DCTDictResp(DCTApi.updateUserInfo("users.nickname", value: $0))
+                    .mapObject(type: DCTUserBean.self)
+                    .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                     .map { WLBaseResult.updateUserInfoSucc($0, msg: "昵称修改成功")}
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) }) })
         

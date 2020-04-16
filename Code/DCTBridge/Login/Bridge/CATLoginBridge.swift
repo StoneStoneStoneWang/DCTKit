@@ -1,19 +1,19 @@
 //
-//  CATLoginBridge.swift
-//  CATBridge
+//  DCTLoginBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/25.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATBase
-import CATHud
+import DCTBase
+import DCTHud
 import RxCocoa
 import RxSwift
 
-@objc(CATLoginActionType)
-public enum CATLoginActionType: Int ,Codable {
+@objc(DCTLoginActionType)
+public enum DCTLoginActionType: Int ,Codable {
     
     case swiftLogin = 0
     
@@ -24,31 +24,31 @@ public enum CATLoginActionType: Int ,Codable {
     case backItem = 3
 }
 
-public typealias CATLoginAction = (_ action: CATLoginActionType) -> ()
+public typealias DCTLoginAction = (_ action: DCTLoginActionType) -> ()
 
-@objc (CATLoginBridge)
-public final class CATLoginBridge: CATBaseBridge {
+@objc (DCTLoginBridge)
+public final class DCTLoginBridge: DCTBaseBridge {
     
-    public var viewModel: CATLoginViewModel!
+    public var viewModel: DCTLoginViewModel!
 }
 
 // MARK: 201 手机号 202 密码 203 登陆按钮 204 快捷登录按钮 205 忘记密码按钮 206
-extension CATLoginBridge {
+extension DCTLoginBridge {
     
-    @objc public func createLogin(_ vc: CATBaseViewController ,loginAction: @escaping CATLoginAction) {
+    @objc public func createLogin(_ vc: DCTBaseViewController ,loginAction: @escaping DCTLoginAction) {
         
         if let phone = vc.view.viewWithTag(201) as? UITextField ,let password = vc.view.viewWithTag(202) as? UITextField ,let loginItem = vc.view.viewWithTag(203) as? UIButton
             , let swiftLoginItem = vc.view.viewWithTag(204) as? UIButton ,let forgetItem = vc.view.viewWithTag(205) as? UIButton , let passwordItem = password.rightView
             as? UIButton ,let backItem = vc.navigationItem.leftBarButtonItem?.customView as? UIButton {
             
-            let input = CATLoginViewModel.WLInput(username: phone.rx.text.orEmpty.asDriver(),
+            let input = DCTLoginViewModel.WLInput(username: phone.rx.text.orEmpty.asDriver(),
                                                 password: password.rx.text.orEmpty.asDriver() ,
                                                 loginTaps: loginItem.rx.tap.asSignal(),
                                                 swiftLoginTaps: swiftLoginItem.rx.tap.asSignal(),
                                                 forgetTaps: forgetItem.rx.tap.asSignal(),
                                                 passwordItemTaps: passwordItem.rx.tap.asSignal())
             
-            viewModel = CATLoginViewModel(input)
+            viewModel = DCTLoginViewModel(input)
             
             backItem
                 .rx
@@ -67,7 +67,7 @@ extension CATLoginBridge {
                     
                     vc.view.endEditing(true)
                     
-                    CATHud.show(withStatus: "登录中...")
+                    DCTHud.show(withStatus: "登录中...")
                 })
                 .disposed(by: disposed)
             
@@ -77,15 +77,15 @@ extension CATLoginBridge {
                 .logined
                 .drive(onNext: {
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
                     switch $0 {
                         
-                    case let .failed(msg): CATHud.showInfo(msg)
+                    case let .failed(msg): DCTHud.showInfo(msg)
                         
                     case .logined:
                         
-                        CATHud.showInfo("登录成功")
+                        DCTHud.showInfo("登录成功")
                         
                         loginAction(.loginSucc)
 

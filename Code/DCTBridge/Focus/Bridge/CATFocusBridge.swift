@@ -1,36 +1,36 @@
 //
-//  CATFocusBridge.swift
-//  CATBridge
+//  DCTFocusBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATBean
-import CATHud
+import DCTCocoa
+import DCTBean
+import DCTHud
 
-public typealias CATFocusAction = (_ blackBean: CATFocusBean ,_ ip: IndexPath) -> ()
+public typealias DCTFocusAction = (_ blackBean: DCTFocusBean ,_ ip: IndexPath) -> ()
 
-@objc (CATFocusBridge)
-public final class CATFocusBridge: CATBaseBridge {
+@objc (DCTFocusBridge)
+public final class DCTFocusBridge: DCTBaseBridge {
     
-    typealias Section = CATAnimationSetionModel<CATFocusBean>
+    typealias Section = DCTAnimationSetionModel<DCTFocusBean>
     
     var dataSource: RxTableViewSectionedAnimatedDataSource<Section>!
     
-    public var viewModel: CATFocusViewModel!
+    public var viewModel: DCTFocusViewModel!
     
-    weak var vc: CATTableLoadingViewController!
+    weak var vc: DCTTableLoadingViewController!
     
-    var focusAction: CATFocusAction!
+    var focusAction: DCTFocusAction!
 }
-extension CATFocusBridge {
+extension DCTFocusBridge {
     
-    @objc public func createFocus(_ vc: CATTableLoadingViewController ,_ focusAction:@escaping CATFocusAction) {
+    @objc public func createFocus(_ vc: DCTTableLoadingViewController ,_ focusAction:@escaping DCTFocusAction) {
         
         self.focusAction = focusAction
         
@@ -38,11 +38,11 @@ extension CATFocusBridge {
         
         vc.tableView.mj_footer?.isHidden = true
         
-        let input = CATFocusViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATFocusBean.self),
+        let input = DCTFocusViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTFocusBean.self),
                                               itemSelect: vc.tableView.rx.itemSelected,
-                                              headerRefresh: vc.tableView.mj_header!.rx.CATRefreshing.asDriver())
+                                              headerRefresh: vc.tableView.mj_header!.rx.DCTRefreshing.asDriver())
         
-        viewModel = CATFocusViewModel(input, disposed: disposed)
+        viewModel = DCTFocusViewModel(input, disposed: disposed)
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<Section>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .top, reloadAnimation: .fade, deleteAnimation: .left),
@@ -64,7 +64,7 @@ extension CATFocusBridge {
         
         endHeaderRefreshing
             .map({ _ in return true })
-            .drive(vc.tableView.mj_header!.rx.CATEndRefreshing)
+            .drive(vc.tableView.mj_header!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         endHeaderRefreshing
@@ -73,7 +73,7 @@ extension CATFocusBridge {
                 case .fetchList:
                     vc.loadingStatus = .succ
                 case let .failed(msg):
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                     vc.loadingStatus = .fail
                     
                 case .empty:
@@ -99,7 +99,7 @@ extension CATFocusBridge {
             .disposed(by: disposed)
     }
 }
-extension CATFocusBridge: UITableViewDelegate {
+extension DCTFocusBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -125,11 +125,11 @@ extension CATFocusBridge: UITableViewDelegate {
         return [cancel,delete]
     }
     
-    @objc public func removeFocus(_ blackBean: CATFocusBean ,_ ip: IndexPath ,_ focusAction: @escaping () -> ()) {
+    @objc public func removeFocus(_ blackBean: DCTFocusBean ,_ ip: IndexPath ,_ focusAction: @escaping () -> ()) {
         
-        CATHud.show(withStatus: "移除\(blackBean.users.nickname)中...")
+        DCTHud.show(withStatus: "移除\(blackBean.users.nickname)中...")
         
-        CATFocusViewModel
+        DCTFocusViewModel
             .removeFocus(blackBean.identity)
             .drive(onNext: { [weak self] (result) in
                 
@@ -138,9 +138,9 @@ extension CATFocusBridge: UITableViewDelegate {
                 switch result {
                 case .ok:
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
-                    CATHud.showInfo("移除\(blackBean.users.nickname)成功")
+                    DCTHud.showInfo("移除\(blackBean.users.nickname)成功")
                     
                     var value = self.viewModel.output.tableData.value
                     
@@ -157,9 +157,9 @@ extension CATFocusBridge: UITableViewDelegate {
                     
                 case .failed:
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
-                    CATHud.showInfo("移除\(blackBean.users.nickname)失败")
+                    DCTHud.showInfo("移除\(blackBean.users.nickname)失败")
                     
                 default: break
                     

@@ -1,23 +1,23 @@
 //
-//  CATProfileBridge.swift
-//  CATBridge
+//  DCTProfileBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/27.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATCache
+import DCTCocoa
+import DCTCache
 import RxCocoa
 import RxSwift
-import CATBean
+import DCTBean
 import RxGesture
 
-@objc(CATProfileActionType)
-public enum CATProfileActionType: Int ,Codable {
+@objc(DCTProfileActionType)
+public enum DCTProfileActionType: Int ,Codable {
     
     case header
     
@@ -50,15 +50,15 @@ public enum CATProfileActionType: Int ,Codable {
     case favor
 }
 
-public typealias CATProfileAction = (_ action: CATProfileActionType ) -> ()
+public typealias DCTProfileAction = (_ action: DCTProfileActionType ) -> ()
 
 private var key: Void?
 
-extension CATTableHeaderView {
+extension DCTTableHeaderView {
     
-    @objc public var user: CATUserBean? {
+    @objc public var user: DCTUserBean? {
         get {
-            return objc_getAssociatedObject(self, &key) as? CATUserBean
+            return objc_getAssociatedObject(self, &key) as? DCTUserBean
         }
         set{
             objc_setAssociatedObject(self, &key,newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -66,9 +66,9 @@ extension CATTableHeaderView {
     }
 }
 
-extension Reactive where Base: CATTableHeaderView {
+extension Reactive where Base: DCTTableHeaderView {
     
-    var user: Binder<CATUserBean?> {
+    var user: Binder<DCTUserBean?> {
         
         return Binder(base) { view, user in
             
@@ -77,27 +77,27 @@ extension Reactive where Base: CATTableHeaderView {
     }
 }
 
-@objc (CATProfileBridge)
-public final class CATProfileBridge: CATBaseBridge {
+@objc (DCTProfileBridge)
+public final class DCTProfileBridge: DCTBaseBridge {
     
-    typealias Section = CATSectionModel<(), CATProfileBean>
+    typealias Section = DCTSectionModel<(), DCTProfileBean>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var viewModel: CATProfileViewModel!
+    var viewModel: DCTProfileViewModel!
     
-    weak var vc: CATTableNoLoadingViewController!
+    weak var vc: DCTTableNoLoadingViewController!
 }
 
-extension CATProfileBridge {
+extension DCTProfileBridge {
     
-    @objc public func createProfile(_ vc: CATTableNoLoadingViewController,hasSpace: Bool,profileAction:@escaping CATProfileAction) {
+    @objc public func createProfile(_ vc: DCTTableNoLoadingViewController,hasSpace: Bool,profileAction:@escaping DCTProfileAction) {
         
-        let input = CATProfileViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATProfileBean.self),
+        let input = DCTProfileViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTProfileBean.self),
                                               itemSelect: vc.tableView.rx.itemSelected,
                                               hasSpace: hasSpace)
         
-        viewModel = CATProfileViewModel(input, disposed: disposed)
+        viewModel = DCTProfileViewModel(input, disposed: disposed)
         
         let dataSource = RxTableViewSectionedReloadDataSource<Section>(
             configureCell: { ds, tv, ip, item in return vc.configTableViewCell(item, for: ip)  })
@@ -125,7 +125,7 @@ extension CATProfileBridge {
                 
                 vc.tableView.deselectRow(at: ip, animated: true)
                 
-                let isLogin = CATAccountCache.default.isLogin()
+                let isLogin = DCTAccountCache.default.isLogin()
                 
                 switch type.type {
                 case .setting: profileAction(.setting)
@@ -163,7 +163,7 @@ extension CATProfileBridge {
             .when(.recognized)
             .subscribe(onNext: { (_) in
                 
-                let isLogin = CATAccountCache.default.isLogin()
+                let isLogin = DCTAccountCache.default.isLogin()
                 
                 profileAction(isLogin ? .header : .unLogin)
             
@@ -172,7 +172,7 @@ extension CATProfileBridge {
     }
 }
 
-extension CATProfileBridge: UITableViewDelegate {
+extension DCTProfileBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

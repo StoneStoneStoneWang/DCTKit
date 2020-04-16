@@ -1,36 +1,36 @@
 //
-//  CATBlackBridge.swift
-//  CATBridge
+//  DCTBlackBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATBean
-import CATHud
+import DCTCocoa
+import DCTBean
+import DCTHud
 
-public typealias CATBlackAction = (_ blackBean: CATBlackBean ,_ ip: IndexPath) -> ()
+public typealias DCTBlackAction = (_ blackBean: DCTBlackBean ,_ ip: IndexPath) -> ()
 
-@objc (CATBlackBridge)
-public final class CATBlackBridge: CATBaseBridge {
+@objc (DCTBlackBridge)
+public final class DCTBlackBridge: DCTBaseBridge {
     
-    typealias Section = CATAnimationSetionModel<CATBlackBean>
+    typealias Section = DCTAnimationSetionModel<DCTBlackBean>
     
     var dataSource: RxTableViewSectionedAnimatedDataSource<Section>!
     
-    public var viewModel: CATBlackViewModel!
+    public var viewModel: DCTBlackViewModel!
     
-    weak var vc: CATTableLoadingViewController!
+    weak var vc: DCTTableLoadingViewController!
     
-    var blackAction: CATBlackAction!
+    var blackAction: DCTBlackAction!
 }
-extension CATBlackBridge {
+extension DCTBlackBridge {
     
-    @objc public func createBlack(_ vc: CATTableLoadingViewController ,_ blackAction:@escaping CATBlackAction) {
+    @objc public func createBlack(_ vc: DCTTableLoadingViewController ,_ blackAction:@escaping DCTBlackAction) {
         
         self.blackAction = blackAction
         
@@ -38,11 +38,11 @@ extension CATBlackBridge {
         
         vc.tableView.mj_footer?.isHidden = true
         
-        let input = CATBlackViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATBlackBean.self),
+        let input = DCTBlackViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTBlackBean.self),
                                               itemSelect: vc.tableView.rx.itemSelected,
-                                              headerRefresh: vc.tableView.mj_header!.rx.CATRefreshing.asDriver())
+                                              headerRefresh: vc.tableView.mj_header!.rx.DCTRefreshing.asDriver())
         
-        viewModel = CATBlackViewModel(input, disposed: disposed)
+        viewModel = DCTBlackViewModel(input, disposed: disposed)
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<Section>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .top, reloadAnimation: .fade, deleteAnimation: .left),
@@ -64,7 +64,7 @@ extension CATBlackBridge {
         
         endHeaderRefreshing
             .map({ _ in return true })
-            .drive(vc.tableView.mj_header!.rx.CATEndRefreshing)
+            .drive(vc.tableView.mj_header!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         endHeaderRefreshing
@@ -73,7 +73,7 @@ extension CATBlackBridge {
                 case .fetchList:
                     vc.loadingStatus = .succ
                 case let .failed(msg):
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                     vc.loadingStatus = .fail
                     
                 case .empty:
@@ -99,7 +99,7 @@ extension CATBlackBridge {
             .disposed(by: disposed)
     }
 }
-extension CATBlackBridge: UITableViewDelegate {
+extension DCTBlackBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -125,11 +125,11 @@ extension CATBlackBridge: UITableViewDelegate {
         return [cancel,delete]
     }
     
-    @objc public func removeBlack(_ blackBean: CATBlackBean ,_ ip: IndexPath ,_ blackAction: @escaping () -> ()) {
+    @objc public func removeBlack(_ blackBean: DCTBlackBean ,_ ip: IndexPath ,_ blackAction: @escaping () -> ()) {
         
-        CATHud.show(withStatus: "移除\(blackBean.users.nickname)中...")
+        DCTHud.show(withStatus: "移除\(blackBean.users.nickname)中...")
         
-        CATBlackViewModel
+        DCTBlackViewModel
             .removeBlack(blackBean.identity)
             .drive(onNext: { [weak self] (result) in
                 
@@ -138,9 +138,9 @@ extension CATBlackBridge: UITableViewDelegate {
                 switch result {
                 case .ok:
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
-                    CATHud.showInfo("移除\(blackBean.users.nickname)成功")
+                    DCTHud.showInfo("移除\(blackBean.users.nickname)成功")
                     
                     var value = self.viewModel.output.tableData.value
                     
@@ -157,9 +157,9 @@ extension CATBlackBridge: UITableViewDelegate {
                     
                 case .failed:
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
-                    CATHud.showInfo("移除\(blackBean.users.nickname)失败")
+                    DCTHud.showInfo("移除\(blackBean.users.nickname)失败")
                     
                 default: break
                     

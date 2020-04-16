@@ -1,6 +1,6 @@
 //
 //  ZModifyPwdViewModel.swift
-//  CATBridge
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATApi
-import CATRReq
-import CATCheck
+import DCTApi
+import DCTRReq
+import DCTCheck
 
-public struct CATModifyPasswordViewModel: WLBaseViewModel {
+public struct DCTModifyPasswordViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -53,8 +53,8 @@ public struct CATModifyPasswordViewModel: WLBaseViewModel {
             .withLatestFrom(opa)
             .flatMapLatest {
                 
-                switch CATCheckPasswordModify($0.0, password: $0.2, passwordAgain: $0.1) {
-                case .ok: return CATVoidResp(CATApi.modifyPassword($0.0, password: $0.1))
+                switch DCTCheckPasswordModify($0.0, password: $0.2, passwordAgain: $0.1) {
+                case .ok: return DCTVoidResp(DCTApi.modifyPassword($0.0, password: $0.1))
                     .map({ WLBaseResult.ok("修改密码成功") })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
                     

@@ -1,5 +1,5 @@
 //
-//  CATMessageBridge.swift
+//  DCTMessageBridge.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/20.
@@ -7,39 +7,39 @@
 //
 
 import Foundation
-import CATCollection
+import DCTCollection
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 import RxCocoa
 import RxSwift
-import CATBean
+import DCTBean
 
-public typealias CATMessageAction = (_ ip: IndexPath,_ message: CATMessageBean) -> ()
+public typealias DCTMessageAction = (_ ip: IndexPath,_ message: DCTMessageBean) -> ()
 
-@objc (CATMessageBridge)
-public final class CATMessageBridge: CATBaseBridge {
+@objc (DCTMessageBridge)
+public final class DCTMessageBridge: DCTBaseBridge {
     
-    typealias Section = CATAnimationSetionModel<CATMessageBean>
+    typealias Section = DCTAnimationSetionModel<DCTMessageBean>
     
     var dataSource: RxCollectionViewSectionedAnimatedDataSource<Section>!
     
-    var viewModel: CATMessageViewModel!
+    var viewModel: DCTMessageViewModel!
     
-    weak var vc: CATCollectionLoadingViewController!
+    weak var vc: DCTCollectionLoadingViewController!
     
 }
 
-extension CATMessageBridge {
+extension DCTMessageBridge {
     
-    @objc public func createMessage(_ vc: CATCollectionLoadingViewController ,messageAction: @escaping CATMessageAction ) {
+    @objc public func createMessage(_ vc: DCTCollectionLoadingViewController ,messageAction: @escaping DCTMessageAction ) {
         
         self.vc = vc
         
-        let input = CATMessageViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(CATMessageBean.self),
+        let input = DCTMessageViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(DCTMessageBean.self),
                                                 itemSelect: vc.collectionView.rx.itemSelected,
-                                                headerRefresh: vc.collectionView.mj_header!.rx.CATRefreshing.asDriver())
+                                                headerRefresh: vc.collectionView.mj_header!.rx.DCTRefreshing.asDriver())
         
-        viewModel = CATMessageViewModel(input, disposed: disposed)
+        viewModel = DCTMessageViewModel(input, disposed: disposed)
         
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<Section>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .fade, deleteAnimation: .left),
@@ -69,7 +69,7 @@ extension CATMessageBridge {
         
         endHeaderRefreshing
             .map({ _ in return true })
-            .drive(vc.collectionView.mj_header!.rx.CATEndRefreshing)
+            .drive(vc.collectionView.mj_header!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         endHeaderRefreshing
@@ -103,11 +103,11 @@ extension CATMessageBridge {
         vc.collectionView.reloadItems(at: [ip])
     }
 }
-extension CATMessageBridge: UITableViewDelegate {
+extension DCTMessageBridge: UITableViewDelegate {
     
-    @objc public func messageReadReq(_ message: CATMessageBean ,_ ip: IndexPath) {
+    @objc public func messageReadReq(_ message: DCTMessageBean ,_ ip: IndexPath) {
         
-        CATMessageViewModel
+        DCTMessageViewModel
             .messageRead("\(message.mid)")
             .drive(onNext: { [unowned self] (result) in
                 
@@ -123,9 +123,9 @@ extension CATMessageBridge: UITableViewDelegate {
             .disposed(by: disposed)
     }
     
-    @objc public func fetchFirstMessage(_ messageAction: @escaping (_ message: CATMessageBean) -> ()) {
+    @objc public func fetchFirstMessage(_ messageAction: @escaping (_ message: DCTMessageBean) -> ()) {
         
-        CATMessageViewModel
+        DCTMessageViewModel
             .fetchFirstMessage()
             .drive(onNext: { (result) in
                 
@@ -134,7 +134,7 @@ extension CATMessageBridge: UITableViewDelegate {
                     
                     if list.count > 0{
                         
-                        messageAction(list.first as! CATMessageBean)
+                        messageAction(list.first as! DCTMessageBean)
                     }
                 default:
                     

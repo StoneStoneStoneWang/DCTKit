@@ -1,43 +1,43 @@
 //
-//  CATCollectionSectionBridge.swift
-//  CATBridge
+//  DCTCollectionSectionBridge.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/3/31.
 //  Copyright © 2020 王磊. All rights reserved.
 //
 
 import Foundation
-import CATCollection
+import DCTCollection
 import RxCocoa
 import RxSwift
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 
-public typealias CATCollectionSectionAction = (_ item: CATCollectionItemBean) -> ()
+public typealias DCTCollectionSectionAction = (_ item: DCTCollectionItemBean) -> ()
 
-@objc (CATCollectionSectionBridge)
-public final class CATCollectionSectionBridge: CATBaseBridge {
+@objc (DCTCollectionSectionBridge)
+public final class DCTCollectionSectionBridge: DCTBaseBridge {
     
-    var viewModel: CATCollectionSectionViewModel!
+    var viewModel: DCTCollectionSectionViewModel!
     
-    typealias Section = CATSectionModel<CATCollectionSectionBean, CATCollectionItemBean>
+    typealias Section = DCTSectionModel<DCTCollectionSectionBean, DCTCollectionItemBean>
     
     var dataSource: RxCollectionViewSectionedReloadDataSource<Section>!
     
-    var vc: CATCollectionNoLoadingViewController!
+    var vc: DCTCollectionNoLoadingViewController!
     
 }
 
 // MARK: skip item 101 pagecontrol 102
-extension CATCollectionSectionBridge {
+extension DCTCollectionSectionBridge {
     
-    @objc public func createCollectionSection(_ vc: CATCollectionNoLoadingViewController ,sections: [CATCollectionSectionBean],sectionAction: @escaping CATCollectionSectionAction) {
+    @objc public func createCollectionSection(_ vc: DCTCollectionNoLoadingViewController ,sections: [DCTCollectionSectionBean],sectionAction: @escaping DCTCollectionSectionAction) {
         
-        let input = CATCollectionSectionViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(CATCollectionItemBean.self),
+        let input = DCTCollectionSectionViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(DCTCollectionItemBean.self),
                                                           itemSelect: vc.collectionView.rx.itemSelected,
                                                           sections: sections)
         
-        viewModel = CATCollectionSectionViewModel(input)
+        viewModel = DCTCollectionSectionViewModel(input)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<Section>(
             configureCell: { ds, cv, ip, item in return vc.configCollectionViewCell(item, for: ip) },
@@ -63,18 +63,18 @@ extension CATCollectionSectionBridge {
         
     }
     
-    @objc public func fetchSingleData(_ ip: IndexPath) -> CATCollectionItemBean! {
+    @objc public func fetchSingleData(_ ip: IndexPath) -> DCTCollectionItemBean! {
         
         guard let dataSource = dataSource else { return nil }
         
         return dataSource[ip]
     }
     
-    @objc public func fetchCollectionDatas() -> [CATCollectionItemBean] {
+    @objc public func fetchCollectionDatas() -> [DCTCollectionItemBean] {
         
         guard let viewModel = viewModel else { return [] }
         
-        var mutable: [CATCollectionItemBean] = []
+        var mutable: [DCTCollectionItemBean] = []
         
         for item in viewModel.output.collectionData.value {
             

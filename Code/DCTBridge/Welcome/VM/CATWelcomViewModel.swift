@@ -1,5 +1,5 @@
 //
-//  CATWelcomViewModel.swift
+//  DCTWelcomViewModel.swift
 //  ZUserKit
 //
 //  Created by three stone 王 on 2019/3/15.
@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 import WLToolsKit
 
-public struct CATWelcomViewModel: WLBaseViewModel {
+public struct DCTWelcomViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -29,7 +29,7 @@ public struct CATWelcomViewModel: WLBaseViewModel {
         /* 定时器 序列*/
         let timer: Observable<Int> = Observable<Int>.timer(0, period: 1, scheduler: MainScheduler.instance)
         
-        @available(*, deprecated, message: "Please use durationRelay")
+        @available(*, depreDCTed, message: "Please use durationRelay")
         let duration: Variable<Int> = Variable<Int>(3)
         
         let durationRelay: BehaviorRelay<Int> = BehaviorRelay<Int>(value: 3)

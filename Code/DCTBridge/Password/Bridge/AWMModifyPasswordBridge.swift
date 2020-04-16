@@ -1,38 +1,38 @@
 //
-//  CATModifyPwdBridge.swift
-//  CATBridge
+//  DCTModifyPwdBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATBase
-import CATHud
+import DCTBase
+import DCTHud
 import RxCocoa
 import RxSwift
-import CATCocoa
+import DCTCocoa
 
-public typealias CATModifyPasswordAction = () -> ()
+public typealias DCTModifyPasswordAction = () -> ()
 
-@objc (CATModifyPasswordBridge)
-public final class CATModifyPasswordBridge: CATBaseBridge {
+@objc (DCTModifyPasswordBridge)
+public final class DCTModifyPasswordBridge: DCTBaseBridge {
     
-    public var viewModel: CATModifyPasswordViewModel!
+    public var viewModel: DCTModifyPasswordViewModel!
 }
 // MARK:  旧密码201 新密码 202 确认密码 203 修改密码
-extension CATModifyPasswordBridge {
+extension DCTModifyPasswordBridge {
     
-    @objc public func createPassword(_ vc: CATBaseViewController ,passwordAction: @escaping CATModifyPasswordAction) {
+    @objc public func createPassword(_ vc: DCTBaseViewController ,passwordAction: @escaping DCTModifyPasswordAction) {
         
         if let oldpassword = vc.view.viewWithTag(201) as? UITextField ,let password = vc.view.viewWithTag(202) as? UITextField ,let passwordAgain = vc.view.viewWithTag(203) as? UITextField ,let completeItem = vc.view.viewWithTag(204) as? UIButton {
             
-            let input = CATModifyPasswordViewModel.WLInput(oldpassword: oldpassword.rx.text.orEmpty.asDriver(),
+            let input = DCTModifyPasswordViewModel.WLInput(oldpassword: oldpassword.rx.text.orEmpty.asDriver(),
                                                            password: password.rx.text.orEmpty.asDriver() ,
                                                            passwordAgain: passwordAgain.rx.text.orEmpty.asDriver(),
                                                            completeTaps: completeItem.rx.tap.asSignal())
             
-            viewModel = CATModifyPasswordViewModel(input, disposed: disposed)
+            viewModel = DCTModifyPasswordViewModel(input, disposed: disposed)
             
             // MARK: 修改密码 点击
             viewModel
@@ -42,7 +42,7 @@ extension CATModifyPasswordBridge {
                     
                     vc.view.endEditing(true)
                     
-                    CATHud.show(withStatus: "修改密码中...")
+                    DCTHud.show(withStatus: "修改密码中...")
                     
                 })
                 .disposed(by: disposed)
@@ -53,15 +53,15 @@ extension CATModifyPasswordBridge {
                 .completed
                 .drive(onNext: {
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
                     switch $0 {
                         
-                    case let .failed(msg): CATHud.showInfo(msg)
+                    case let .failed(msg): DCTHud.showInfo(msg)
                         
                     case let .ok(msg):
                         
-                        CATHud.showInfo(msg)
+                        DCTHud.showInfo(msg)
                         
                         passwordAction()
                         

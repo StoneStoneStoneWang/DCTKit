@@ -1,6 +1,6 @@
 //
-//  CATAboutViewModel.swift
-//  CATBridge
+//  DCTAboutViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/27.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,17 +12,17 @@ import RxCocoa
 import RxSwift
 import WLToolsKit
 
-@objc public final class CATAboutBean: NSObject {
+@objc public final class DCTAboutBean: NSObject {
     
-    @objc public var type: CATAboutType = .space
+    @objc public var type: DCTAboutType = .space
     
     @objc public var title: String = ""
     
     @objc public var subTitle: String = ""
     
-    @objc public static func createAbout(_ type: CATAboutType ,title: String ,subTitle: String) -> CATAboutBean {
+    @objc public static func createAbout(_ type: DCTAboutType ,title: String ,subTitle: String) -> DCTAboutBean {
         
-        let about = CATAboutBean()
+        let about = DCTAboutBean()
         
         about.type = type
         
@@ -35,8 +35,8 @@ import WLToolsKit
     private override init() { }
 }
 
-@objc (CATAboutType)
-public enum CATAboutType: Int {
+@objc (DCTAboutType)
+public enum DCTAboutType: Int {
     
     case version
     
@@ -49,14 +49,14 @@ public enum CATAboutType: Int {
     case check
 }
 
-extension CATAboutType {
+extension DCTAboutType {
     
-    static var types: [CATAboutType] {
+    static var types: [DCTAboutType] {
         
         return [.version,.email,.wechat,.check]
     }
     
-    static var spaceTypes: [CATAboutType] {
+    static var spaceTypes: [DCTAboutType] {
         
         return [.space,.version,.email,.wechat,.check]
     }
@@ -110,7 +110,7 @@ extension CATAboutType {
     }
 }
 
-struct CATAboutViewModel: WLBaseViewModel {
+struct DCTAboutViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -118,7 +118,7 @@ struct CATAboutViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATAboutType>
+        let modelSelect: ControlEvent<DCTAboutType>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -126,9 +126,9 @@ struct CATAboutViewModel: WLBaseViewModel {
     }
     struct WLOutput {
         
-        let zip: Observable<(CATAboutType,IndexPath)>
+        let zip: Observable<(DCTAboutType,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATAboutType]> = BehaviorRelay<[CATAboutType]>(value: [])
+        let tableData: BehaviorRelay<[DCTAboutType]> = BehaviorRelay<[DCTAboutType]>(value: [])
     }
     init(_ input: WLInput) {
         
@@ -138,6 +138,6 @@ struct CATAboutViewModel: WLBaseViewModel {
         
         self.output = WLOutput(zip: zip)
         
-        self.output.tableData.accept(input.hasSpace ? CATAboutType.spaceTypes : CATAboutType.types)
+        self.output.tableData.accept(input.hasSpace ? DCTAboutType.spaceTypes : DCTAboutType.types)
     }
 }

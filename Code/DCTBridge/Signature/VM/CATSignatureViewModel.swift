@@ -1,6 +1,6 @@
 //
-//  CATSignatureViewModel.swift
-//  CATBridge
+//  DCTSignatureViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/28.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,12 +12,12 @@ import WLReqKit
 import WLBaseViewModel
 import WLToolsKit
 import WLBaseResult
-import CATRReq
-import CATApi
-import CATBean
-import CATCache
+import DCTRReq
+import DCTApi
+import DCTBean
+import DCTCache
 
-struct CATSignatureViewModel: WLBaseViewModel {
+struct DCTSignatureViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -55,9 +55,9 @@ struct CATSignatureViewModel: WLBaseViewModel {
         
         let completed: Driver<WLBaseResult> = input.completTaps
             .withLatestFrom(input.updated)
-            .flatMapLatest({ return CATDictResp(CATApi.updateUserInfo("users.signature", value: $0))
-                .mapObject(type: CATUserBean.self)
-                .map({ CATUserInfoCache.default.saveUser(data: $0) })
+            .flatMapLatest({ return DCTDictResp(DCTApi.updateUserInfo("users.signature", value: $0))
+                .mapObject(type: DCTUserBean.self)
+                .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                 .map { WLBaseResult.updateUserInfoSucc($0, msg: "个性签名修改成功")}
                 .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) }) })
         

@@ -1,21 +1,21 @@
 //
-//  CATCollectionsBridge.swift
-//  CATBridge
+//  DCTCollectionsBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/29.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATCollection
+import DCTCollection
 import RxDataSources
-import CATCocoa
-import CATBean
-import CATHud
-import CATCache
+import DCTCocoa
+import DCTBean
+import DCTHud
+import DCTCache
 
-@objc(CATCollectionsActionType)
-public enum CATCollectionsActionType: Int ,Codable {
+@objc(DCTCollectionsActionType)
+public enum DCTCollectionsActionType: Int ,Codable {
     
     case myCircle = 0
     
@@ -40,34 +40,34 @@ public enum CATCollectionsActionType: Int ,Codable {
     case share = 10
 }
 
-public typealias CATCollectionsAction = (_ actionType: CATCollectionsActionType ,_ circle: CATCircleBean? ,_ ip: IndexPath?) -> ()
+public typealias DCTCollectionsAction = (_ actionType: DCTCollectionsActionType ,_ circle: DCTCircleBean? ,_ ip: IndexPath?) -> ()
 
-@objc (CATCollectionsBridge)
-public final class CATCollectionsBridge: CATBaseBridge {
+@objc (DCTCollectionsBridge)
+public final class DCTCollectionsBridge: DCTBaseBridge {
     
-    typealias Section = CATAnimationSetionModel<CATCircleBean>
+    typealias Section = DCTAnimationSetionModel<DCTCircleBean>
     
     var dataSource: RxCollectionViewSectionedAnimatedDataSource<Section>!
     
-    var viewModel: CATCollectionsViewModel!
+    var viewModel: DCTCollectionsViewModel!
     
-    weak var vc: CATCollectionLoadingViewController!
+    weak var vc: DCTCollectionLoadingViewController!
 }
 
-extension CATCollectionsBridge {
+extension DCTCollectionsBridge {
     
-    @objc public func createCollections(_ vc: CATCollectionLoadingViewController ,moreSection: Bool,isMy: Bool ,tag: String ,collectionsAction: @escaping CATCollectionsAction) {
+    @objc public func createCollections(_ vc: DCTCollectionLoadingViewController ,moreSection: Bool,isMy: Bool ,tag: String ,collectionsAction: @escaping DCTCollectionsAction) {
         
         self.vc = vc
         
-        let input = CATCollectionsViewModel.WLInput(isMy: isMy,
-                                                    modelSelect: vc.collectionView.rx.modelSelected(CATCircleBean.self),
+        let input = DCTCollectionsViewModel.WLInput(isMy: isMy,
+                                                    modelSelect: vc.collectionView.rx.modelSelected(DCTCircleBean.self),
                                                     itemSelect: vc.collectionView.rx.itemSelected,
-                                                    headerRefresh: vc.collectionView.mj_header!.rx.CATRefreshing.asDriver(),
-                                                    footerRefresh: vc.collectionView.mj_footer!.rx.CATRefreshing.asDriver(),
+                                                    headerRefresh: vc.collectionView.mj_header!.rx.DCTRefreshing.asDriver(),
+                                                    footerRefresh: vc.collectionView.mj_footer!.rx.DCTRefreshing.asDriver(),
                                                     tag: tag)
         
-        viewModel = CATCollectionsViewModel(input, disposed: disposed)
+        viewModel = DCTCollectionsViewModel(input, disposed: disposed)
         
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<Section>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .fade, deleteAnimation: .left),
@@ -97,7 +97,7 @@ extension CATCollectionsBridge {
         
         endHeaderRefreshing
             .map({ _ in return true })
-            .drive(vc.collectionView.mj_header!.rx.CATEndRefreshing)
+            .drive(vc.collectionView.mj_header!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         endHeaderRefreshing
@@ -106,7 +106,7 @@ extension CATCollectionsBridge {
                 case .fetchList:
                     vc.loadingStatus = .succ
                 case let .failed(msg):
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                     vc.loadingStatus = .fail
                     
                 case .empty:
@@ -123,7 +123,7 @@ extension CATCollectionsBridge {
         
         endFooterRefreshing
             .map({ _ in return true })
-            .drive(vc.collectionView.mj_footer!.rx.CATEndRefreshing)
+            .drive(vc.collectionView.mj_footer!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         self.dataSource = dataSource
@@ -145,9 +145,9 @@ extension CATCollectionsBridge {
     }
 }
 
-extension CATCollectionsBridge {
+extension DCTCollectionsBridge {
     
-    @objc public func insertCollectionData(_ collectionData: CATCircleBean) {
+    @objc public func insertCollectionData(_ collectionData: DCTCircleBean) {
         
         var values = viewModel.output.collectionData.value
         
@@ -156,14 +156,14 @@ extension CATCollectionsBridge {
         viewModel.output.collectionData.accept(values)
     }
     
-    @objc public func fetchObj(_ ip: IndexPath) -> CATCircleBean? {
+    @objc public func fetchObj(_ ip: IndexPath) -> DCTCircleBean? {
         
         guard let dataSource = dataSource else { return nil }
         
         return dataSource[ip]
     }
     
-    @objc public func fetchIp(_ circle: CATCircleBean) -> IndexPath {
+    @objc public func fetchIp(_ circle: DCTCircleBean) -> IndexPath {
         
         let values = viewModel.output.collectionData.value
         
@@ -174,7 +174,7 @@ extension CATCollectionsBridge {
         return IndexPath(item: 0, section: 0)
         
     }
-    @objc public func converToJson(_ circle: CATCircleBean) -> [String: Any] {
+    @objc public func converToJson(_ circle: DCTCircleBean) -> [String: Any] {
         
         return circle.toJSON()
     }
@@ -199,22 +199,22 @@ extension CATCollectionsBridge {
         }
     }
     
-    @objc public func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String ,collectionsAction: @escaping CATCollectionsAction ) {
+    @objc public func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String ,collectionsAction: @escaping DCTCollectionsAction ) {
         
-        if !CATAccountCache.default.isLogin() {
+        if !DCTAccountCache.default.isLogin() {
             
             collectionsAction(.unLogin, nil,nil)
             
             return
         }
         
-        CATHud.show(withStatus: "添加黑名单中...")
+        DCTHud.show(withStatus: "添加黑名单中...")
         
-        CATCollectionsViewModel
+        DCTCollectionsViewModel
             .addBlack(OUsEncoded, targetEncoded: targetEncoded, content: content)
             .drive(onNext: { (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok(let msg):
@@ -223,10 +223,10 @@ extension CATCollectionsBridge {
                     
                     collectionsAction(.black, nil, nil)
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -234,22 +234,22 @@ extension CATCollectionsBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func focus(_ uid: String ,encode: String ,isFocus: Bool ,collectionsAction: @escaping CATCollectionsAction ) {
+    @objc public func focus(_ uid: String ,encode: String ,isFocus: Bool ,collectionsAction: @escaping DCTCollectionsAction ) {
         
-        if !CATAccountCache.default.isLogin() {
+        if !DCTAccountCache.default.isLogin() {
             
             collectionsAction(.unLogin, nil,nil)
             
             return
         }
         
-        CATHud.show(withStatus: isFocus ? "取消关注中..." : "关注中...")
+        DCTHud.show(withStatus: isFocus ? "取消关注中..." : "关注中...")
         
-        CATCollectionsViewModel
+        DCTCollectionsViewModel
             .focus(uid, encode: encode)
             .drive(onNext: { (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok(_):
@@ -267,11 +267,11 @@ extension CATCollectionsBridge {
                         collectionsAction(.focus, circle,nil)
                     }
                     
-                    CATHud.showInfo(isFocus ? "取消关注成功" : "关注成功")
+                    DCTHud.showInfo(isFocus ? "取消关注成功" : "关注成功")
                     
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -282,23 +282,23 @@ extension CATCollectionsBridge {
     
     @objc public func operation(_ encoded: String ,isLike: Bool ,status: String ,aMsg: String,collectionsAction: @escaping () -> () ) {
         
-        CATHud.show(withStatus: status)
+        DCTHud.show(withStatus: status)
         
-        CATCollectionsViewModel
+        DCTCollectionsViewModel
             .like(encoded, isLike: isLike)
             .drive(onNext: { (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok(_):
                     
                     collectionsAction()
                     
-                    CATHud.showInfo(aMsg)
+                    DCTHud.showInfo(aMsg)
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -306,22 +306,22 @@ extension CATCollectionsBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func like(_ encoded: String ,isLike: Bool ,collectionsAction: @escaping CATCollectionsAction) {
+    @objc public func like(_ encoded: String ,isLike: Bool ,collectionsAction: @escaping DCTCollectionsAction) {
         
-        if !CATAccountCache.default.isLogin() {
+        if !DCTAccountCache.default.isLogin() {
             
             collectionsAction(.unLogin, nil,nil)
             
             return
         }
         
-        CATHud.show(withStatus: isLike ? "取消点赞中..." : "点赞中...")
+        DCTHud.show(withStatus: isLike ? "取消点赞中..." : "点赞中...")
         
-        CATCollectionsViewModel
+        DCTCollectionsViewModel
             .like(encoded, isLike: isLike)
             .drive(onNext: { (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok(let msg):
@@ -342,10 +342,10 @@ extension CATCollectionsBridge {
                         collectionsAction(.like, circle,nil)
                     }
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -353,11 +353,11 @@ extension CATCollectionsBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func removeMyCircle(_ encoded: String ,ip: IndexPath,collectionsAction: @escaping CATCollectionsAction)  {
+    @objc public func removeMyCircle(_ encoded: String ,ip: IndexPath,collectionsAction: @escaping DCTCollectionsAction)  {
         
-        CATHud.show(withStatus: "移除内容中...")
+        DCTHud.show(withStatus: "移除内容中...")
         
-        CATCollectionsViewModel
+        DCTCollectionsViewModel
             .removeMyCircle(encoded)
             
             .drive(onNext: { [weak self] (result) in
@@ -366,9 +366,9 @@ extension CATCollectionsBridge {
                 switch result {
                 case .ok:
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
-                    CATHud.showInfo("移除当前内容成功")
+                    DCTHud.showInfo("移除当前内容成功")
                     
                     var value = self.viewModel.output.collectionData.value
                     
@@ -386,9 +386,9 @@ extension CATCollectionsBridge {
                     collectionsAction(.remove, circle, ip)
                 case .failed:
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
-                    CATHud.showInfo("移除当前内容失败")
+                    DCTHud.showInfo("移除当前内容失败")
                     
                 default: break
                     

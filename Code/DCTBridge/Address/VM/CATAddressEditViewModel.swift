@@ -1,5 +1,5 @@
 //
-//  CATAddressEditViewModel.swift
+//  DCTAddressEditViewModel.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/20.
@@ -12,19 +12,19 @@ import RxCocoa
 import RxSwift
 import WLBaseResult
 import WLReqKit
-import CATBean
+import DCTBean
 import RxDataSources
-import CATApi
-import CATRReq
+import DCTApi
+import DCTRReq
 import WLToolsKit
 
-@objc (CATAddressEditBean)
-public class CATAddressEditBean: NSObject ,IdentifiableType{
+@objc (DCTAddressEditBean)
+public class DCTAddressEditBean: NSObject ,IdentifiableType{
     public var identity: String = NSUUID().uuidString
     
     public typealias Identity = String
     
-    @objc public var type: CATAddressEditType = .name
+    @objc public var type: DCTAddressEditType = .name
     
     @objc public var title: String {
         
@@ -33,11 +33,11 @@ public class CATAddressEditBean: NSObject ,IdentifiableType{
     
     @objc public var value: String = ""
     
-    @objc public var pArea: CATAreaBean = CATAreaBean()
+    @objc public var pArea: DCTAreaBean = DCTAreaBean()
     
-    @objc public var cArea: CATAreaBean = CATAreaBean()
+    @objc public var cArea: DCTAreaBean = DCTAreaBean()
     
-    @objc public var rArea: CATAreaBean = CATAreaBean()
+    @objc public var rArea: DCTAreaBean = DCTAreaBean()
     
     @objc public var isDef: Bool = true
     
@@ -46,25 +46,25 @@ public class CATAddressEditBean: NSObject ,IdentifiableType{
         return type.placeholder
     }
     
-    public static var editTypes: [CATAddressEditBean] {
+    public static var editTypes: [DCTAddressEditBean] {
         
-        let name = CATAddressEditBean()
+        let name = DCTAddressEditBean()
         
         name.type = .name
         
-        let phone = CATAddressEditBean()
+        let phone = DCTAddressEditBean()
         
         phone.type = .phone
         
-        let area = CATAddressEditBean()
+        let area = DCTAddressEditBean()
         
         area.type = .area
         
-        let detail = CATAddressEditBean()
+        let detail = DCTAddressEditBean()
         
         detail.type = .detail
         
-        let def = CATAddressEditBean()
+        let def = DCTAddressEditBean()
         
         def.type = .def
         
@@ -74,8 +74,8 @@ public class CATAddressEditBean: NSObject ,IdentifiableType{
     }
 }
 
-@objc (CATAddressEditType)
-public enum CATAddressEditType:Int {
+@objc (DCTAddressEditType)
+public enum DCTAddressEditType:Int {
     case name
     
     case phone
@@ -87,7 +87,7 @@ public enum CATAddressEditType:Int {
     case def
 }
 
-extension CATAddressEditType {
+extension DCTAddressEditType {
     
     public var title: String {
         
@@ -104,7 +104,7 @@ extension CATAddressEditType {
         }
     }
     
-    public static var types: [CATAddressEditType] {
+    public static var types: [DCTAddressEditType] {
         
         return [.name,.phone,.area,.detail,.def]
     }
@@ -132,7 +132,7 @@ extension CATAddressEditType {
 }
 
 
-struct CATAddressEditViewModel: WLBaseViewModel {
+struct DCTAddressEditViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -140,7 +140,7 @@ struct CATAddressEditViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATAddressEditBean>
+        let modelSelect: ControlEvent<DCTAddressEditBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -154,24 +154,24 @@ struct CATAddressEditViewModel: WLBaseViewModel {
         
         let detail: Driver<String>
         
-        let province: Driver<CATAreaBean>
+        let province: Driver<DCTAreaBean>
         
-        let city: Driver<CATAreaBean>
+        let city: Driver<DCTAreaBean>
         
-        let region: Driver<CATAreaBean>
+        let region: Driver<DCTAreaBean>
         
         let def: Driver<Bool>
     }
     
     struct WLOutput {
         
-        let zip: Observable<(CATAddressEditBean,IndexPath)>
+        let zip: Observable<(DCTAddressEditBean,IndexPath)>
         
         let completing: Driver<Void>
         
         let completed: Driver<WLBaseResult>
         
-        let tableData: BehaviorRelay<[CATAddressEditBean]> = BehaviorRelay<[CATAddressEditBean]>(value: CATAddressEditBean.editTypes)
+        let tableData: BehaviorRelay<[DCTAddressEditBean]> = BehaviorRelay<[DCTAddressEditBean]>(value: DCTAddressEditBean.editTypes)
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         
@@ -212,8 +212,8 @@ struct CATAddressEditViewModel: WLBaseViewModel {
                     return Driver<WLBaseResult>.just(WLBaseResult.failed("请填写详细地址"))
                 }
                 
-                return CATDictResp(CATApi.editAddress(input.encode, name: $0.0, phone: $0.1, plcl: $0.3.areaId, plclne: $0.3.name, city: $0.4.areaId, cityne: $0.4.name, region: $0.5.areaId, regionne: $0.5.name, addr: $0.2, isdef: $0.6, zipCode: ""))
-                    .mapObject(type: CATAddressBean.self)
+                return DCTDictResp(DCTApi.editAddress(input.encode, name: $0.0, phone: $0.1, plcl: $0.3.areaId, plclne: $0.3.name, city: $0.4.areaId, cityne: $0.4.name, region: $0.5.areaId, regionne: $0.5.name, addr: $0.2, isdef: $0.6, zipCode: ""))
+                    .mapObject(type: DCTAddressBean.self)
                     .map({ WLBaseResult.operation($0) })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
         }

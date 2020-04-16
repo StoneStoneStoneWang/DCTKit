@@ -1,21 +1,21 @@
 //
-//  CATTablesBridge.swift
-//  CATBridge
+//  DCTTablesBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/29.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATBean
-import CATHud
-import CATCache
+import DCTCocoa
+import DCTBean
+import DCTHud
+import DCTCache
 
-@objc(CATTablesActionType)
-public enum CATTablesActionType: Int ,Codable {
+@objc(DCTTablesActionType)
+public enum DCTTablesActionType: Int ,Codable {
     
     case myCircle = 0
     
@@ -40,37 +40,37 @@ public enum CATTablesActionType: Int ,Codable {
     case share = 10
 }
 
-public typealias CATTablesAction = (_ actionType: CATTablesActionType ,_ circle: CATCircleBean? ,_ ip: IndexPath?) -> ()
+public typealias DCTTablesAction = (_ actionType: DCTTablesActionType ,_ circle: DCTCircleBean? ,_ ip: IndexPath?) -> ()
 
-@objc (CATTablesBridge)
-public final class CATTablesBridge: CATBaseBridge {
+@objc (DCTTablesBridge)
+public final class DCTTablesBridge: DCTBaseBridge {
     
-    typealias Section = CATAnimationSetionModel<CATCircleBean>
+    typealias Section = DCTAnimationSetionModel<DCTCircleBean>
     
     var dataSource: RxTableViewSectionedAnimatedDataSource<Section>!
     
-    var viewModel: CATTablesViewModel!
+    var viewModel: DCTTablesViewModel!
     
-    weak var vc: CATTableLoadingViewController!
+    weak var vc: DCTTableLoadingViewController!
     
-    var tablesAction: CATTablesAction!
+    var tablesAction: DCTTablesAction!
 }
-extension CATTablesBridge {
+extension DCTTablesBridge {
     
-    @objc public func createTables(_ vc: CATTableLoadingViewController ,isMy: Bool ,tag: String ,tablesAction: @escaping CATTablesAction) {
+    @objc public func createTables(_ vc: DCTTableLoadingViewController ,isMy: Bool ,tag: String ,tablesAction: @escaping DCTTablesAction) {
         
         self.vc = vc
         
         self.tablesAction = tablesAction
         
-        let input = CATTablesViewModel.WLInput(isMy: isMy,
-                                            modelSelect: vc.tableView.rx.modelSelected(CATCircleBean.self),
+        let input = DCTTablesViewModel.WLInput(isMy: isMy,
+                                            modelSelect: vc.tableView.rx.modelSelected(DCTCircleBean.self),
                                             itemSelect: vc.tableView.rx.itemSelected,
-                                            headerRefresh: vc.tableView.mj_header!.rx.CATRefreshing.asDriver(),
-                                            footerRefresh: vc.tableView.mj_footer!.rx.CATRefreshing.asDriver(),
+                                            headerRefresh: vc.tableView.mj_header!.rx.DCTRefreshing.asDriver(),
+                                            footerRefresh: vc.tableView.mj_footer!.rx.DCTRefreshing.asDriver(),
                                             tag: tag)
         
-        viewModel = CATTablesViewModel(input, disposed: disposed)
+        viewModel = DCTTablesViewModel(input, disposed: disposed)
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<Section>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .fade, deleteAnimation: .left),
@@ -90,7 +90,7 @@ extension CATTablesBridge {
         
         endHeaderRefreshing
             .map({ _ in return true })
-            .drive(vc.tableView.mj_header!.rx.CATEndRefreshing)
+            .drive(vc.tableView.mj_header!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         endHeaderRefreshing
@@ -99,7 +99,7 @@ extension CATTablesBridge {
                 case .fetchList:
                     vc.loadingStatus = .succ
                 case let .failed(msg):
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                     vc.loadingStatus = .fail
                     
                 case .empty:
@@ -117,7 +117,7 @@ extension CATTablesBridge {
         
         endFooterRefreshing
             .map({ _ in return true })
-            .drive(vc.tableView.mj_footer!.rx.CATEndRefreshing)
+            .drive(vc.tableView.mj_footer!.rx.DCTEndRefreshing)
             .disposed(by: disposed)
         
         self.dataSource = dataSource
@@ -145,7 +145,7 @@ extension CATTablesBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func updateCircle(_ circle: CATCircleBean ,ip: IndexPath) {
+    @objc public func updateCircle(_ circle: DCTCircleBean ,ip: IndexPath) {
         
         var values = viewModel.output.tableData.value
         
@@ -154,7 +154,7 @@ extension CATTablesBridge {
         viewModel.output.tableData.accept(values)
     }
     
-    @objc public func insertCircle(_ circle: CATCircleBean) {
+    @objc public func insertCircle(_ circle: DCTCircleBean) {
         
         var values = viewModel.output.tableData.value
         
@@ -169,7 +169,7 @@ extension CATTablesBridge {
     }
 }
 
-extension CATTablesBridge: UITableViewDelegate {
+extension DCTTablesBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -194,9 +194,9 @@ extension CATTablesBridge: UITableViewDelegate {
     }
 }
 
-extension CATTablesBridge {
+extension DCTTablesBridge {
     
-    @objc public func insertTableData(_ tableData: CATCircleBean) {
+    @objc public func insertTableData(_ tableData: DCTCircleBean) {
         
         var values = viewModel.output.tableData.value
         
@@ -205,57 +205,57 @@ extension CATTablesBridge {
         viewModel.output.tableData.accept(values)
     }
     
-    @objc public func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String ,tablesAction: @escaping CATTablesAction) {
+    @objc public func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String ,tablesAction: @escaping DCTTablesAction) {
         
-        if !CATAccountCache.default.isLogin() {
+        if !DCTAccountCache.default.isLogin() {
             
             tablesAction(.unLogin, nil,nil)
             
             return
         }
         
-        CATHud.show(withStatus: "添加黑名单中...")
+        DCTHud.show(withStatus: "添加黑名单中...")
         
-        CATTablesViewModel
+        DCTTablesViewModel
             .addBlack(OUsEncoded, targetEncoded: targetEncoded, content: content)
             .drive(onNext: { (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok(let msg):
                     
                     self.vc.tableView.mj_header!.beginRefreshing()
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                     
                     tablesAction(.black, nil,nil)
                     
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
             })
             .disposed(by: disposed)
     }
-    @objc public func focus(_ uid: String ,encode: String ,isFocus: Bool,tablesAction: @escaping CATTablesAction) {
+    @objc public func focus(_ uid: String ,encode: String ,isFocus: Bool,tablesAction: @escaping DCTTablesAction) {
         
-        if !CATAccountCache.default.isLogin() {
+        if !DCTAccountCache.default.isLogin() {
             
             tablesAction(.unLogin, nil,nil)
             
             return
         }
         
-        CATHud.show(withStatus: isFocus ? "取消关注中..." : "关注中...")
+        DCTHud.show(withStatus: isFocus ? "取消关注中..." : "关注中...")
         
-        CATTablesViewModel
+        DCTTablesViewModel
             .focus(uid, encode: encode)
             .drive(onNext: { (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok:
@@ -273,10 +273,10 @@ extension CATTablesBridge {
                         tablesAction(.focus, circle,nil)
                     }
                     
-                    CATHud.showInfo(isFocus ? "取消关注成功" : "关注成功")
+                    DCTHud.showInfo(isFocus ? "取消关注成功" : "关注成功")
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -284,7 +284,7 @@ extension CATTablesBridge {
             .disposed(by: disposed)
         
     }
-    @objc public func fetchIp(_ circle: CATCircleBean) -> IndexPath {
+    @objc public func fetchIp(_ circle: DCTCircleBean) -> IndexPath {
         
         let values = viewModel.output.tableData.value
         
@@ -295,27 +295,27 @@ extension CATTablesBridge {
         return IndexPath(item: 0, section: 0)
         
     }
-    @objc public func converToJson(_ circle: CATCircleBean) -> [String: Any] {
+    @objc public func converToJson(_ circle: DCTCircleBean) -> [String: Any] {
         
         return circle.toJSON()
     }
     
-    @objc public func like(_ encoded: String,isLike: Bool,tablesAction: @escaping CATTablesAction) {
+    @objc public func like(_ encoded: String,isLike: Bool,tablesAction: @escaping DCTTablesAction) {
         
-        if !CATAccountCache.default.isLogin() {
+        if !DCTAccountCache.default.isLogin() {
             
             tablesAction(.unLogin, nil,nil)
             
             return
         }
         
-        CATHud.show(withStatus: isLike ? "取消点赞中..." : "点赞中...")
+        DCTHud.show(withStatus: isLike ? "取消点赞中..." : "点赞中...")
         
-        CATTablesViewModel
+        DCTTablesViewModel
             .like(encoded, isLike: !isLike)
             .drive(onNext: { [unowned self] (result) in
                 
-                CATHud.pop()
+                DCTHud.pop()
                 
                 switch result {
                 case .ok(let msg):
@@ -336,10 +336,10 @@ extension CATTablesBridge {
                         tablesAction(.like, circle,nil)
                     }
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 case .failed(let msg):
                     
-                    CATHud.showInfo(msg)
+                    DCTHud.showInfo(msg)
                 default:
                     break
                 }
@@ -347,11 +347,11 @@ extension CATTablesBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func removeMyCircle(_ encoded: String ,ip: IndexPath,tablesAction: @escaping CATTablesAction )  {
+    @objc public func removeMyCircle(_ encoded: String ,ip: IndexPath,tablesAction: @escaping DCTTablesAction )  {
         
-        CATHud.show(withStatus: "移除内容中...")
+        DCTHud.show(withStatus: "移除内容中...")
 
-        CATTablesViewModel
+        DCTTablesViewModel
             .removeMyCircle(encoded)
 
             .drive(onNext: { [weak self] (result) in
@@ -360,9 +360,9 @@ extension CATTablesBridge {
                 switch result {
                 case .ok:
 
-                    CATHud.pop()
+                    DCTHud.pop()
 
-                    CATHud.showInfo("移除当前内容成功")
+                    DCTHud.showInfo("移除当前内容成功")
 
                     var value = self.viewModel.output.tableData.value
 
@@ -381,9 +381,9 @@ extension CATTablesBridge {
 
                 case .failed:
 
-                    CATHud.pop()
+                    DCTHud.pop()
 
-                    CATHud.showInfo("移除当前内容失败")
+                    DCTHud.showInfo("移除当前内容失败")
 
                 default: break
 

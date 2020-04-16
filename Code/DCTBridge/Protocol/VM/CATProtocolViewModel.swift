@@ -1,6 +1,6 @@
 //
-//  CATProtocolViewModel.swift
-//  CATBridge
+//  DCTProtocolViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/25.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -10,9 +10,9 @@ import Foundation
 import RxSwift
 import WLBaseViewModel
 import RxCocoa
-import CATSign
+import DCTSign
 
-public struct CATProtocolViewModel: WLBaseViewModel {
+public struct DCTProtocolViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -32,11 +32,11 @@ public struct CATProtocolViewModel: WLBaseViewModel {
         
         let output = WLOutput()
         //        https://zhih.ecsoi.com/other/other_PrivacyProtocols?encoded=7e730d5b41f7436da8b1b4a65a5aa49f
-        if let url = URL(string: "\(CATConfigure.fetchDomain())other/other_privacyProtocols?encoded=\(CATConfigure.fetchAppKey())") {
+        if let url = URL(string: "\(DCTConfigure.fetchDomain())other/other_privacyProtocols?encoded=\(DCTConfigure.fetchAppKey())") {
             //            Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-            if UIApplication.shared.canOpenURL(url) {
+            if UIAppliDCTion.shared.canOpenURL(url) {
                 
-                let queue = DispatchQueue(label: Bundle.main.bundleIdentifier ?? "com.CAT.pro")
+                let queue = DispatchQueue(label: Bundle.main.bundleIdentifier ?? "com.DCT.pro")
                 
                 queue.async {
                     
@@ -44,7 +44,7 @@ public struct CATProtocolViewModel: WLBaseViewModel {
                         
                         output.contented.accept(try String(contentsOf: url))
                         
-                    } catch  {
+                    } DCTch  {
                         
                         debugPrint(error)
                     }

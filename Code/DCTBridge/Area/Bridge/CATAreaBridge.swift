@@ -1,5 +1,5 @@
 //
-//  CATAreaBridge.swift
+//  DCTAreaBridge.swift
 //  ZBridge
 //
 //  Created by three stone 王 on 2020/3/13.
@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import CATCocoa
+import DCTCocoa
 import RxDataSources
-import CATTable
-import CATBean
+import DCTTable
+import DCTBean
 
-@objc (CATAreaType)
-public enum CATAreaType: Int {
+@objc (DCTAreaType)
+public enum DCTAreaType: Int {
     
     case province
     
@@ -22,35 +22,35 @@ public enum CATAreaType: Int {
     case region
 }
 
-public typealias CATAreaAction = (_ selectedArea: CATAreaBean ,_ type: CATAreaType ,_ hasNext: Bool) -> ()
+public typealias DCTAreaAction = (_ selectedArea: DCTAreaBean ,_ type: DCTAreaType ,_ hasNext: Bool) -> ()
 
-@objc (CATAreaBridge)
-public final class CATAreaBridge: CATBaseBridge {
+@objc (DCTAreaBridge)
+public final class DCTAreaBridge: DCTBaseBridge {
     
-    var viewModel: CATAreaViewModel!
+    var viewModel: DCTAreaViewModel!
     
-    typealias Section = CATSectionModel<(), CATAreaBean>
+    typealias Section = DCTSectionModel<(), DCTAreaBean>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var type: CATAreaType = .province
+    var type: DCTAreaType = .province
     
-    var areas: [CATAreaBean] = []
+    var areas: [DCTAreaBean] = []
     
-    var selectedArea: CATAreaBean!
+    var selectedArea: DCTAreaBean!
 }
 
-extension CATAreaBridge {
+extension DCTAreaBridge {
     
-    @objc public func createArea(_ vc: CATTableNoLoadingViewController ,type: CATAreaType,areaAction: @escaping CATAreaAction) {
+    @objc public func createArea(_ vc: DCTTableNoLoadingViewController ,type: DCTAreaType,areaAction: @escaping DCTAreaAction) {
         
         self.type = type
         
-        let input = CATAreaViewModel.WLInput(areas: areas,
-                                             modelSelect: vc.tableView.rx.modelSelected(CATAreaBean.self),
+        let input = DCTAreaViewModel.WLInput(areas: areas,
+                                             modelSelect: vc.tableView.rx.modelSelected(DCTAreaBean.self),
                                              itemSelect: vc.tableView.rx.itemSelected)
         
-        viewModel = CATAreaViewModel(input, disposed: disposed)
+        viewModel = DCTAreaViewModel(input, disposed: disposed)
         
         let dataSource = RxTableViewSectionedReloadDataSource<Section>(
             configureCell: { ds, tv, ip, item in return vc.configTableViewCell(item, for: ip)})
@@ -98,7 +98,7 @@ extension CATAreaBridge {
             .setDelegate(self)
             .disposed(by: disposed)
         
-        CATAreaManager
+        DCTAreaManager
             .default
             .fetchAreas()
             .drive(onNext: { [unowned self ](result) in
@@ -106,12 +106,12 @@ extension CATAreaBridge {
                 switch result {
                 case .fetchList(let list):
                     
-                    var mutable: [CATAreaBean] = []
+                    var mutable: [DCTAreaBean] = []
                     
                     switch type {
                     case .province:
                         
-                        mutable += self.fetchProvices(list as! [CATAreaBean])
+                        mutable += self.fetchProvices(list as! [DCTAreaBean])
                     case .city:
                         
                         //                        mutable += self.fetchCitys(<#T##id: Int##Int#>)
@@ -131,7 +131,7 @@ extension CATAreaBridge {
     
     @objc public func fetchAreas() {
         
-        CATAreaManager
+        DCTAreaManager
             .default
             .fetchAreas()
             .drive(onNext: { (result) in
@@ -141,7 +141,7 @@ extension CATAreaBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func updateDatas(_ id: Int ,areas: [CATAreaBean]) {
+    @objc public func updateDatas(_ id: Int ,areas: [DCTAreaBean]) {
         
         switch type {
         case .city:
@@ -156,7 +156,7 @@ extension CATAreaBridge {
             self.viewModel.output.tableData.accept(self.fetchProvices(areas))
         }
     }
-    @objc public func fetchProvice(pName: String) -> CATAreaBean {
+    @objc public func fetchProvice(pName: String) -> DCTAreaBean {
         
         let values = self.viewModel.output.tableData.value
         
@@ -166,9 +166,9 @@ extension CATAreaBridge {
         
     }
     
-    @objc public func fetchArea(id: Int) -> CATAreaBean {
+    @objc public func fetchArea(id: Int) -> DCTAreaBean {
         
-        return CATAreaManager.default.fetchSomeArea(id)
+        return DCTAreaManager.default.fetchSomeArea(id)
         
     }
     @objc public func fetchIp(id: Int) -> IndexPath {
@@ -179,9 +179,9 @@ extension CATAreaBridge {
         
         return IndexPath(row: idx, section: 0)
     }
-    @objc public func fetchProvices(_ areas: [CATAreaBean]) -> [CATAreaBean] {
+    @objc public func fetchProvices(_ areas: [DCTAreaBean]) -> [DCTAreaBean] {
         
-        var result: [CATAreaBean] = []
+        var result: [DCTAreaBean] = []
         
         for item in areas {
             
@@ -193,11 +193,11 @@ extension CATAreaBridge {
         return result
     }
     
-    @objc public func fetchCitys(_ id: Int) -> [CATAreaBean] {
+    @objc public func fetchCitys(_ id: Int) -> [DCTAreaBean] {
         
-        var result: [CATAreaBean] = []
+        var result: [DCTAreaBean] = []
         
-        for item in CATAreaManager.default.allAreas {
+        for item in DCTAreaManager.default.allAreas {
             
             if item.arealevel == 2 {
                 
@@ -210,11 +210,11 @@ extension CATAreaBridge {
         return result
     }
     
-    @objc public func fetchRegions(_ id: Int) -> [CATAreaBean] {
+    @objc public func fetchRegions(_ id: Int) -> [DCTAreaBean] {
         
-        var result: [CATAreaBean] = []
+        var result: [DCTAreaBean] = []
         
-        for item in CATAreaManager.default.allAreas {
+        for item in DCTAreaManager.default.allAreas {
             
             if item.arealevel == 3 {
                 
@@ -228,7 +228,7 @@ extension CATAreaBridge {
     }
 }
 
-extension CATAreaBridge: UITableViewDelegate {
+extension DCTAreaBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

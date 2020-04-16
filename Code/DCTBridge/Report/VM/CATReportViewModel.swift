@@ -1,6 +1,6 @@
 //
-//  CATReportViewModel.swift
-//  CATBridge
+//  DCTReportViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/9/9.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -14,10 +14,10 @@ import WLReqKit
 import WLBaseResult
 import ObjectMapper
 import RxDataSources
-import CATApi
-import CATRReq
+import DCTApi
+import DCTRReq
 
-@objc public final class CATReportBean: NSObject,IdentifiableType ,Mappable {
+@objc public final class DCTReportBean: NSObject,IdentifiableType ,Mappable {
     public init?(map: Map) {
         
         
@@ -48,7 +48,7 @@ import CATRReq
 }
 
 
-struct CATReportViewModel: WLBaseViewModel {
+struct DCTReportViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -58,7 +58,7 @@ struct CATReportViewModel: WLBaseViewModel {
         
         let reports: [[String: Any]]
         
-        let modelSelect: ControlEvent<CATReportBean>
+        let modelSelect: ControlEvent<DCTReportBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -76,9 +76,9 @@ struct CATReportViewModel: WLBaseViewModel {
     
     struct WLOutput {
         
-        let zip: Observable<(CATReportBean,IndexPath)>
+        let zip: Observable<(DCTReportBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATReportBean]> = BehaviorRelay<[CATReportBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTReportBean]> = BehaviorRelay<[DCTReportBean]>(value: [])
         
         /* 完成中... 序列*/
         let completing: Driver<Void>
@@ -101,7 +101,7 @@ struct CATReportViewModel: WLBaseViewModel {
             .withLatestFrom(combine)
             .flatMapLatest {
 
-                return CATVoidResp(CATApi.report(input.uid, targetEncoded: input.encode, type: $0.0, content: $0.1))
+                return DCTVoidResp(DCTApi.report(input.uid, targetEncoded: input.encode, type: $0.0, content: $0.1))
                     .map({ _ in WLBaseResult.ok("举报成功") })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
         }
@@ -110,7 +110,7 @@ struct CATReportViewModel: WLBaseViewModel {
         
         for item in input.reports {
             
-            let res = CATReportBean(JSON: item)
+            let res = DCTReportBean(JSON: item)
             
             output.tableData.accept( output.tableData.value + [res!])
         }

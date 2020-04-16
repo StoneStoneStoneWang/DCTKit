@@ -1,5 +1,5 @@
 //
-//  CATAreaHeaderViewModel.swift
+//  DCTAreaHeaderViewModel.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/19.
@@ -10,18 +10,18 @@ import Foundation
 import WLBaseViewModel
 import RxCocoa
 import RxSwift
-import CATBean
+import DCTBean
 
-@objc (CATAreaHeaderBean)
-public class CATAreaHeaderBean: NSObject {
+@objc (DCTAreaHeaderBean)
+public class DCTAreaHeaderBean: NSObject {
     
     @objc public var isSelected: Bool = false
     
-    @objc public var areaBean: CATAreaBean!
+    @objc public var areaBean: DCTAreaBean!
 }
 
 
-struct CATAreaHeaderViewModel: WLBaseViewModel {
+struct DCTAreaHeaderViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -29,16 +29,16 @@ struct CATAreaHeaderViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATAreaHeaderBean>
+        let modelSelect: ControlEvent<DCTAreaHeaderBean>
         
         let itemSelect: ControlEvent<IndexPath>
     }
     
     struct WLOutput {
         
-        let zip: Observable<(CATAreaHeaderBean,IndexPath)>
+        let zip: Observable<(DCTAreaHeaderBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATAreaHeaderBean]> = BehaviorRelay<[CATAreaHeaderBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTAreaHeaderBean]> = BehaviorRelay<[DCTAreaHeaderBean]>(value: [])
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         

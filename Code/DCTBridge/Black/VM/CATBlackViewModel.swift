@@ -1,6 +1,6 @@
 //
-//  CATBlackViewModel.swift
-//  CATBridge
+//  DCTBlackViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATRReq
-import CATBean
-import CATApi
+import DCTRReq
+import DCTBean
+import DCTApi
 
-public struct CATBlackViewModel: WLBaseViewModel {
+public struct DCTBlackViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -24,7 +24,7 @@ public struct CATBlackViewModel: WLBaseViewModel {
     
     public struct WLInput {
         
-        let modelSelect: ControlEvent<CATBlackBean>
+        let modelSelect: ControlEvent<DCTBlackBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -33,9 +33,9 @@ public struct CATBlackViewModel: WLBaseViewModel {
     
     public struct WLOutput {
         
-        let zip: Observable<(CATBlackBean,IndexPath)>
+        let zip: Observable<(DCTBlackBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATBlackBean]> = BehaviorRelay<[CATBlackBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTBlackBean]> = BehaviorRelay<[DCTBlackBean]>(value: [])
         
         let endHeaderRefreshing: Driver<WLBaseResult>
     }
@@ -50,8 +50,8 @@ public struct CATBlackViewModel: WLBaseViewModel {
             .startWith(())
             .flatMapLatest({_ in
 
-                return CATArrayResp(CATApi.fetchBlackList)
-                    .mapArray(type: CATBlackBean.self)
+                return DCTArrayResp(DCTApi.fetchBlackList)
+                    .mapArray(type: DCTBlackBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -66,7 +66,7 @@ public struct CATBlackViewModel: WLBaseViewModel {
                 switch result {
                 case let .fetchList(items):
                     
-                    output.tableData.accept(items as! [CATBlackBean])
+                    output.tableData.accept(items as! [DCTBlackBean])
                     
                 default: break
                 }
@@ -76,11 +76,11 @@ public struct CATBlackViewModel: WLBaseViewModel {
         self.output = output
     }
 }
-extension CATBlackViewModel {
+extension DCTBlackViewModel {
     
     static func removeBlack(_ encode: String) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.removeBlack(encode))
+        return DCTVoidResp(DCTApi.removeBlack(encode))
             .flatMapLatest({ return Driver.just(WLBaseResult.ok("移除成功")) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }

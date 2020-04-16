@@ -1,6 +1,6 @@
 //
-//  CATSettingViewModel.swift
-//  CATBridge
+//  DCTSettingViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -10,20 +10,20 @@ import Foundation
 import WLBaseViewModel
 import RxCocoa
 import RxSwift
-import CATCache
-import CATSign
+import DCTCache
+import DCTSign
 
-@objc public final class CATSettingBean: NSObject {
+@objc public final class DCTSettingBean: NSObject {
     
-    @objc public var type: CATSettingType = .space
+    @objc public var type: DCTSettingType = .space
     
     @objc public var title: String = ""
     
     @objc public var subTitle: String = ""
     
-    @objc public static func createSetting(_ type: CATSettingType ,title: String ,sub: String) -> CATSettingBean {
+    @objc public static func createSetting(_ type: DCTSettingType ,title: String ,sub: String) -> DCTSettingBean {
         
-        let setting = CATSettingBean()
+        let setting = DCTSettingBean()
         
         setting.type = type
         
@@ -34,22 +34,22 @@ import CATSign
         return setting
     }
     
-    static func createTabledata(_ hasspace: Bool ) -> [CATSettingBean] {
+    static func createTabledata(_ hasspace: Bool ) -> [DCTSettingBean] {
         
-        var result: [CATSettingBean] = []
+        var result: [DCTSettingBean] = []
         
         if hasspace {
             
-            for item in CATSettingType.spaceTypes {
+            for item in DCTSettingType.spaceTypes {
                 
-                result += [CATSettingBean.createSetting(item, title: item.title, sub: "")]
+                result += [DCTSettingBean.createSetting(item, title: item.title, sub: "")]
             }
             
         } else {
             
-            for item in CATSettingType.types {
+            for item in DCTSettingType.types {
                 
-                result += [CATSettingBean.createSetting(item, title: item.title, sub: "")]
+                result += [DCTSettingBean.createSetting(item, title: item.title, sub: "")]
             }
         }
         
@@ -58,8 +58,8 @@ import CATSign
     private override init() { }
 }
 
-@objc (CATSettingType)
-public enum CATSettingType: Int {
+@objc (DCTSettingType)
+public enum DCTSettingType: Int {
     
     case pwd  = 0 // 未登录
     
@@ -76,24 +76,24 @@ public enum CATSettingType: Int {
     case black = 6
 }
 
-extension CATSettingType {
+extension DCTSettingType {
     
-    static var spaceTypes: [CATSettingType] {
+    static var spaceTypes: [DCTSettingType] {
         
-        if CATAccountCache.default.isLogin() {
+        if DCTAccountCache.default.isLogin() {
             
-            if CATConfigure.fetchPType() == .cleaner {
+            if DCTConfigure.fetchPType() == .cleaner {
                 
                 return [.space,.password,.space,.clear,.push,.space,.logout]
             }
         }
         return [.space,.pwd,.space,.clear,.push]
     }
-    static var types: [CATSettingType] {
+    static var types: [DCTSettingType] {
         
-        if CATAccountCache.default.isLogin() {
+        if DCTAccountCache.default.isLogin() {
             
-            if CATConfigure.fetchPType() == .cleaner {
+            if DCTConfigure.fetchPType() == .cleaner {
                 
                 return [.password,.black,.clear,.push,.logout]
             }
@@ -134,7 +134,7 @@ extension CATSettingType {
     }
 }
 
-public struct CATSettingViewModel: WLBaseViewModel {
+public struct DCTSettingViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -142,7 +142,7 @@ public struct CATSettingViewModel: WLBaseViewModel {
     
     public struct WLInput {
         
-        let modelSelect: ControlEvent<CATSettingBean>
+        let modelSelect: ControlEvent<DCTSettingBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -150,9 +150,9 @@ public struct CATSettingViewModel: WLBaseViewModel {
     }
     public struct WLOutput {
         
-        let zip: Observable<(CATSettingBean,IndexPath)>
+        let zip: Observable<(DCTSettingBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATSettingBean]> = BehaviorRelay<[CATSettingBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTSettingBean]> = BehaviorRelay<[DCTSettingBean]>(value: [])
     }
     
     init(_ input: WLInput) {
@@ -163,7 +163,7 @@ public struct CATSettingViewModel: WLBaseViewModel {
         
         self.output = WLOutput(zip: zip)
         
-        self.output.tableData.accept(CATSettingBean.createTabledata(input.hasSpace))
+        self.output.tableData.accept(DCTSettingBean.createTabledata(input.hasSpace))
     }
 }
 

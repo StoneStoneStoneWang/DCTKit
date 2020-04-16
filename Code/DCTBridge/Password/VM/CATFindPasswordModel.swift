@@ -1,6 +1,6 @@
 //
 //  ZForgetPwdModel.swift
-//  CATBridge
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATCheck
-import CATApi
-import CATRReq
+import DCTCheck
+import DCTApi
+import DCTRReq
 
-public struct CATFindPasswordModel: WLBaseViewModel {
+public struct DCTFindPasswordModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -50,7 +50,7 @@ public struct CATFindPasswordModel: WLBaseViewModel {
         let completing: Driver<Void>
         
         let completed: Driver<WLBaseResult>
-        @available(*, deprecated, message: "Please use smsRelay")
+        @available(*, depreDCTed, message: "Please use smsRelay")
         let sms: Variable<(Bool,String)> = Variable<(Bool,String)>((true,"获取验证码"))
         
         let smsRelay: BehaviorRelay<(Bool,String)> = BehaviorRelay<(Bool,String)>(value: (true,"获取验证码"))
@@ -75,12 +75,12 @@ public struct CATFindPasswordModel: WLBaseViewModel {
             .withLatestFrom(input.username)
             .flatMapLatest({ (username) in
                 
-                switch CATCheckUsername(username) {
+                switch DCTCheckUsername(username) {
                 case .ok:
                     
                     let result: Observable<WLBaseResult> = Observable<WLBaseResult>.create({ (ob) -> Disposable in
  
-                        CATVoidResp(CATApi.smsPassword(username))
+                        DCTVoidResp(DCTApi.smsPassword(username))
                             .subscribe(onNext: { (_) in
                                 
                                 ob.onNext(WLBaseResult.ok("验证码已发送到您的手机，请注意查收"))
@@ -122,10 +122,10 @@ public struct CATFindPasswordModel: WLBaseViewModel {
             .withLatestFrom(uvp)
             .flatMapLatest {
                 
-                switch CATCheckPasswordForget($0.0, vcode: $0.1, password: $0.2) {
+                switch DCTCheckPasswordForget($0.0, vcode: $0.1, password: $0.2) {
                 case .ok:
                     
-                    return CATVoidResp(CATApi.resettingPassword($0.0, password: $0.2, code: $0.1))
+                    return DCTVoidResp(DCTApi.resettingPassword($0.0, password: $0.2, code: $0.1))
                         .map({ WLBaseResult.ok("找回密码成功") })
                         .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
                     

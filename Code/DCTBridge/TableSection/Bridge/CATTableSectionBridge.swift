@@ -1,44 +1,44 @@
 //
-//  CATTableSectionBridge.swift
-//  CATBridge
+//  DCTTableSectionBridge.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/3/31.
 //  Copyright © 2020 王磊. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxCocoa
 import RxSwift
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 
-public typealias CATTableSectionAction = (_ item: CATTableRowBean ,_ ip: IndexPath) -> ()
+public typealias DCTTableSectionAction = (_ item: DCTTableRowBean ,_ ip: IndexPath) -> ()
 
-@objc (CATTableSectionBridge)
-public final class CATTableSectionBridge: CATBaseBridge {
+@objc (DCTTableSectionBridge)
+public final class DCTTableSectionBridge: DCTBaseBridge {
     
-    var viewModel: CATTableSectionViewModel!
+    var viewModel: DCTTableSectionViewModel!
     
-    typealias Section = CATSectionModel<CATTableSectionBean, CATTableRowBean>
+    typealias Section = DCTSectionModel<DCTTableSectionBean, DCTTableRowBean>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var vc: CATTableNoLoadingViewController!
+    var vc: DCTTableNoLoadingViewController!
     
 }
 
-extension CATTableSectionBridge {
+extension DCTTableSectionBridge {
     
-    @objc public func createTableSection(_ vc: CATTableNoLoadingViewController ,sections: [CATTableSectionBean],sectionAction: @escaping CATTableSectionAction ) {
+    @objc public func createTableSection(_ vc: DCTTableNoLoadingViewController ,sections: [DCTTableSectionBean],sectionAction: @escaping DCTTableSectionAction ) {
         
         self.vc = vc
         
-        let input = CATTableSectionViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATTableRowBean.self),
+        let input = DCTTableSectionViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTTableRowBean.self),
                                                      itemSelect: vc.tableView.rx.itemSelected,
                                                      sections: sections)
         
-        viewModel = CATTableSectionViewModel(input)
+        viewModel = DCTTableSectionViewModel(input)
         
         let dataSource = RxTableViewSectionedReloadDataSource<Section>(
             configureCell: { ds, tv, ip, item in return vc.configTableViewCell(item, for: ip) },
@@ -66,7 +66,7 @@ extension CATTableSectionBridge {
         
     }
 }
-extension CATTableSectionBridge: UITableViewDelegate {
+extension DCTTableSectionBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

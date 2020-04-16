@@ -1,6 +1,6 @@
 //
-//  CATCollectionsViewModel.swift
-//  CATBridge
+//  DCTCollectionsViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/29.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATBean
-import CATRReq
-import CATApi
+import DCTBean
+import DCTRReq
+import DCTApi
 
-struct CATCollectionsViewModel: WLBaseViewModel {
+struct DCTCollectionsViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -26,7 +26,7 @@ struct CATCollectionsViewModel: WLBaseViewModel {
         
         let isMy: Bool
         
-        let modelSelect: ControlEvent<CATCircleBean>
+        let modelSelect: ControlEvent<DCTCircleBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -41,9 +41,9 @@ struct CATCollectionsViewModel: WLBaseViewModel {
     
     struct WLOutput {
         
-        let zip: Observable<(CATCircleBean,IndexPath)>
+        let zip: Observable<(DCTCircleBean,IndexPath)>
         
-        let collectionData: BehaviorRelay<[CATCircleBean]> = BehaviorRelay<[CATCircleBean]>(value: [])
+        let collectionData: BehaviorRelay<[DCTCircleBean]> = BehaviorRelay<[DCTCircleBean]>(value: [])
         
         let endHeaderRefreshing: Driver<WLBaseResult>
         
@@ -61,8 +61,8 @@ struct CATCollectionsViewModel: WLBaseViewModel {
             .headerRefresh
             .flatMapLatest({_ in
   
-                return CATArrayResp(input.isMy ? CATApi.fetchMyList(input.tag, page: 1) : CATApi.fetchList(input.tag, page: 1))
-                    .mapArray(type: CATCircleBean.self)
+                return DCTArrayResp(input.isMy ? DCTApi.fetchMyList(input.tag, page: 1) : DCTApi.fetchList(input.tag, page: 1))
+                    .mapArray(type: DCTCircleBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -73,8 +73,8 @@ struct CATCollectionsViewModel: WLBaseViewModel {
             .footerRefresh
             .flatMapLatest({_ in
                 
-                return CATArrayResp(input.isMy ? CATApi.fetchMyList(input.tag, page: input.page.value) : CATApi.fetchList(input.tag, page: input.page.value))
-                    .mapArray(type: CATCircleBean.self)
+                return DCTArrayResp(input.isMy ? DCTApi.fetchMyList(input.tag, page: input.page.value) : DCTApi.fetchList(input.tag, page: input.page.value))
+                    .mapArray(type: DCTCircleBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -109,7 +109,7 @@ struct CATCollectionsViewModel: WLBaseViewModel {
                         output.footerHidden.accept(true)
                     }
                     
-                    output.collectionData.accept(items as! [CATCircleBean])
+                    output.collectionData.accept(items as! [DCTCircleBean])
                     
                 case .empty: output.collectionData.accept([])
                 default: break
@@ -146,7 +146,7 @@ struct CATCollectionsViewModel: WLBaseViewModel {
                     
                     var values = output.collectionData.value
                     
-                    values += items as! [CATCircleBean]
+                    values += items as! [DCTCircleBean]
                     
                     output.collectionData.accept(values )
                 default: break
@@ -159,26 +159,26 @@ struct CATCollectionsViewModel: WLBaseViewModel {
     
     static func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String) -> Driver<WLBaseResult> {
 
-        return CATVoidResp(CATApi.addBlack(OUsEncoded, targetEncoded: targetEncoded, content: content))
+        return DCTVoidResp(DCTApi.addBlack(OUsEncoded, targetEncoded: targetEncoded, content: content))
             .map({ _ in WLBaseResult.ok("添加黑名单成功")})
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }
     static func focus(_ uid: String ,encode: String) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.focus(uid, targetEncoded: encode))
+        return DCTVoidResp(DCTApi.focus(uid, targetEncoded: encode))
             .flatMapLatest({ return Driver.just(WLBaseResult.ok("关注或取消关注成功")) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }
     
     static func like(_ encoded: String ,isLike: Bool) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.like(encoded))
+        return DCTVoidResp(DCTApi.like(encoded))
             .flatMapLatest({ return Driver.just(WLBaseResult.ok( isLike ? "点赞成功" : "取消点赞成功")) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }
     static func removeMyCircle(_ encoded: String ) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.deleteMyCircle(encoded))
+        return DCTVoidResp(DCTApi.deleteMyCircle(encoded))
             .map({ WLBaseResult.ok("删除成功！")  })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }

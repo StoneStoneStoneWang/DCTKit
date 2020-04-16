@@ -1,6 +1,6 @@
 //
-//  CATLoginViewModel.swift
-//  CATBridge
+//  DCTLoginViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/25.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,13 +12,13 @@ import RxSwift
 import RxCocoa
 import WLReqKit
 import WLBaseResult
-import CATApi
-import CATRReq
-import CATBean
-import CATCheck
-import CATCache
+import DCTApi
+import DCTRReq
+import DCTBean
+import DCTCheck
+import DCTCache
 
-public struct CATLoginViewModel: WLBaseViewModel {
+public struct DCTLoginViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -70,15 +70,15 @@ public struct CATLoginViewModel: WLBaseViewModel {
             .withLatestFrom(uap)
             .flatMapLatest {
   
-                switch CATCheckUsernameAndPassword($0.0, password: $0.1) {
+                switch DCTCheckUsernameAndPassword($0.0, password: $0.1) {
                 case .ok:
 
-                    return CATDictResp(CATApi.login($0.0,password: $0.1))
-                        .mapObject(type: CATAccountBean.self)
-                        .map({ CATAccountCache.default.saveAccount(acc: $0) }) // 存储account
+                    return DCTDictResp(DCTApi.login($0.0,password: $0.1))
+                        .mapObject(type: DCTAccountBean.self)
+                        .map({ DCTAccountCache.default.saveAccount(acc: $0) }) // 存储account
                         .map({ $0.toJSON()})
-                        .mapObject(type: CATUserBean.self)
-                        .map({ CATUserInfoCache.default.saveUser(data: $0) })
+                        .mapObject(type: DCTUserBean.self)
+                        .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                         .map({ _ in WLBaseResult.logined })
                         .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
                     

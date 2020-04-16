@@ -1,6 +1,6 @@
 //
-//  CATCommentViewModel.swift
-//  CATBridge
+//  DCTCommentViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/9/11.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -11,12 +11,12 @@ import WLBaseViewModel
 import RxCocoa
 import RxSwift
 import WLReqKit
-import CATBean
+import DCTBean
 import WLBaseResult
-import CATRReq
-import CATApi
+import DCTRReq
+import DCTApi
 
-struct CATCommentViewModel: WLBaseViewModel {
+struct DCTCommentViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -24,7 +24,7 @@ struct CATCommentViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATCommentBean>
+        let modelSelect: ControlEvent<DCTCommentBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -39,9 +39,9 @@ struct CATCommentViewModel: WLBaseViewModel {
     
     struct WLOutput {
         
-        let zip: Observable<(CATCommentBean,IndexPath)>
+        let zip: Observable<(DCTCommentBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATCommentBean]> = BehaviorRelay<[CATCommentBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTCommentBean]> = BehaviorRelay<[DCTCommentBean]>(value: [])
         
         let endHeaderRefreshing: Driver<WLBaseResult>
         
@@ -60,8 +60,8 @@ struct CATCommentViewModel: WLBaseViewModel {
             .startWith(())
             .flatMapLatest({_ in
                 
-                return CATArrayResp(CATApi.fetchComments(1, targetEncoded: input.encoded))
-                    .mapArray(type: CATCommentBean.self)
+                return DCTArrayResp(DCTApi.fetchComments(1, targetEncoded: input.encoded))
+                    .mapArray(type: DCTCommentBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -72,8 +72,8 @@ struct CATCommentViewModel: WLBaseViewModel {
             .footerRefresh
             .flatMapLatest({_ in
                 
-                return CATArrayResp(CATApi.fetchComments(input.page.value, targetEncoded: input.encoded))
-                    .mapArray(type: CATCommentBean.self)
+                return DCTArrayResp(DCTApi.fetchComments(input.page.value, targetEncoded: input.encoded))
+                    .mapArray(type: DCTCommentBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -85,7 +85,7 @@ struct CATCommentViewModel: WLBaseViewModel {
         headerRefreshData
             .drive(onNext: { (result) in
                 
-                let rectangle = CATCommentBean()
+                let rectangle = DCTCommentBean()
                 
                 rectangle.type = .rectangle
                 
@@ -95,7 +95,7 @@ struct CATCommentViewModel: WLBaseViewModel {
                 
                 rectangle.identity = NSUUID().uuidString
                 
-                let total = CATCommentBean()
+                let total = DCTCommentBean()
                 
                 total.type = .total
                 
@@ -120,9 +120,9 @@ struct CATCommentViewModel: WLBaseViewModel {
                         output.footerHidden.accept(false)
                     }
                     
-                    output.tableData.accept([rectangle] + [total] + items as! [CATCommentBean])
+                    output.tableData.accept([rectangle] + [total] + items as! [DCTCommentBean])
                     
-                    let noMore = CATCommentBean()
+                    let noMore = DCTCommentBean()
                     
                     noMore.encoded = NSUUID().uuidString
                     
@@ -136,7 +136,7 @@ struct CATCommentViewModel: WLBaseViewModel {
                     
                 case .empty:
                     
-                    let empty = CATCommentBean()
+                    let empty = DCTCommentBean()
                     
                     empty.encoded = NSUUID().uuidString
                     
@@ -149,7 +149,7 @@ struct CATCommentViewModel: WLBaseViewModel {
                     output.tableData.accept([rectangle,total,empty])
                 case .failed:
                     
-                    let failed = CATCommentBean()
+                    let failed = DCTCommentBean()
                     
                     failed.type = .failed
                     
@@ -186,11 +186,11 @@ struct CATCommentViewModel: WLBaseViewModel {
                     
                     var value = output.tableData.value
                     
-                    value += (items as! [CATCommentBean])
+                    value += (items as! [DCTCommentBean])
                     
                     output.tableData.accept( value)
                     
-                    let noMore = CATCommentBean()
+                    let noMore = DCTCommentBean()
                     
                     noMore.encoded = NSUUID().uuidString
                     
@@ -204,7 +204,7 @@ struct CATCommentViewModel: WLBaseViewModel {
                     
                 case .failed:
                     
-                    let failed = CATCommentBean()
+                    let failed = DCTCommentBean()
                     
                     failed.encoded = NSUUID().uuidString
                     
@@ -226,8 +226,8 @@ struct CATCommentViewModel: WLBaseViewModel {
     
     static func addComment(_ encoded: String,content: String) -> Driver<WLBaseResult> {
         
-        return CATDictResp(CATApi.addComment(encoded, content: content, tablename: "CircleFriends", type: "0"))
-            .mapObject(type: CATCommentBean.self)
+        return DCTDictResp(DCTApi.addComment(encoded, content: content, tablename: "CircleFriends", type: "0"))
+            .mapObject(type: DCTCommentBean.self)
             .map({ WLBaseResult.operation($0) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }

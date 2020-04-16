@@ -1,6 +1,6 @@
 //
-//  CATFeedBackViewModel.swift
-//  CATBridge
+//  DCTFeedBackViewModel.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/3/30.
 //  Copyright © 2020 王磊. All rights reserved.
@@ -12,10 +12,10 @@ import WLReqKit
 import WLBaseViewModel
 import WLToolsKit
 import WLBaseResult
-import CATRReq
-import CATApi
+import DCTRReq
+import DCTApi
 
-struct CATFeedBackViewModel: WLBaseViewModel {
+struct DCTFeedBackViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -55,7 +55,7 @@ struct CATFeedBackViewModel: WLBaseViewModel {
             .withLatestFrom(ou)
             .flatMapLatest({
                 
-                return CATVoidResp(CATApi.feedback("yuanxingfu1314@163.com", content: $0.0))
+                return DCTVoidResp(DCTApi.feedback("yuanxingfu1314@163.com", content: $0.0))
                     .map { _ in WLBaseResult.ok("意见建议提交成功")}
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) }) })
         

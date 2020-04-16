@@ -1,40 +1,40 @@
 //
-//  CATCarouselBridge.swift
-//  CATBridge
+//  DCTCarouselBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2020/3/12.
 //  Copyright © 2020 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATCollection
+import DCTCollection
 import RxCocoa
 import RxSwift
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 import WLToolsKit
 import ObjectMapper
 
-public typealias CATCarouselAction = (_ carouse: CATCarouselBean) -> ()
+public typealias DCTCarouselAction = (_ carouse: DCTCarouselBean) -> ()
 
-@objc (CATCarouselBridge)
-public final class CATCarouselBridge: CATBaseBridge {
+@objc (DCTCarouselBridge)
+public final class DCTCarouselBridge: DCTBaseBridge {
     
-    var viewModel: CATCarouselViewModel!
+    var viewModel: DCTCarouselViewModel!
     
-    typealias Section = CATSectionModel<(), CATCarouselBean>
+    typealias Section = DCTSectionModel<(), DCTCarouselBean>
     
     var dataSource: RxCollectionViewSectionedReloadDataSource<Section>!
     
-    var vc: CATCollectionNoLoadingViewController!
+    var vc: DCTCollectionNoLoadingViewController!
     
-    var style: CATCarouselStyle = .normal
+    var style: DCTCarouselStyle = .normal
 }
 
 // MARK: skip item 101 pagecontrol 102
-extension CATCarouselBridge {
+extension DCTCarouselBridge {
     
-    @objc public func createCarousel(_ vc: CATCollectionNoLoadingViewController ,canPageHidden: Bool ,canTimerResp: Bool,carousels: [[String: String]],style: CATCarouselStyle ,carouseAction: @escaping CATCarouselAction) {
+    @objc public func createCarousel(_ vc: DCTCollectionNoLoadingViewController ,canPageHidden: Bool ,canTimerResp: Bool,carousels: [[String: String]],style: DCTCarouselStyle ,carouseAction: @escaping DCTCarouselAction) {
         
         if let pageControl = vc.view.viewWithTag(102) as? UIPageControl {
             
@@ -44,20 +44,20 @@ extension CATCarouselBridge {
             
             self.style = style
             
-            let input = CATCarouselViewModel.WLInput(contentoffSetX: vc.collectionView.rx.contentOffset.map({ $0.x }),
-                                                     modelSelect: vc.collectionView.rx.modelSelected(CATCarouselBean.self),
+            let input = DCTCarouselViewModel.WLInput(contentoffSetX: vc.collectionView.rx.contentOffset.map({ $0.x }),
+                                                     modelSelect: vc.collectionView.rx.modelSelected(DCTCarouselBean.self),
                                                      itemSelect: vc.collectionView.rx.itemSelected,
                                                      canTimerResp: canTimerResp,
                                                      currentPage: BehaviorRelay<Int>(value: 0),
                                                      style: style)
             
-            viewModel = CATCarouselViewModel(input, disposed: disposed)
+            viewModel = DCTCarouselViewModel(input, disposed: disposed)
             
-            var result : [CATCarouselBean] = []
+            var result : [DCTCarouselBean] = []
             
             for carousel in carousels {
                 
-                let c = CATCarouselBean(JSON: carousel)!
+                let c = DCTCarouselBean(JSON: carousel)!
                 
                 result += [c]
                 
@@ -103,7 +103,7 @@ extension CATCarouselBridge {
                 .bind(to: pageControl.rx.currentPage)
                 .disposed(by: disposed)
             
-            var mutable: [CATCarouselBean] = []
+            var mutable: [DCTCarouselBean] = []
             
             for _ in 0..<999 {
                 
@@ -123,7 +123,7 @@ extension CATCarouselBridge {
         }
     }
 }
-extension CATCarouselBridge: UICollectionViewDelegate {
+extension DCTCarouselBridge: UICollectionViewDelegate {
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         

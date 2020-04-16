@@ -1,6 +1,6 @@
 //
-//  CATFeedBackBridge.swift
-//  CATBridge
+//  DCTFeedBackBridge.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/3/30.
 //  Copyright © 2020 王磊. All rights reserved.
@@ -9,20 +9,20 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import CATBase
-import CATHud
+import DCTBase
+import DCTHud
 
-public typealias CATFeedBackAction = () -> ()
+public typealias DCTFeedBackAction = () -> ()
 
-@objc (CATFeedBackBridge)
-public final class CATFeedBackBridge: CATBaseBridge {
+@objc (DCTFeedBackBridge)
+public final class DCTFeedBackBridge: DCTBaseBridge {
     
-    var viewModel: CATFeedBackViewModel!
+    var viewModel: DCTFeedBackViewModel!
 }
 
-extension CATFeedBackBridge {
+extension DCTFeedBackBridge {
     
-    @objc public func createFeedBack(_ vc: CATBaseViewController ,feedBackAction: @escaping CATFeedBackAction ) {
+    @objc public func createFeedBack(_ vc: DCTBaseViewController ,feedBackAction: @escaping DCTFeedBackAction ) {
         
         if let feedBack = vc.view.viewWithTag(201) as? UITextView ,let placeholder = vc.view.viewWithTag(202) ,let phone = vc.view.viewWithTag(203) as? UITextField{
             
@@ -39,11 +39,11 @@ extension CATFeedBackBridge {
             
             if let completeItem = completeItem {
                 
-                let inputs = CATFeedBackViewModel.WLInput(feedBack: feedBack.rx.text.orEmpty.asDriver(),
+                let inputs = DCTFeedBackViewModel.WLInput(feedBack: feedBack.rx.text.orEmpty.asDriver(),
                                                           phone: phone.rx.text.orEmpty.asDriver(),
                                                           completTaps: completeItem.rx.tap.asSignal())
                 
-                viewModel = CATFeedBackViewModel(inputs)
+                viewModel = DCTFeedBackViewModel(inputs)
                 
                 viewModel
                     .output
@@ -56,7 +56,7 @@ extension CATFeedBackBridge {
                     .completing
                     .drive(onNext: { (_) in
                         
-                        CATHud.show(withStatus: "意见建议提交中...")
+                        DCTHud.show(withStatus: "意见建议提交中...")
                         
                         vc.view.endEditing(true)
                     })
@@ -67,18 +67,18 @@ extension CATFeedBackBridge {
                     .completed
                     .drive(onNext: { (result) in
                         
-                        CATHud.pop()
+                        DCTHud.pop()
                         
                         switch result {
                         case let .ok(msg):
                             
-                            CATHud.showInfo(msg)
+                            DCTHud.showInfo(msg)
                             
                             feedBackAction()
                             
                         case let .failed(msg):
                             
-                            CATHud.showInfo(msg)
+                            DCTHud.showInfo(msg)
                         default: break
                             
                         }

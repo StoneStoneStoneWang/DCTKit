@@ -1,6 +1,6 @@
 //
-//  CATProfileViewModel.swift
-//  CATBridge
+//  DCTProfileViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/27.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -10,21 +10,21 @@ import Foundation
 import WLBaseViewModel
 import RxCocoa
 import RxSwift
-import CATBean
-import CATSign
-import CATApi
-import CATRReq
-import CATCache
+import DCTBean
+import DCTSign
+import DCTApi
+import DCTRReq
+import DCTCache
 
-@objc public final class CATProfileBean: NSObject {
+@objc public final class DCTProfileBean: NSObject {
     
-    @objc public var type: CATProfileType = .space
+    @objc public var type: DCTProfileType = .space
     
     @objc public var title: String = ""
     
-    @objc public static func createProfile(_ type: CATProfileType ,title: String) -> CATProfileBean {
+    @objc public static func createProfile(_ type: DCTProfileType ,title: String) -> DCTProfileBean {
         
-        let profile = CATProfileBean()
+        let profile = DCTProfileBean()
         
         profile.type = type
         
@@ -33,22 +33,22 @@ import CATCache
         return profile
     }
     
-    static public func createProfileTypes(_ hasSpace: Bool) -> [CATProfileBean] {
+    static public func createProfileTypes(_ hasSpace: Bool) -> [DCTProfileBean] {
         
-        var result: [CATProfileBean] = []
+        var result: [DCTProfileBean] = []
         
         if hasSpace {
             
-            for item in CATProfileType.spaceTypes {
+            for item in DCTProfileType.spaceTypes {
                 
-                result += [CATProfileBean.createProfile(item, title: item.title)]
+                result += [DCTProfileBean.createProfile(item, title: item.title)]
             }
             
         } else {
             
-            for item in CATProfileType.types {
+            for item in DCTProfileType.types {
                 
-                result += [CATProfileBean.createProfile(item, title: item.title)]
+                result += [DCTProfileBean.createProfile(item, title: item.title)]
             }
         }
         
@@ -59,8 +59,8 @@ import CATCache
     }
 }
 
-@objc (CATProfileType)
-public enum CATProfileType : Int{
+@objc (DCTProfileType)
+public enum DCTProfileType : Int{
     
     case about
     
@@ -89,11 +89,11 @@ public enum CATProfileType : Int{
     case favor
 }
 
-extension CATProfileType {
+extension DCTProfileType {
     
-    static var spaceTypes: [CATProfileType] {
+    static var spaceTypes: [DCTProfileType] {
         
-        if CATConfigure.fetchPType() == .cleaner {
+        if DCTConfigure.fetchPType() == .cleaner {
             
             return [.space,userInfo,.order,.address,.favor,.space,.contactUS,.privacy,.about,.space,.feedBack,.setting]
         }
@@ -102,9 +102,9 @@ extension CATProfileType {
         
     }
     
-    static var types: [CATProfileType] {
+    static var types: [DCTProfileType] {
         
-        if CATConfigure.fetchPType() == .cleaner {
+        if DCTConfigure.fetchPType() == .cleaner {
             
             return [userInfo,.order,.address,.favor,.contactUS,.privacy,.about,.feedBack,.setting]
         }
@@ -154,7 +154,7 @@ extension CATProfileType {
     }
 }
 
-struct CATProfileViewModel: WLBaseViewModel {
+struct DCTProfileViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -162,7 +162,7 @@ struct CATProfileViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATProfileBean>
+        let modelSelect: ControlEvent<DCTProfileBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -171,23 +171,23 @@ struct CATProfileViewModel: WLBaseViewModel {
     
     struct WLOutput {
         
-        let zip: Observable<(CATProfileBean,IndexPath)>
+        let zip: Observable<(DCTProfileBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATProfileBean]> = BehaviorRelay<[CATProfileBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTProfileBean]> = BehaviorRelay<[DCTProfileBean]>(value: [])
         
-        let userInfo: Observable<CATUserBean?>
+        let userInfo: Observable<DCTUserBean?>
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         
         self.input = input
         
-        let userInfo: Observable<CATUserBean?> = CATUserInfoCache.default.rx.observe(CATUserBean.self, "userBean")
+        let userInfo: Observable<DCTUserBean?> = DCTUserInfoCache.default.rx.observe(DCTUserBean.self, "userBean")
         
-        CATUserInfoCache.default.userBean = CATUserInfoCache.default.queryUser()
+        DCTUserInfoCache.default.userBean = DCTUserInfoCache.default.queryUser()
         
-        CATDictResp(CATApi.fetchProfile)
-            .mapObject(type: CATUserBean.self)
-            .map({ CATUserInfoCache.default.saveUser(data: $0) })
+        DCTDictResp(DCTApi.fetchProfile)
+            .mapObject(type: DCTUserBean.self)
+            .map({ DCTUserInfoCache.default.saveUser(data: $0) })
             .subscribe(onNext: { (_) in })
             .disposed(by: disposed)
         
@@ -195,7 +195,7 @@ struct CATProfileViewModel: WLBaseViewModel {
         
         self.output = WLOutput(zip: zip, userInfo: userInfo)
         
-        self.output.tableData.accept(CATProfileBean.createProfileTypes(input.hasSpace))
+        self.output.tableData.accept(DCTProfileBean.createProfileTypes(input.hasSpace))
     }
 }
 

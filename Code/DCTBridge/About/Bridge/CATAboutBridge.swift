@@ -1,38 +1,38 @@
 //
-//  CATAboutBridge.swift
-//  CATBridge
+//  DCTAboutBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/27.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 
-@objc (CATAboutBridge)
-public final class CATAboutBridge: CATBaseBridge {
+@objc (DCTAboutBridge)
+public final class DCTAboutBridge: DCTBaseBridge {
     
-    typealias Section = CATSectionModel<(), CATAboutType>
+    typealias Section = DCTSectionModel<(), DCTAboutType>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var viewModel: CATAboutViewModel!
+    var viewModel: DCTAboutViewModel!
 }
 
-extension CATAboutBridge {
+extension DCTAboutBridge {
     
-    @objc public func createAbout(_ vc: CATTableNoLoadingViewController ,hasSpace: Bool) {
+    @objc public func createAbout(_ vc: DCTTableNoLoadingViewController ,hasSpace: Bool) {
         
-        let input = CATAboutViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATAboutType.self),
+        let input = DCTAboutViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTAboutType.self),
                                               itemSelect: vc.tableView.rx.itemSelected,
                                               hasSpace: hasSpace)
         
-        viewModel = CATAboutViewModel(input)
+        viewModel = DCTAboutViewModel(input)
         
         let dataSource = RxTableViewSectionedReloadDataSource<Section>(
-            configureCell: { ds, tv, ip, item in return vc.configTableViewCell(CATAboutBean.createAbout(item, title: item.title, subTitle: item.subtitle), for: ip) })
+            configureCell: { ds, tv, ip, item in return vc.configTableViewCell(DCTAboutBean.createAbout(item, title: item.title, subTitle: item.subtitle), for: ip) })
         
         viewModel
             .output
@@ -51,7 +51,7 @@ extension CATAboutBridge {
                 
                 vc.tableView.deselectRow(at: ip, animated: true)
                 
-                vc.tableViewSelectData(CATAboutBean.createAbout(item, title: item.title, subTitle: item.subtitle), for: ip)
+                vc.tableViewSelectData(DCTAboutBean.createAbout(item, title: item.title, subTitle: item.subtitle), for: ip)
             })
             .disposed(by: disposed)
         
@@ -63,7 +63,7 @@ extension CATAboutBridge {
     }
     
 }
-extension CATAboutBridge: UITableViewDelegate {
+extension DCTAboutBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

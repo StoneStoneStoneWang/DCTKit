@@ -1,6 +1,6 @@
 //
-//  CATCarouselViewModel.swift
-//  CATBridge
+//  DCTCarouselViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2020/3/12.
 //  Copyright © 2020 three stone 王. All rights reserved.
@@ -13,16 +13,16 @@ import RxSwift
 import WLToolsKit
 import ObjectMapper
 
-@objc public final class CATCarouselBean: NSObject , Mappable{
+@objc public final class DCTCarouselBean: NSObject , Mappable{
     public init?(map: Map) {
         
         
     }
     
     
-    @objc public static func createCarousel(_ title: String ,icon: String) -> CATCarouselBean {
+    @objc public static func createCarousel(_ title: String ,icon: String) -> DCTCarouselBean {
         
-        let carousel = CATCarouselBean()
+        let carousel = DCTCarouselBean()
         
         carousel.title = title
         
@@ -47,13 +47,13 @@ import ObjectMapper
     }
 }
 
-@objc (CATCarouselStyle)
-public enum CATCarouselStyle: Int {
+@objc (DCTCarouselStyle)
+public enum DCTCarouselStyle: Int {
     case normal
     case card
 }
 
-struct CATCarouselViewModel: WLBaseViewModel {
+struct DCTCarouselViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -63,7 +63,7 @@ struct CATCarouselViewModel: WLBaseViewModel {
         
         let contentoffSetX: Observable<CGFloat>
         
-        let modelSelect: ControlEvent<CATCarouselBean>
+        let modelSelect: ControlEvent<DCTCarouselBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -74,18 +74,18 @@ struct CATCarouselViewModel: WLBaseViewModel {
         
         let currentPage: BehaviorRelay<Int>
         
-        let style: CATCarouselStyle
+        let style: DCTCarouselStyle
         
         
     }
     
     struct WLOutput {
         
-        let tableData: BehaviorRelay<[CATCarouselBean]>
+        let tableData: BehaviorRelay<[DCTCarouselBean]>
         
         let timered: Observable<Int>
         
-        let zip: Observable<(CATCarouselBean,IndexPath)>
+        let zip: Observable<(DCTCarouselBean,IndexPath)>
         
         let currentPage: BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
     }
@@ -94,7 +94,7 @@ struct CATCarouselViewModel: WLBaseViewModel {
         
         self.input = input
         
-        let tableData: BehaviorRelay<[CATCarouselBean]> = BehaviorRelay<[CATCarouselBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTCarouselBean]> = BehaviorRelay<[DCTCarouselBean]>(value: [])
         
         let zip = Observable.zip(input.modelSelect,input.itemSelect)
         

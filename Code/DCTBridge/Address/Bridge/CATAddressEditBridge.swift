@@ -1,5 +1,5 @@
 //
-//  CATAddressEditBridge.swift
+//  DCTAddressEditBridge.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/20.
@@ -7,26 +7,26 @@
 //
 
 import Foundation
-import CATTable
-import CATHud
-import CATBean
+import DCTTable
+import DCTHud
+import DCTBean
 import RxCocoa
 import RxSwift
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 
-public typealias ZCharactersEditAction = (_ address: CATAddressBean?) -> ()
+public typealias ZCharactersEditAction = (_ address: DCTAddressBean?) -> ()
 
-@objc (CATAddressEditBridge)
-public final class CATAddressEditBridge: CATBaseBridge {
+@objc (DCTAddressEditBridge)
+public final class DCTAddressEditBridge: DCTBaseBridge {
     
-    typealias Section = CATSectionModel<(), CATAddressEditBean>
+    typealias Section = DCTSectionModel<(), DCTAddressEditBean>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var viewModel: CATAddressEditViewModel!
+    var viewModel: DCTAddressEditViewModel!
     
-    var vc: CATTableNoLoadingViewController!
+    var vc: DCTTableNoLoadingViewController!
     
     let name: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
     
@@ -36,22 +36,22 @@ public final class CATAddressEditBridge: CATBaseBridge {
     
     let def: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
     
-    let province: BehaviorRelay<CATAreaBean> = BehaviorRelay<CATAreaBean>(value: CATAreaBean())
+    let province: BehaviorRelay<DCTAreaBean> = BehaviorRelay<DCTAreaBean>(value: DCTAreaBean())
     
-    let city: BehaviorRelay<CATAreaBean> = BehaviorRelay<CATAreaBean>(value: CATAreaBean())
+    let city: BehaviorRelay<DCTAreaBean> = BehaviorRelay<DCTAreaBean>(value: DCTAreaBean())
     
-    let region: BehaviorRelay<CATAreaBean> = BehaviorRelay<CATAreaBean>(value: CATAreaBean())
+    let region: BehaviorRelay<DCTAreaBean> = BehaviorRelay<DCTAreaBean>(value: DCTAreaBean())
 }
 
-extension CATAddressEditBridge {
+extension DCTAddressEditBridge {
     
-    @objc public func createAddressEdit(_ vc: CATTableNoLoadingViewController,temp: CATAddressBean? ,editAction: @escaping ZCharactersEditAction) {
+    @objc public func createAddressEdit(_ vc: DCTTableNoLoadingViewController,temp: DCTAddressBean? ,editAction: @escaping ZCharactersEditAction) {
         
         if let completeItem = vc.navigationItem.rightBarButtonItem?.customView as? UIButton {
             
             self.vc = vc
             
-            let input = CATAddressEditViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(CATAddressEditBean.self),
+            let input = DCTAddressEditViewModel.WLInput(modelSelect: vc.tableView.rx.modelSelected(DCTAddressEditBean.self),
                                                          itemSelect: vc.tableView.rx.itemSelected,
                                                          completeTaps: completeItem.rx.tap.asSignal(),
                                                          encode: temp?.encoded ?? "",
@@ -63,7 +63,7 @@ extension CATAddressEditBridge {
                                                          region: region.asDriver(),
                                                          def: def.asDriver())
             
-            viewModel = CATAddressEditViewModel(input, disposed: disposed)
+            viewModel = DCTAddressEditViewModel(input, disposed: disposed)
             
             let dataSource = RxTableViewSectionedReloadDataSource<Section>(
                 configureCell: { ds, tv, ip, item in return vc.configTableViewCell(item, for: ip)})
@@ -102,7 +102,7 @@ extension CATAddressEditBridge {
                     
                     vc.view.endEditing(true)
                     
-                    CATHud.show(withStatus: "编辑地址中")
+                    DCTHud.show(withStatus: "编辑地址中")
                     
                 })
                 .disposed(by: disposed)
@@ -113,17 +113,17 @@ extension CATAddressEditBridge {
                 .completed
                 .drive(onNext: {
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
                     switch $0 {
                         
-                    case let .failed(msg): CATHud.showInfo(msg)
+                    case let .failed(msg): DCTHud.showInfo(msg)
                         
                     case let .operation(obj):
                         
-                        CATHud.showInfo(temp != nil ? "修改地址成功" : "添加地址成功")
+                        DCTHud.showInfo(temp != nil ? "修改地址成功" : "添加地址成功")
                         
-                        editAction(obj as? CATAddressBean)
+                        editAction(obj as? DCTAddressBean)
                         
                     default: break
                     }
@@ -150,17 +150,17 @@ extension CATAddressEditBridge {
             
                 def.accept(temp.isdel)
                 
-                let p = CATAreaBean()
+                let p = DCTAreaBean()
                 
                 p.areaId = temp.plcl
                 p.name = temp.plclne
                 
-                let c = CATAreaBean()
+                let c = DCTAreaBean()
                 
                 c.areaId = temp.city
                 c.name = temp.cityne
                 
-                let r = CATAreaBean()
+                let r = DCTAreaBean()
                 
                 r.areaId = temp.region
                 r.name = temp.regionne
@@ -182,7 +182,7 @@ extension CATAddressEditBridge {
         }
     }
     
-    @objc public func updateAddressEdit(type: CATAddressEditType,value: String) {
+    @objc public func updateAddressEdit(type: DCTAddressEditType,value: String) {
         
         let values = viewModel.output.tableData.value
 
@@ -228,17 +228,17 @@ extension CATAddressEditBridge {
             
             let edit = values[idx]
             
-            let p = CATAreaBean()
+            let p = DCTAreaBean()
             
             p.areaId = pid
             p.name = pName
             
-            let c = CATAreaBean()
+            let c = DCTAreaBean()
             
             c.areaId = cid
             c.name = cName
             
-            let r = CATAreaBean()
+            let r = DCTAreaBean()
             
             r.areaId = rid
             r.name = rName
@@ -259,7 +259,7 @@ extension CATAddressEditBridge {
         }
     }
 }
-extension CATAddressEditBridge: UITableViewDelegate {
+extension DCTAddressEditBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

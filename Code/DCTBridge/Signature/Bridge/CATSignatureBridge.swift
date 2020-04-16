@@ -1,6 +1,6 @@
 //
-//  CATSignatureBridge.swift
-//  CATBridge
+//  DCTSignatureBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/28.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -9,40 +9,40 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import CATBase
-import CATHud
-import CATCache
-@objc(CATSignatureActionType)
-public enum CATSignatureActionType: Int ,Codable {
+import DCTBase
+import DCTHud
+import DCTCache
+@objc(DCTSignatureActionType)
+public enum DCTSignatureActionType: Int ,Codable {
     
     case signature = 0
     
     case back = 1
 }
 
-public typealias CATSignatureAction = (_ action: CATSignatureActionType ) -> ()
+public typealias DCTSignatureAction = (_ action: DCTSignatureActionType ) -> ()
 
-@objc (CATSignatureBridge)
-public final class CATSignatureBridge: CATBaseBridge {
+@objc (DCTSignatureBridge)
+public final class DCTSignatureBridge: DCTBaseBridge {
     
-    var viewModel: CATSignatureViewModel!
+    var viewModel: DCTSignatureViewModel!
     
-    let signature: BehaviorRelay<String> = BehaviorRelay<String>(value: CATUserInfoCache.default.userBean.signature)
+    let signature: BehaviorRelay<String> = BehaviorRelay<String>(value: DCTUserInfoCache.default.userBean.signature)
 }
 
-extension CATSignatureBridge {
+extension DCTSignatureBridge {
     
-    @objc public func createSignature(_ vc: CATBaseViewController ,signatureAction: @escaping CATSignatureAction ) {
+    @objc public func createSignature(_ vc: DCTBaseViewController ,signatureAction: @escaping DCTSignatureAction ) {
         
         if let completeItem = vc.navigationItem.rightBarButtonItem?.customView as? UIButton ,let signaturetv = vc.view.viewWithTag(201) as? UITextView ,let backItem = vc.navigationItem.leftBarButtonItem?.customView as? UIButton ,let placeholder = vc.view.viewWithTag(202) {
             
-            let inputs = CATSignatureViewModel.WLInput(orignal: signature.asDriver(),
+            let inputs = DCTSignatureViewModel.WLInput(orignal: signature.asDriver(),
                                                        updated: signaturetv.rx.text.orEmpty.asDriver(),
                                                        completTaps: completeItem.rx.tap.asSignal())
             
             signaturetv.text = signature.value
             
-            viewModel = CATSignatureViewModel(inputs)
+            viewModel = DCTSignatureViewModel(inputs)
             
             viewModel
                 .output
@@ -55,7 +55,7 @@ extension CATSignatureBridge {
                 .completing
                 .drive(onNext: { (_) in
                     
-                    CATHud.show(withStatus: "修改个性签名...")
+                    DCTHud.show(withStatus: "修改个性签名...")
                     
                     signaturetv.resignFirstResponder()
                 })
@@ -66,18 +66,18 @@ extension CATSignatureBridge {
                 .completed
                 .drive(onNext: { (result) in
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
                     switch result {
                     case let .updateUserInfoSucc(_, msg: msg):
                         
-                        CATHud.showInfo(msg)
+                        DCTHud.showInfo(msg)
                         
                         signatureAction(.signature)
                         
                     case let .failed(msg):
                         
-                        CATHud.showInfo(msg)
+                        DCTHud.showInfo(msg)
                     default: break
                         
                     }

@@ -1,43 +1,43 @@
 //
-//  CATReportBridge.swift
-//  CATBridge
+//  DCTReportBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/9/9.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTable
+import DCTTable
 import RxDataSources
-import CATCocoa
-import CATHud
+import DCTCocoa
+import DCTHud
 import RxCocoa
 import RxSwift
 
-@objc (CATReportBridge)
-public final class CATReportBridge: CATBaseBridge {
+@objc (DCTReportBridge)
+public final class DCTReportBridge: DCTBaseBridge {
     
-    typealias Section = CATSectionModel<(), CATReportBean>
+    typealias Section = DCTSectionModel<(), DCTReportBean>
     
     var dataSource: RxTableViewSectionedReloadDataSource<Section>!
     
-    var viewModel: CATReportViewModel!
+    var viewModel: DCTReportViewModel!
     
-    weak var vc: CATTableNoLoadingViewController!
+    weak var vc: DCTTableNoLoadingViewController!
     
     var selectedReport: BehaviorRelay<String> = BehaviorRelay<String>(value: "1")
 }
 
-extension CATReportBridge {
+extension DCTReportBridge {
     
-    @objc public func createReport(_ vc: CATTableNoLoadingViewController ,reports: [[String: Any]],uid: String,encoded: String ,textView: UITextView ,reportAction: @escaping () -> ()) {
+    @objc public func createReport(_ vc: DCTTableNoLoadingViewController ,reports: [[String: Any]],uid: String,encoded: String ,textView: UITextView ,reportAction: @escaping () -> ()) {
         
         if let completeItem = vc.navigationItem.rightBarButtonItem?.customView as? UIButton {
             
             self.vc = vc
             
-            let input = CATReportViewModel.WLInput(reports: reports,
-                                                 modelSelect: vc.tableView.rx.modelSelected(CATReportBean.self),
+            let input = DCTReportViewModel.WLInput(reports: reports,
+                                                 modelSelect: vc.tableView.rx.modelSelected(DCTReportBean.self),
                                                  itemSelect: vc.tableView.rx.itemSelected,
                                                  completeTaps: completeItem.rx.tap.asSignal(),
                                                  uid: uid,
@@ -45,7 +45,7 @@ extension CATReportBridge {
                                                  report: selectedReport.asDriver(),
                                                  content: textView.rx.text.orEmpty.asDriver())
             
-            viewModel = CATReportViewModel(input, disposed: disposed)
+            viewModel = DCTReportViewModel(input, disposed: disposed)
             
             let dataSource = RxTableViewSectionedReloadDataSource<Section>(
                 configureCell: { ds, tv, ip, item in return vc.configTableViewCell(item, for: ip)  })
@@ -111,7 +111,7 @@ extension CATReportBridge {
                     
                     vc.view.endEditing(true)
                     
-                    CATHud.show(withStatus: "举报提交中...")
+                    DCTHud.show(withStatus: "举报提交中...")
                     
                 })
                 .disposed(by: disposed)
@@ -122,11 +122,11 @@ extension CATReportBridge {
                 .completed
                 .drive(onNext: {
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
                     switch $0 {
                         
-                    case let .failed(msg): CATHud.showInfo(msg)
+                    case let .failed(msg): DCTHud.showInfo(msg)
                         
                     case .ok: reportAction()
                         
@@ -138,7 +138,7 @@ extension CATReportBridge {
         
     }
 }
-extension CATReportBridge: UITableViewDelegate {
+extension DCTReportBridge: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

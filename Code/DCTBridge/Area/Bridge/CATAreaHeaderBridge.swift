@@ -1,5 +1,5 @@
 //
-//  CATAreaHeaderBridge.swift
+//  DCTAreaHeaderBridge.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/19.
@@ -7,31 +7,31 @@
 //
 
 import Foundation
-import CATCollection
+import DCTCollection
 import RxCocoa
 import RxSwift
 import RxDataSources
-import CATCocoa
+import DCTCocoa
 
 
-@objc (CATAreaHeaderBridge)
-public final class CATAreaHeaderBridge: CATBaseBridge {
+@objc (DCTAreaHeaderBridge)
+public final class DCTAreaHeaderBridge: DCTBaseBridge {
     
-    var viewModel: CATAreaHeaderViewModel!
+    var viewModel: DCTAreaHeaderViewModel!
     
-    typealias Section = CATSectionModel<(), CATAreaHeaderBean>
+    typealias Section = DCTSectionModel<(), DCTAreaHeaderBean>
     
     var dataSource: RxCollectionViewSectionedReloadDataSource<Section>!
 }
 // MARK: skip item 101 pagecontrol 102
-extension CATAreaHeaderBridge {
+extension DCTAreaHeaderBridge {
     
-    @objc public func createAreaHeader(_ vc: CATCollectionNoLoadingViewController) {
+    @objc public func createAreaHeader(_ vc: DCTCollectionNoLoadingViewController) {
         
-        let input = CATAreaHeaderViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(CATAreaHeaderBean.self),
+        let input = DCTAreaHeaderViewModel.WLInput(modelSelect: vc.collectionView.rx.modelSelected(DCTAreaHeaderBean.self),
                                                  itemSelect: vc.collectionView.rx.itemSelected)
         
-        viewModel = CATAreaHeaderViewModel(input, disposed: disposed)
+        viewModel = DCTAreaHeaderViewModel(input, disposed: disposed)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<Section>(
             configureCell: { ds, cv, ip, item in return vc.configCollectionViewCell(item, for: ip) })
@@ -58,7 +58,7 @@ extension CATAreaHeaderBridge {
             .disposed(by: disposed)
     }
     
-    @objc public func addheader(_ header: CATAreaHeaderBean) {
+    @objc public func addheader(_ header: DCTAreaHeaderBean) {
         
         var values = viewModel.output.tableData.value
         
@@ -71,7 +71,7 @@ extension CATAreaHeaderBridge {
         
         return viewModel.output.tableData.value.count
     }
-    @objc public func removeHeader(_ header: CATAreaHeaderBean) {
+    @objc public func removeHeader(_ header: DCTAreaHeaderBean) {
         
         var values = viewModel.output.tableData.value
         

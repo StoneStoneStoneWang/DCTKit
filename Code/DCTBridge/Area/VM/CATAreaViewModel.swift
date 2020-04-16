@@ -1,5 +1,5 @@
 //
-//  CATAreaViewModel.swift
+//  DCTAreaViewModel.swift
 //  ZBridge
 //
 //  Created by three stone 王 on 2020/3/13.
@@ -10,9 +10,9 @@ import Foundation
 import WLBaseViewModel
 import RxCocoa
 import RxSwift
-import CATBean
+import DCTBean
 
-struct CATAreaViewModel: WLBaseViewModel {
+struct DCTAreaViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -20,18 +20,18 @@ struct CATAreaViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let areas: [CATAreaBean]
+        let areas: [DCTAreaBean]
         
-        let modelSelect: ControlEvent<CATAreaBean>
+        let modelSelect: ControlEvent<DCTAreaBean>
         
         let itemSelect: ControlEvent<IndexPath>
     }
     
     struct WLOutput {
         
-        let zip: Observable<(CATAreaBean,IndexPath)>
+        let zip: Observable<(DCTAreaBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATAreaBean]> = BehaviorRelay<[CATAreaBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTAreaBean]> = BehaviorRelay<[DCTAreaBean]>(value: [])
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         

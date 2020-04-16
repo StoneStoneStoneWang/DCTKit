@@ -1,6 +1,6 @@
 //
-//  CATAreaJson.swift
-//  CATBridge
+//  DCTAreaJson.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/4/10.
 //  Copyright © 2020 王磊. All rights reserved.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-@objc (CATAreaJson)
-public final class CATAreaJson: CATBaseBridge { }
+@objc (DCTAreaJson)
+public final class DCTAreaJson: DCTBaseBridge { }
 
-extension CATAreaJson {
+extension DCTAreaJson {
     @objc (fetchAreas)
     public func fetchAreas() {
         
-        CATAreaManager
+        DCTAreaManager
             .default
             .fetchAreas()
             .drive(onNext: { (result) in

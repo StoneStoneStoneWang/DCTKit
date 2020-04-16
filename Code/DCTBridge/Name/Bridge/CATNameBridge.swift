@@ -1,50 +1,50 @@
 //
-//  CATNameBridge.swift
-//  CATBridge
+//  DCTNameBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/28.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATBase
-import CATHud
-import CATBean
+import DCTBase
+import DCTHud
+import DCTBean
 import RxCocoa
-import CATCache
+import DCTCache
 import RxSwift
 
-@objc(CATNameActionType)
-public enum CATNameActionType: Int ,Codable {
+@objc(DCTNameActionType)
+public enum DCTNameActionType: Int ,Codable {
     
     case name = 0
     
     case back = 1
 }
 
-public typealias CATNameAction = (_ action: CATNameActionType ) -> ()
+public typealias DCTNameAction = (_ action: DCTNameActionType ) -> ()
 
-@objc (CATNameBridge)
-public final class CATNameBridge: CATBaseBridge {
+@objc (DCTNameBridge)
+public final class DCTNameBridge: DCTBaseBridge {
     
-    var viewModel: CATNameViewModel!
+    var viewModel: DCTNameViewModel!
     
-    let nickname: BehaviorRelay<String> = BehaviorRelay<String>(value: CATUserInfoCache.default.userBean.nickname)
+    let nickname: BehaviorRelay<String> = BehaviorRelay<String>(value: DCTUserInfoCache.default.userBean.nickname)
 }
 
-extension CATNameBridge {
+extension DCTNameBridge {
     
-    @objc public func createName(_ vc: CATBaseViewController ,nameAction: @escaping CATNameAction ) {
+    @objc public func createName(_ vc: DCTBaseViewController ,nameAction: @escaping DCTNameAction ) {
         
         if let completeItem = vc.navigationItem.rightBarButtonItem?.customView as? UIButton ,let name = vc.view.viewWithTag(201) as? UITextField ,let backItem = vc.navigationItem.leftBarButtonItem?.customView as? UIButton{
             
-            let inputs = CATNameViewModel.WLInput(orignal: nickname.asDriver(),
+            let inputs = DCTNameViewModel.WLInput(orignal: nickname.asDriver(),
                                                        updated: name.rx.text.orEmpty.asDriver(),
                                                        completTaps: completeItem.rx.tap.asSignal())
             
             name.text = nickname.value
             
-            viewModel = CATNameViewModel(inputs)
+            viewModel = DCTNameViewModel(inputs)
             
             viewModel
                 .output
@@ -59,7 +59,7 @@ extension CATNameBridge {
                     
                     name.resignFirstResponder()
                     
-                    CATHud.show(withStatus: "修改昵称中...")
+                    DCTHud.show(withStatus: "修改昵称中...")
                 })
                 .disposed(by: disposed)
             
@@ -68,18 +68,18 @@ extension CATNameBridge {
                 .completed
                 .drive(onNext: { (result) in
                     
-                    CATHud.pop()
+                    DCTHud.pop()
                     
                     switch result {
                     case let .updateUserInfoSucc(_, msg: msg):
                         
-                        CATHud.showInfo(msg)
+                        DCTHud.showInfo(msg)
                         
                         nameAction(.name)
                         
                     case let .failed(msg):
                         
-                        CATHud.showInfo(msg)
+                        DCTHud.showInfo(msg)
                     default: break
                         
                     }

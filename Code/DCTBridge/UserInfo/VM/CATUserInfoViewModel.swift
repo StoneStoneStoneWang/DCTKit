@@ -1,6 +1,6 @@
 //
-//  CATUserInfoViewModel.swift
-//  CATBridge
+//  DCTUserInfoViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/28.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,14 +12,14 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATCache
-import CATApi
-import CATRReq
-import CATBean
+import DCTCache
+import DCTApi
+import DCTRReq
+import DCTBean
 
-@objc public final class CATUserInfoBean: NSObject {
+@objc public final class DCTUserInfoBean: NSObject {
     
-    @objc public var type: CATUserInfoType = .header
+    @objc public var type: DCTUserInfoType = .header
     
     @objc public var img: UIImage!
     
@@ -30,31 +30,31 @@ import CATBean
         return type.title
     }
     
-    static func createUserInfo(_ type: CATUserInfoType) -> CATUserInfoBean {
+    static func createUserInfo(_ type: DCTUserInfoType) -> DCTUserInfoBean {
         
-        let userInfo = CATUserInfoBean()
+        let userInfo = DCTUserInfoBean()
         
         userInfo.type = type
         
         return userInfo
     }
     
-    static func createUserInfoTypes(_ hasSpace: Bool) -> [CATUserInfoBean] {
+    static func createUserInfoTypes(_ hasSpace: Bool) -> [DCTUserInfoBean] {
         
-        var result: [CATUserInfoBean] = []
+        var result: [DCTUserInfoBean] = []
         
         if hasSpace {
             
-            for item in CATUserInfoType.spaceTypes {
+            for item in DCTUserInfoType.spaceTypes {
                 
-                result += [CATUserInfoBean.createUserInfo(item)]
+                result += [DCTUserInfoBean.createUserInfo(item)]
             }
             
         } else {
             
-            for item in CATUserInfoType.types {
+            for item in DCTUserInfoType.types {
                 
-                result += [CATUserInfoBean.createUserInfo(item)]
+                result += [DCTUserInfoBean.createUserInfo(item)]
             }
         }
         
@@ -62,8 +62,8 @@ import CATBean
     }
 }
 
-@objc (CATUserInfoType)
-public enum CATUserInfoType: Int {
+@objc (DCTUserInfoType)
+public enum DCTUserInfoType: Int {
     
     case header
     
@@ -81,13 +81,13 @@ public enum CATUserInfoType: Int {
 }
 
 
-extension CATUserInfoType {
+extension DCTUserInfoType {
     
-    static var spaceTypes: [CATUserInfoType] {
+    static var spaceTypes: [DCTUserInfoType] {
         
         return [.space ,.header ,.name ,.phone ,.space ,.sex ,.birth ,.signature]
     }
-    static var types: [CATUserInfoType] {
+    static var types: [DCTUserInfoType] {
         
         return [.header ,.name ,.phone ,.sex ,.birth ,.signature]
     }
@@ -142,7 +142,7 @@ extension CATUserInfoType {
     }
 }
 
-public struct CATUserInfoViewModel: WLBaseViewModel {
+public struct DCTUserInfoViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -150,7 +150,7 @@ public struct CATUserInfoViewModel: WLBaseViewModel {
     
     public struct WLInput {
         
-        let modelSelect: ControlEvent<CATUserInfoBean>
+        let modelSelect: ControlEvent<DCTUserInfoBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -158,9 +158,9 @@ public struct CATUserInfoViewModel: WLBaseViewModel {
     }
     public struct WLOutput {
         
-        let zip: Observable<(CATUserInfoBean,IndexPath)>
+        let zip: Observable<(DCTUserInfoBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATUserInfoBean]> = BehaviorRelay<[CATUserInfoBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTUserInfoBean]> = BehaviorRelay<[DCTUserInfoBean]>(value: [])
     }
     public init(_ input: WLInput ,disposed: DisposeBag) {
         
@@ -170,11 +170,11 @@ public struct CATUserInfoViewModel: WLBaseViewModel {
         
         let output = WLOutput(zip: zip)
         
-        output.tableData.accept(CATUserInfoBean.createUserInfoTypes(input.hasSpace))
+        output.tableData.accept(DCTUserInfoBean.createUserInfoTypes(input.hasSpace))
         
-        CATUserInfoCache.default
+        DCTUserInfoCache.default
             .rx
-            .observe(CATUserBean.self, "userBean")
+            .observe(DCTUserBean.self, "userBean")
             .subscribe(onNext: { (user) in
                 
                 if let user = user {
@@ -213,18 +213,18 @@ public struct CATUserInfoViewModel: WLBaseViewModel {
         self.output = output
     }
     
-    public static func updateUserInfo(type: CATUserInfoType,value: String) -> Driver<WLBaseResult>{
+    public static func updateUserInfo(type: DCTUserInfoType,value: String) -> Driver<WLBaseResult>{
         
-        return CATDictResp(CATApi.updateUserInfo(type.updateKey, value: value))
-            .mapObject(type: CATUserBean.self)
-            .map({ CATUserInfoCache.default.saveUser(data: $0) })
+        return DCTDictResp(DCTApi.updateUserInfo(type.updateKey, value: value))
+            .mapObject(type: DCTUserBean.self)
+            .map({ DCTUserInfoCache.default.saveUser(data: $0) })
             .map { _ in WLBaseResult.ok("")}
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }
     
     public static func fetchAliToken() -> Driver<WLBaseResult> {
         
-        return CATAliResp(CATApi.aliToken)
+        return DCTAliResp(DCTApi.aliToken)
             .map { WLBaseResult.fetchSomeObject($0 as AnyObject)}
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }

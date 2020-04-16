@@ -1,5 +1,5 @@
 //
-//  CATAreaManager.swift
+//  DCTAreaManager.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/19.
@@ -7,29 +7,29 @@
 //
 
 import Foundation
-import CATBean
-import CATYY
+import DCTBean
+import DCTYY
 import RxCocoa
 import WLBaseResult
 import RxSwift
-import CATReq
+import DCTReq
 import WLReqKit
-import CATApi
+import DCTApi
 import Alamofire
-import CATRReq
+import DCTRReq
 
-@objc (CATAreaManager)
-public class CATAreaManager: NSObject {
+@objc (DCTAreaManager)
+public class DCTAreaManager: NSObject {
     
     @objc (shared)
-    public static let `default`: CATAreaManager = CATAreaManager()
+    public static let `default`: DCTAreaManager = DCTAreaManager()
     
     private override init() { }
     // 全部地区
-    @objc public var allAreas: [CATAreaBean] = []
+    @objc public var allAreas: [DCTAreaBean] = []
 }
 
-extension CATAreaManager {
+extension DCTAreaManager {
     
       public func fetchAreas() -> Driver<WLBaseResult> {
         
@@ -46,11 +46,11 @@ extension CATAreaManager {
                 
                 if let arr = NSArray(contentsOfFile: targetPath) {
                     
-                    var mutable: [CATAreaBean] = []
+                    var mutable: [DCTAreaBean] = []
                     
                     for item in arr {
                         
-                        mutable += [CATAreaBean(JSON: item as! [String: Any])!]
+                        mutable += [DCTAreaBean(JSON: item as! [String: Any])!]
                     }
                     
                     allAreas += mutable
@@ -61,19 +61,19 @@ extension CATAreaManager {
                 return Driver.just(WLBaseResult.failed("获取本地数据失败!"))
             } else {
                 
-                return CATAreaResp(CATApi.fetchAreaJson)
-                    .map({ CATAreaManager.default.saveArea($0) })
-                    .map({ _ in WLBaseResult.fetchList(CATAreaManager.default.allAreas)  })
+                return DCTAreaResp(DCTApi.fetchAreaJson)
+                    .map({ DCTAreaManager.default.saveArea($0) })
+                    .map({ _ in WLBaseResult.fetchList(DCTAreaManager.default.allAreas)  })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             }
         }
     }
     
-   @objc public func fetchSomeArea(_ id: Int)  -> CATAreaBean {
+   @objc public func fetchSomeArea(_ id: Int)  -> DCTAreaBean {
         
         assert(allAreas.count > 0, "请先调用 fetchArea")
         
-        var result: CATAreaBean!
+        var result: DCTAreaBean!
         
         for item in allAreas {
             
@@ -85,14 +85,14 @@ extension CATAreaManager {
             }
         }
         
-        return result ?? CATAreaBean()
+        return result ?? DCTAreaBean()
     }
     
    @objc public func saveArea(_ areas: [Any]) -> [Any] {
         
         for item in areas {
             
-            allAreas += [CATAreaBean(JSON: item as! [String: Any])!]
+            allAreas += [DCTAreaBean(JSON: item as! [String: Any])!]
         }
         
         let mutable = NSMutableArray()

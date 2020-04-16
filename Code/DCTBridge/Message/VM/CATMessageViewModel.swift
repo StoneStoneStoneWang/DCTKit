@@ -1,6 +1,6 @@
 //
-//  CATMessageViewModel.swift
-//  CATBridge
+//  DCTMessageViewModel.swift
+//  DCTBridge
 //
 //  Created by 王磊 on 2020/4/13.
 //  Copyright © 2020 王磊. All rights reserved.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATApi
-import CATBean
-import CATRReq
+import DCTApi
+import DCTBean
+import DCTRReq
 
-struct CATMessageViewModel: WLBaseViewModel {
+struct DCTMessageViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -24,7 +24,7 @@ struct CATMessageViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATMessageBean>
+        let modelSelect: ControlEvent<DCTMessageBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -34,9 +34,9 @@ struct CATMessageViewModel: WLBaseViewModel {
     
     struct WLOutput {
         
-        let zip: Observable<(CATMessageBean,IndexPath)>
+        let zip: Observable<(DCTMessageBean,IndexPath)>
         
-        let collectionData: BehaviorRelay<[CATMessageBean]> = BehaviorRelay<[CATMessageBean]>(value: [])
+        let collectionData: BehaviorRelay<[DCTMessageBean]> = BehaviorRelay<[DCTMessageBean]>(value: [])
         
         let endHeaderRefreshing: Driver<WLBaseResult>
     }
@@ -50,8 +50,8 @@ struct CATMessageViewModel: WLBaseViewModel {
             .headerRefresh
             .startWith(())
             .flatMapLatest({_ in
-                return CATArrayResp(CATApi.fetchSystemMsg(1))
-                    .mapArray(type: CATMessageBean.self)
+                return DCTArrayResp(DCTApi.fetchSystemMsg(1))
+                    .mapArray(type: DCTMessageBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -66,7 +66,7 @@ struct CATMessageViewModel: WLBaseViewModel {
                 switch result {
                 case let .fetchList(items):
                     
-                    output.collectionData.accept(items as! [CATMessageBean])
+                    output.collectionData.accept(items as! [DCTMessageBean])
                     
                 default: break
                 }
@@ -76,19 +76,19 @@ struct CATMessageViewModel: WLBaseViewModel {
         self.output = output
     }
 }
-extension CATMessageViewModel {
+extension DCTMessageViewModel {
     
     static func messageRead(_ encode: String) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.readMsg(encode))
+        return DCTVoidResp(DCTApi.readMsg(encode))
             .flatMapLatest({ return Driver.just(WLBaseResult.ok("")) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }
     
     static func fetchFirstMessage() -> Driver<WLBaseResult> {
         
-        return CATArrayResp(CATApi.fetchFirstMsg)
-            .mapArray(type: CATMessageBean.self)
+        return DCTArrayResp(DCTApi.fetchFirstMsg)
+            .mapArray(type: DCTMessageBean.self)
             .flatMapLatest({ return Driver.just(WLBaseResult.fetchList($0)) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }

@@ -1,6 +1,6 @@
 //
-//  CATFocusViewModel.swift
-//  CATBridge
+//  DCTFocusViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATRReq
-import CATBean
-import CATApi
+import DCTRReq
+import DCTBean
+import DCTApi
 
-public struct CATFocusViewModel: WLBaseViewModel {
+public struct DCTFocusViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -24,7 +24,7 @@ public struct CATFocusViewModel: WLBaseViewModel {
     
     public struct WLInput {
         
-        let modelSelect: ControlEvent<CATFocusBean>
+        let modelSelect: ControlEvent<DCTFocusBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -33,9 +33,9 @@ public struct CATFocusViewModel: WLBaseViewModel {
     
     public struct WLOutput {
         
-        let zip: Observable<(CATFocusBean,IndexPath)>
+        let zip: Observable<(DCTFocusBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATFocusBean]> = BehaviorRelay<[CATFocusBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTFocusBean]> = BehaviorRelay<[DCTFocusBean]>(value: [])
         
         let endHeaderRefreshing: Driver<WLBaseResult>
     }
@@ -50,8 +50,8 @@ public struct CATFocusViewModel: WLBaseViewModel {
             .startWith(())
             .flatMapLatest({_ in
 
-                return CATArrayResp(CATApi.fetchBlackList)
-                    .mapArray(type: CATFocusBean.self)
+                return DCTArrayResp(DCTApi.fetchBlackList)
+                    .mapArray(type: DCTFocusBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -66,7 +66,7 @@ public struct CATFocusViewModel: WLBaseViewModel {
                 switch result {
                 case let .fetchList(items):
                     
-                    output.tableData.accept(items as! [CATFocusBean])
+                    output.tableData.accept(items as! [DCTFocusBean])
                     
                 default: break
                 }
@@ -76,11 +76,11 @@ public struct CATFocusViewModel: WLBaseViewModel {
         self.output = output
     }
 }
-extension CATFocusViewModel {
+extension DCTFocusViewModel {
     
     static func removeFocus(_ encode: String) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.removeBlack(encode))
+        return DCTVoidResp(DCTApi.removeBlack(encode))
             .flatMapLatest({ return Driver.just(WLBaseResult.ok("移除成功")) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }

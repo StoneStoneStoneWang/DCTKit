@@ -1,27 +1,27 @@
 //
-//  CATProtocolBridge.swift
-//  CATBridge
+//  DCTProtocolBridge.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/25.
 //  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
-import CATTextInner
+import DCTTextInner
 
-@objc (CATProtocolBridge)
-public final class CATProtocolBridge: CATBaseBridge {
+@objc (DCTProtocolBridge)
+public final class DCTProtocolBridge: DCTBaseBridge {
     
-    public var viewModel: CATProtocolViewModel!
+    public var viewModel: DCTProtocolViewModel!
 }
 
-extension CATProtocolBridge {
+extension DCTProtocolBridge {
     
-    @objc public func createProtocol(_ vc: CATTextInnerViewController) {
+    @objc public func createProtocol(_ vc: DCTTextInnerViewController) {
         
-        let inputs = CATProtocolViewModel.WLInput()
+        let inputs = DCTProtocolViewModel.WLInput()
         
-        viewModel = CATProtocolViewModel(inputs)
+        viewModel = DCTProtocolViewModel(inputs)
         
         viewModel
             .output
@@ -31,7 +31,7 @@ extension CATProtocolBridge {
                 
                 DispatchQueue.main.async {
                     
-                    vc.CATLoadHtmlString(htmlString: value)
+                    vc.DCTLoadHtmlString(htmlString: value)
                 }
                 
             })

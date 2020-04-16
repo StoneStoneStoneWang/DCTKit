@@ -1,6 +1,6 @@
 //
-//  CATRegViewModel.swift
-//  CATBridge
+//  DCTRegViewModel.swift
+//  DCTBridge
 //
 //  Created by three stone 王 on 2019/8/26.
 //  Copyright © 2019 three stone 王. All rights reserved.
@@ -11,14 +11,14 @@ import WLBaseViewModel
 import RxCocoa
 import RxSwift
 import WLBaseResult
-import CATCheck
-import CATApi
-import CATRReq
-import CATBean
-import CATCache
+import DCTCheck
+import DCTApi
+import DCTRReq
+import DCTBean
+import DCTCache
 import WLReqKit
 
-public struct CATRegViewModel: WLBaseViewModel {
+public struct DCTRegViewModel: WLBaseViewModel {
     
     public var input: WLInput
     
@@ -57,7 +57,7 @@ public struct CATRegViewModel: WLBaseViewModel {
         /*  协议... 序列*/
         let pro: Driver<Void>
         
-        @available(*, deprecated, message: "Please use smsRelay")
+        @available(*, depreDCTed, message: "Please use smsRelay")
         let sms: Variable<(Bool,String)> = Variable<(Bool,String)>((true,"获取验证码"))
         
         let smsRelay: BehaviorRelay<(Bool,String)> = BehaviorRelay<(Bool,String)>(value: (true,"获取验证码"))
@@ -76,15 +76,15 @@ public struct CATRegViewModel: WLBaseViewModel {
         // 登录完成返回
         let logined: Driver<WLBaseResult> = input.loginTaps.withLatestFrom(usernameAndVcode).flatMapLatest {
             
-            switch CATCheckUsernameAndVCode($0.0, vcode: $0.1) {
+            switch DCTCheckUsernameAndVCode($0.0, vcode: $0.1) {
             case .ok:
                 
-                return CATDictResp(CATApi.swiftLogin($0.0, code: $0.1))
-                    .mapObject(type: CATAccountBean.self)
-                    .map({ CATAccountCache.default.saveAccount(acc: $0) }) // 存储account
+                return DCTDictResp(DCTApi.swiftLogin($0.0, code: $0.1))
+                    .mapObject(type: DCTAccountBean.self)
+                    .map({ DCTAccountCache.default.saveAccount(acc: $0) }) // 存储account
                     .map({ $0.toJSON()})
-                    .mapObject(type: CATUserBean.self)
-                    .map({ CATUserInfoCache.default.saveUser(data: $0) })
+                    .mapObject(type: DCTUserBean.self)
+                    .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                     .map({ _ in WLBaseResult.logined })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
                 
@@ -103,11 +103,11 @@ public struct CATRegViewModel: WLBaseViewModel {
             .withLatestFrom(input.username)
             .flatMapLatest({ (username) in
                 
-                switch CATCheckUsername(username) {
+                switch DCTCheckUsername(username) {
                 case .ok:
                     //
                     let result: Observable<WLBaseResult> = Observable<WLBaseResult>.create({ (ob) -> Disposable in
-                        CATVoidResp(CATApi.smsCode(username))
+                        DCTVoidResp(DCTApi.smsCode(username))
                             .subscribe(onNext: { (_) in
                                 
                                 ob.onNext(WLBaseResult.ok("验证码已发送到您的手机，请注意查收"))

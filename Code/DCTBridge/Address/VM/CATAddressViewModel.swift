@@ -1,5 +1,5 @@
 //
-//  CATAddressViewModel.swift
+//  DCTAddressViewModel.swift
 //  ZBombBridge
 //
 //  Created by three stone 王 on 2020/3/20.
@@ -12,11 +12,11 @@ import RxCocoa
 import RxSwift
 import WLReqKit
 import WLBaseResult
-import CATApi
-import CATBean
-import CATRReq
+import DCTApi
+import DCTBean
+import DCTRReq
 
-struct CATAddressViewModel: WLBaseViewModel {
+struct DCTAddressViewModel: WLBaseViewModel {
     
     var input: WLInput
     
@@ -24,7 +24,7 @@ struct CATAddressViewModel: WLBaseViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<CATAddressBean>
+        let modelSelect: ControlEvent<DCTAddressBean>
         
         let itemSelect: ControlEvent<IndexPath>
         
@@ -37,9 +37,9 @@ struct CATAddressViewModel: WLBaseViewModel {
     
     struct WLOutput {
         
-        let zip: Observable<(CATAddressBean,IndexPath)>
+        let zip: Observable<(DCTAddressBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[CATAddressBean]> = BehaviorRelay<[CATAddressBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTAddressBean]> = BehaviorRelay<[DCTAddressBean]>(value: [])
         
         let endHeaderRefreshing: Driver<WLBaseResult>
         
@@ -57,8 +57,8 @@ struct CATAddressViewModel: WLBaseViewModel {
             .headerRefresh
             .startWith(())
             .flatMapLatest({_ in
-                return CATArrayResp(CATApi.fetchAddress)
-                    .mapArray(type: CATAddressBean.self)
+                return DCTArrayResp(DCTApi.fetchAddress)
+                    .mapArray(type: DCTAddressBean.self)
                     .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
                     .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
             })
@@ -77,7 +77,7 @@ struct CATAddressViewModel: WLBaseViewModel {
                 switch result {
                 case let .fetchList(items):
                     
-                    output.tableData.accept(items as! [CATAddressBean])
+                    output.tableData.accept(items as! [DCTAddressBean])
                     
                 default: break
                 }
@@ -87,11 +87,11 @@ struct CATAddressViewModel: WLBaseViewModel {
         self.output = output
     }
 }
-extension CATAddressViewModel {
+extension DCTAddressViewModel {
     
     static func removeAddress(_ encode: String) -> Driver<WLBaseResult> {
         
-        return CATVoidResp(CATApi.deleteAddress(encode))
+        return DCTVoidResp(DCTApi.deleteAddress(encode))
             .flatMapLatest({ return Driver.just(WLBaseResult.ok("移除成功")) })
             .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
     }
