@@ -50,7 +50,7 @@ public struct DCTFindPasswordModel: DCTViewModel {
         let completing: Driver<Void>
         
         let completed: Driver<DCTResult>
-        @available(*, depreDCTed, message: "Please use smsRelay")
+        @available(*, deprecated, message: "Please use smsRelay")
         let sms: Variable<(Bool,String)> = Variable<(Bool,String)>((true,"获取验证码"))
         
         let smsRelay: BehaviorRelay<(Bool,String)> = BehaviorRelay<(Bool,String)>(value: (true,"获取验证码"))

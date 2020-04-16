@@ -29,7 +29,7 @@ public struct DCTWelcomViewModel: DCTViewModel {
         /* 定时器 序列*/
         let timer: Observable<Int> = Observable<Int>.timer(0, period: 1, scheduler: MainScheduler.instance)
         
-        @available(*, depreDCTed, message: "Please use durationRelay")
+        @available(*, deprecated, message: "Please use durationRelay")
         let duration: Variable<Int> = Variable<Int>(3)
         
         let durationRelay: BehaviorRelay<Int> = BehaviorRelay<Int>(value: 3)

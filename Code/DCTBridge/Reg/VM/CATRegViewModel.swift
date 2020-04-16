@@ -56,7 +56,7 @@ public struct DCTRegViewModel: DCTViewModel {
         /*  协议... 序列*/
         let pro: Driver<Void>
         
-        @available(*, depreDCTed, message: "Please use smsRelay")
+        @available(*, deprecated, message: "Please use smsRelay")
         let sms: Variable<(Bool,String)> = Variable<(Bool,String)>((true,"获取验证码"))
         
         let smsRelay: BehaviorRelay<(Bool,String)> = BehaviorRelay<(Bool,String)>(value: (true,"获取验证码"))

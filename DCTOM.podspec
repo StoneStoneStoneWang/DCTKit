@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
   
   spec.source_files = "Code/DCTOM/*.{swift}"
   
-  spec.dependency 'Alamofire'
+  spec.dependency 'ObjectMapper'
   
   spec.dependency 'RxSwift'
   
