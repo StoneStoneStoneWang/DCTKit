@@ -1,0 +1,6 @@
+framework module DCTNavi {
+  umbrella header "DCTNavi.h"
+
+  export *
+  module * { export * }
+}
