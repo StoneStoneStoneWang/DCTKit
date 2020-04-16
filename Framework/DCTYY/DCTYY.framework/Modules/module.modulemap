@@ -1,0 +1,6 @@
+framework module DCTYY {
+  umbrella header "DCTYY.h"
+
+  export *
+  module * { export * }
+}

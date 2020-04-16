@@ -1,0 +1,6 @@
+framework module DCTTextInner {
+  umbrella header "DCTTextInner.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module DCTTable {
+  umbrella header "DCTTable.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module DCTOSS {
+  umbrella header "DCTOSS.h"
+
+  export *
+  module * { export * }
+}

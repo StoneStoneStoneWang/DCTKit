@@ -1,0 +1,6 @@
+framework module DCTReq {
+  umbrella header "DCTReq.h"
+
+  export *
+  module * { export * }
+}

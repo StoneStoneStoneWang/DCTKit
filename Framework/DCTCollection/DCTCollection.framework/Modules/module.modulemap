@@ -1,0 +1,6 @@
+framework module DCTCollection {
+  umbrella header "DCTCollection.h"
+
+  export *
+  module * { export * }
+}
