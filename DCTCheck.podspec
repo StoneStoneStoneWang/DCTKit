@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
   spec.source = { :git => "https://github.com/StoneStoneStoneWang/DCTKit.git", :tag => "#{spec.version}" }
   
   spec.source_files = "Code/DCTCheck/*.{swift}"
-  spec.dependency 'WLBaseResult'
+  spec.dependency 'DCTResult'
   spec.dependency 'WLToolsKit/String'
   
 end

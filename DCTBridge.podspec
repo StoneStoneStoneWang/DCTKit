@@ -203,7 +203,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'WLBaseViewModel'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     name.subspec 'Bridge' do |bridge|
@@ -224,7 +224,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'WLBaseViewModel'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     signature.subspec 'Bridge' do |bridge|
@@ -243,7 +243,7 @@ Pod::Spec.new do |spec|
       vm.source_files = "Code/DCTBridge/UserInfo/VM/*.{swift}"
       vm.dependency 'RxCocoa'
       vm.dependency 'WLBaseViewModel'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'DCTCache/User'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
@@ -270,7 +270,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTBean/Comment'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'WLBaseViewModel'
     end
     
@@ -295,7 +295,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'RxDataSources'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'WLBaseViewModel'
     end
     
@@ -320,7 +320,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTBean/Black'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     black.subspec 'Bridge' do |bridge|
@@ -344,7 +344,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTBean/Focus'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     focus.subspec 'Bridge' do |bridge|
@@ -369,7 +369,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'ObjectMapper'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     translate.subspec 'Bridge' do |bridge|
@@ -389,7 +389,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'RxCocoa'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'WLBaseViewModel'
     end
     
@@ -412,7 +412,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTCache/User'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'WLBaseViewModel'
     end
     
@@ -435,7 +435,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTCache/User'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'WLBaseViewModel'
     end
     
@@ -458,7 +458,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'WLBaseViewModel'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     feedBack.subspec 'Bridge' do |bridge|
@@ -480,7 +480,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTBean/Comment'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     comment.subspec 'Bridge' do |bridge|
@@ -505,7 +505,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTBean/Circle'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     collections.subspec 'Bridge' do |bridge|
@@ -530,7 +530,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTBean/Circle'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
     end
     
     tables.subspec 'Bridge' do |bridge|
@@ -616,7 +616,7 @@ Pod::Spec.new do |spec|
       manager.dependency 'WLBaseViewModel'
       manager.dependency 'DCTApi'
       manager.dependency 'DCTRReq'
-      manager.dependency 'WLBaseResult'
+      manager.dependency 'DCTResult'
       manager.dependency 'DCTYY'
       manager.dependency 'DCTBean/Area'
       manager.dependency 'DCTRReq'
@@ -626,7 +626,7 @@ Pod::Spec.new do |spec|
       vm.source_files = "Code/DCTBridge/Area/VM/*.{swift}"
       vm.dependency 'RxCocoa'
       vm.dependency 'WLBaseViewModel'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'DCTBean/Area'
     end
     
@@ -656,7 +656,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'ObjectMapper'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'DCTBean/Area'
       vm.dependency 'DCTBean/Address'
       vm.dependency 'WLToolsKit/String'
@@ -683,7 +683,7 @@ Pod::Spec.new do |spec|
       vm.dependency 'WLBaseViewModel'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
-      vm.dependency 'WLBaseResult'
+      vm.dependency 'DCTResult'
       vm.dependency 'DCTBean/Message'
       
     end
