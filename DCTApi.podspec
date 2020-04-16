@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
   
   spec.dependency 'DCTSign'
   spec.dependency 'Alamofire'
-  spec.dependency 'WLReqKit'
+  spec.dependency 'DCTOR'
   spec.dependency 'WLToolsKit/Common'
   
 end

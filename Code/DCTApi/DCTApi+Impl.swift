@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import WLReqKit
+import DCTOR
 import Alamofire
 import WLToolsKit
 import DCTSign
 
-extension DCTApi: WLObserverReq {
+extension DCTApi: DCTOR {
     public var reqName: String {
         
         switch self {

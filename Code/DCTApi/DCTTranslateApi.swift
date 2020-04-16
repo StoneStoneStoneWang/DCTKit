@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLReqKit
+import DCTOR
 import Alamofire
 
 @objc (DCTTranslateStyle)
@@ -53,6 +53,7 @@ extension DCTTranslateStyle {
         }
     }
 }
+
 public enum DCTTranslateApi {
     
     case translateFromCNToKO(_ text: String ) // 韩语-> 中文
@@ -68,7 +69,7 @@ public enum DCTTranslateApi {
     case translateToCN(_ text: String ,style: DCTTranslateStyle)
 }
 
-extension DCTTranslateApi: WLObserverReq {
+extension DCTTranslateApi: DCTOR {
     
     public var host: String { return "" }
     
