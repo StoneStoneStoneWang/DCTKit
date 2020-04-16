@@ -8,24 +8,24 @@
 
 import Foundation
 import RxSwift
-import WLReqKit
-import CATCache
-import CATReq
-import CATUpload
-import CATSign
+import DCTCache
+import DCTReq
+import DCTUpload
+import DCTSign
+import DCTError
 
-public func CATDictResp<T : WLObserverReq>(_ req: T) -> Observable<[String:Any]> {
+public func DCTDictResp<T : DCTOR>(_ req: T) -> Observable<[String:Any]> {
     
     return Observable<[String:Any]>.create({ (observer) -> Disposable in
         
         var params = req.params
         
-        if !CATAccountCache.default.token.isEmpty {
+        if !DCTAccountCache.default.token.isEmpty {
             
-            params.updateValue(CATAccountCache.default.token, forKey: "token")
+            params.updateValue(DCTAccountCache.default.token, forKey: "token")
         }
         
-        CATReq.postWithUrl(url: req.host + req.reqName, params: params, header: req.headers, succ: { (data) in
+        DCTReq.postWithUrl(url: req.host + req.reqName, params: params, header: req.headers, succ: { (data) in
             
             observer.onNext(data as! [String:Any])
             
@@ -34,25 +34,25 @@ public func CATDictResp<T : WLObserverReq>(_ req: T) -> Observable<[String:Any]>
             
             let ocError = error as NSError
             
-            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         return Disposables.create { }
     })
 }
 
-public func CATArrayResp<T : WLObserverReq>(_ req: T) -> Observable<[Any]> {
+public func DCTArrayResp<T : DCTOR>(_ req: T) -> Observable<[Any]> {
     
     return Observable<[Any]>.create({ (observer) -> Disposable in
         
         var params = req.params
         
-        if !CATAccountCache.default.token.isEmpty {
+        if !DCTAccountCache.default.token.isEmpty {
             
-            params.updateValue(CATAccountCache.default.token, forKey: "token")
+            params.updateValue(DCTAccountCache.default.token, forKey: "token")
         }
-        CATReq.postWithUrl(url: req.host + req.reqName, params: params, header: req.headers, succ: { (data) in
+        DCTReq.postWithUrl(url: req.host + req.reqName, params: params, header: req.headers, succ: { (data) in
 
             observer.onNext(data as! [Any])
 
@@ -62,8 +62,8 @@ public func CATArrayResp<T : WLObserverReq>(_ req: T) -> Observable<[Any]> {
 
             let ocError = error as NSError
 
-            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         return Disposables.create { }
@@ -71,18 +71,18 @@ public func CATArrayResp<T : WLObserverReq>(_ req: T) -> Observable<[Any]> {
 }
 
 // 无返回值的 在data里
-public func CATVoidResp<T : WLObserverReq>(_ req: T) -> Observable<Void> {
+public func DCTVoidResp<T : DCTOR>(_ req: T) -> Observable<Void> {
     
     return Observable<Void>.create({ (observer) -> Disposable in
         
         var params = req.params
         
-        if !CATAccountCache.default.token.isEmpty {
+        if !DCTAccountCache.default.token.isEmpty {
             
-            params.updateValue(CATAccountCache.default.token, forKey: "token")
+            params.updateValue(DCTAccountCache.default.token, forKey: "token")
         }
         
-        CATReq.postWithUrl(url: req.host + req.reqName, params: params, header: req.headers, succ: { (data) in
+        DCTReq.postWithUrl(url: req.host + req.reqName, params: params, header: req.headers, succ: { (data) in
 
             observer.onNext(())
 
@@ -92,25 +92,25 @@ public func CATVoidResp<T : WLObserverReq>(_ req: T) -> Observable<Void> {
 
             let ocError = error as NSError
 
-            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         return Disposables.create { }
     })
 }
 
-public func CATAliResp<T : WLObserverReq>(_ req: T) -> Observable<CATALCredentialsBean> {
+public func DCTAliResp<T : DCTOR>(_ req: T) -> Observable<DCTALCredentialsBean> {
     
-    return Observable<CATALCredentialsBean>.create({ (observer) -> Disposable in
+    return Observable<DCTALCredentialsBean>.create({ (observer) -> Disposable in
         
         var params = req.params
         
-        if !CATAccountCache.default.token.isEmpty {
+        if !DCTAccountCache.default.token.isEmpty {
             
-            params.updateValue(CATAccountCache.default.token, forKey: "token")
+            params.updateValue(DCTAccountCache.default.token, forKey: "token")
         }
-        CATUpload.fetchAliObj(withUrl: req.host + req.reqName , andParams: params, andHeader: req.headers, andSucc: { (credentials) in
+        DCTUpload.fetchAliObj(withUrl: req.host + req.reqName , andParams: params, andHeader: req.headers, andSucc: { (credentials) in
 
             observer.onNext(credentials)
 
@@ -120,20 +120,20 @@ public func CATAliResp<T : WLObserverReq>(_ req: T) -> Observable<CATALCredentia
 
             let ocError = error as NSError
 
-            if ocError.code == 131 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
+            if ocError.code == 131 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
 
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         return Disposables.create { }
     })
 }
 
-public func CATUploadImgResp(_ data: Data ,file: String ,param: CATALCredentialsBean) -> Observable<String> {
+public func DCTUploadImgResp(_ data: Data ,file: String ,param: DCTALCredentialsBean) -> Observable<String> {
     
     return Observable<String>.create({ (observer) -> Disposable in
         
-        CATUpload.uploadAvatar(with: data, andFile: file, andUid: CATAccountCache.default.uid, andParams: param, andSucc: { (objKey) in
+        DCTUpload.uploadAvatar(with: data, andFile: file, andUid: DCTAccountCache.default.uid, andParams: param, andSucc: { (objKey) in
 
             observer.onNext(objKey)
 
@@ -143,20 +143,20 @@ public func CATUploadImgResp(_ data: Data ,file: String ,param: CATALCredentials
 
             let ocError = error as NSError
 
-            if ocError.code == 132 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
+            if ocError.code == 132 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
 
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         return Disposables.create { }
     })
 }
 
-public func CATUploadPubImgResp(_ data: Data ,file: String ,param: CATALCredentialsBean) -> Observable<String> {
+public func DCTUploadPubImgResp(_ data: Data ,file: String ,param: DCTALCredentialsBean) -> Observable<String> {
     
     return Observable<String>.create({ (observer) -> Disposable in
         
-        CATUpload.uploadImage(with: data, andFile: file, andUid: CATAccountCache.default.uid, andParams: param, andSucc: { (objKey) in
+        DCTUpload.uploadImage(with: data, andFile: file, andUid: DCTAccountCache.default.uid, andParams: param, andSucc: { (objKey) in
 
             observer.onNext(objKey)
 
@@ -166,19 +166,19 @@ public func CATUploadPubImgResp(_ data: Data ,file: String ,param: CATALCredenti
 
             let ocError = error as NSError
 
-            if ocError.code == 132 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
+            if ocError.code == 132 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
 
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         return Disposables.create { }
     })
 }
-public func CATUploadVideoResp(_ data: Data ,file: String ,param: CATALCredentialsBean) -> Observable<String> {
+public func DCTUploadVideoResp(_ data: Data ,file: String ,param: DCTALCredentialsBean) -> Observable<String> {
     
     return Observable<String>.create({ (observer) -> Disposable in
         
-        CATUpload.uploadVideo(with: data, andFile: file, andUid: CATAccountCache.default.uid, andParams: param, andSucc: { (objKey) in
+        DCTUpload.uploadVideo(with: data, andFile: file, andUid: DCTAccountCache.default.uid, andParams: param, andSucc: { (objKey) in
 
             observer.onNext(objKey)
 
@@ -188,20 +188,20 @@ public func CATUploadVideoResp(_ data: Data ,file: String ,param: CATALCredentia
 
             let ocError = error as NSError
 
-            if ocError.code == 132 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
+            if ocError.code == 132 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
 
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
 //
         return Disposables.create { }
     })
 }
 
-public func CATTranslateResp<T : WLObserverReq>(_ req: T) -> Observable<[String:Any]> {
+public func DCTTranslateResp<T : DCTOR>(_ req: T) -> Observable<[String:Any]> {
     
     return Observable<[String:Any]>.create({ (observer) -> Disposable in
         
-        CATReq.postTranslateWithParams(params: req.params, succ: { (data) in
+        DCTReq.postTranslateWithParams(params: req.params, succ: { (data) in
             observer.onNext(data as! [String:Any])
             
             observer.onCompleted()
@@ -209,22 +209,22 @@ public func CATTranslateResp<T : WLObserverReq>(_ req: T) -> Observable<[String:
             
             let ocError = error as NSError
             
-            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         return Disposables.create { }
     })
 }
 
-public func CATAreaResp<T : WLObserverReq>(_ req: T) -> Observable<[Any]> {
+public func DCTAreaResp<T : DCTOR>(_ req: T) -> Observable<[Any]> {
     
     return Observable<[Any]>.create({ (observer) -> Disposable in
         
-        CATReq.postAreaWithUrl(url: req.host + req.reqName, params: req.params, succ: { (data) in
+        DCTReq.postAreaWithUrl(url: req.host + req.reqName, params: req.params, succ: { (data) in
             
             if data is NSDictionary {
                 
-                observer.onError(WLBaseError.ServerResponseError("没有权限"))
+                observer.onError(DCTError.ServerResponseError("没有权限"))
             } else if data is NSArray {
                 
                 observer.onNext(data as! [Any])
@@ -236,8 +236,8 @@ public func CATAreaResp<T : WLObserverReq>(_ req: T) -> Observable<[Any]> {
             
             let ocError = error as NSError
             
-            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(WLBaseError.ServerResponseError(ocError.localizedDescription)) }
-            else { observer.onError(WLBaseError.HTTPFailed(error)) }
+            if ocError.code == 122 || ocError.code == 123 || ocError.code == 124 || ocError.code == 121 { observer.onError(DCTError.ServerResponseError(ocError.localizedDescription)) }
+            else { observer.onError(DCTError.HTTPFailed(error)) }
         })
         
         
