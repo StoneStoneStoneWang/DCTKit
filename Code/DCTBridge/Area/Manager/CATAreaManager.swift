@@ -10,10 +10,10 @@ import Foundation
 import DCTBean
 import DCTYY
 import RxCocoa
-import WLBaseResult
+import DCTResult
 import RxSwift
 import DCTReq
-import WLReqKit
+
 import DCTApi
 import Alamofire
 import DCTRReq
@@ -31,11 +31,11 @@ public class DCTAreaManager: NSObject {
 
 extension DCTAreaManager {
     
-      public func fetchAreas() -> Driver<WLBaseResult> {
+      public func fetchAreas() -> Driver<DCTResult> {
         
         if allAreas.count > 0 {
             
-            return Driver.just(WLBaseResult.fetchList(allAreas))
+            return Driver.just(DCTResult.fetchList(allAreas))
         } else {
             
             if isAreaFileExist() {
@@ -55,16 +55,16 @@ extension DCTAreaManager {
                     
                     allAreas += mutable
                     
-                    return Driver.just(WLBaseResult.fetchList(mutable))
+                    return Driver.just(DCTResult.fetchList(mutable))
                 }
                 
-                return Driver.just(WLBaseResult.failed("获取本地数据失败!"))
+                return Driver.just(DCTResult.failed("获取本地数据失败!"))
             } else {
                 
                 return DCTAreaResp(DCTApi.fetchAreaJson)
                     .map({ DCTAreaManager.default.saveArea($0) })
-                    .map({ _ in WLBaseResult.fetchList(DCTAreaManager.default.allAreas)  })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ _ in DCTResult.fetchList(DCTAreaManager.default.allAreas)  })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             }
         }
     }

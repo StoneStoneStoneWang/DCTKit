@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTApi
 import DCTRReq
 import DCTCheck
 
-public struct DCTModifyPasswordViewModel: WLBaseViewModel {
+public struct DCTModifyPasswordViewModel: DCTViewModel {
     
     public var input: WLInput
     
@@ -37,7 +37,7 @@ public struct DCTModifyPasswordViewModel: WLBaseViewModel {
         
         let completing: Driver<Void>
         
-        let completed: Driver<WLBaseResult>
+        let completed: Driver<DCTResult>
     }
     
     init(_ input: WLInput ,disposed: DisposeBag) {
@@ -48,18 +48,18 @@ public struct DCTModifyPasswordViewModel: WLBaseViewModel {
         
         let completing: Driver<Void> = input.completeTaps.flatMap { Driver.just($0) }
         
-        let completed: Driver<WLBaseResult> = input
+        let completed: Driver<DCTResult> = input
             .completeTaps
             .withLatestFrom(opa)
             .flatMapLatest {
                 
                 switch DCTCheckPasswordModify($0.0, password: $0.2, passwordAgain: $0.1) {
                 case .ok: return DCTVoidResp(DCTApi.modifyPassword($0.0, password: $0.1))
-                    .map({ WLBaseResult.ok("修改密码成功") })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ DCTResult.ok("修改密码成功") })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
                     
-                case let .failed(message: msg): return Driver<WLBaseResult>.just(WLBaseResult.failed( msg))
-                default: return Driver<WLBaseResult>.empty()
+                case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
+                default: return Driver<DCTResult>.empty()
                     
                 }
         }

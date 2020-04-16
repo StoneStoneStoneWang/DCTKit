@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTRReq
 import DCTBean
 import DCTApi
 
-public struct DCTBlackViewModel: WLBaseViewModel {
+public struct DCTBlackViewModel: DCTViewModel {
     
     public var input: WLInput
     
@@ -37,7 +37,7 @@ public struct DCTBlackViewModel: WLBaseViewModel {
         
         let tableData: BehaviorRelay<[DCTBlackBean]> = BehaviorRelay<[DCTBlackBean]>(value: [])
         
-        let endHeaderRefreshing: Driver<WLBaseResult>
+        let endHeaderRefreshing: Driver<DCTResult>
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         
@@ -52,8 +52,8 @@ public struct DCTBlackViewModel: WLBaseViewModel {
 
                 return DCTArrayResp(DCTApi.fetchBlackList)
                     .mapArray(type: DCTBlackBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -78,10 +78,10 @@ public struct DCTBlackViewModel: WLBaseViewModel {
 }
 extension DCTBlackViewModel {
     
-    static func removeBlack(_ encode: String) -> Driver<WLBaseResult> {
+    static func removeBlack(_ encode: String) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.removeBlack(encode))
-            .flatMapLatest({ return Driver.just(WLBaseResult.ok("移除成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .flatMapLatest({ return Driver.just(DCTResult.ok("移除成功")) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
 }

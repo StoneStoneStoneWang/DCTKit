@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import DCTBean
@@ -126,7 +126,7 @@ extension DCTUserCenterType {
     }
 }
 
-struct DCTUserCenterViewModel: WLBaseViewModel {
+struct DCTUserCenterViewModel: DCTViewModel {
     
     var input: WLInput
     

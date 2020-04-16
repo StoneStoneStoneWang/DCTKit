@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import DCTBean
 
-struct DCTAreaViewModel: WLBaseViewModel {
+struct DCTAreaViewModel: DCTViewModel {
     
     var input: WLInput
     

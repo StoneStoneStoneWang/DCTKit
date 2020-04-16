@@ -8,14 +8,14 @@
 
 import Foundation
 import RxCocoa
-import WLReqKit
-import WLBaseViewModel
+
+import DCTViewModel
 import WLToolsKit
-import WLBaseResult
+import DCTResult
 import DCTRReq
 import DCTApi
 
-struct DCTFeedBackViewModel: WLBaseViewModel {
+struct DCTFeedBackViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -36,7 +36,7 @@ struct DCTFeedBackViewModel: WLBaseViewModel {
         
         let completing: Driver<Void>
         
-        let completed: Driver<WLBaseResult>
+        let completed: Driver<DCTResult>
         
         let placeholderHidden: Driver<Bool>
     }
@@ -51,13 +51,13 @@ struct DCTFeedBackViewModel: WLBaseViewModel {
         
         let completing: Driver<Void> = input.completTaps.flatMap { Driver.just($0) }
         
-        let completed: Driver<WLBaseResult> = input.completTaps
+        let completed: Driver<DCTResult> = input.completTaps
             .withLatestFrom(ou)
             .flatMapLatest({
                 
                 return DCTVoidResp(DCTApi.feedback("yuanxingfu1314@163.com", content: $0.0))
-                    .map { _ in WLBaseResult.ok("意见建议提交成功")}
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) }) })
+                    .map { _ in DCTResult.ok("意见建议提交成功")}
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) }) })
         
         let placeholderHidden: Driver<Bool> = input.feedBack.flatMapLatest { Driver.just(!$0.wl_isEmpty)}
         

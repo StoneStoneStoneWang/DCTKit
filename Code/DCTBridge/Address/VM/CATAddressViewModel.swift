@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTApi
 import DCTBean
 import DCTRReq
 
-struct DCTAddressViewModel: WLBaseViewModel {
+struct DCTAddressViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -41,7 +41,7 @@ struct DCTAddressViewModel: WLBaseViewModel {
         
         let tableData: BehaviorRelay<[DCTAddressBean]> = BehaviorRelay<[DCTAddressBean]>(value: [])
         
-        let endHeaderRefreshing: Driver<WLBaseResult>
+        let endHeaderRefreshing: Driver<DCTResult>
         
         let addItemed: Driver<Void>
         
@@ -59,8 +59,8 @@ struct DCTAddressViewModel: WLBaseViewModel {
             .flatMapLatest({_ in
                 return DCTArrayResp(DCTApi.fetchAddress)
                     .mapArray(type: DCTAddressBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let itemAccessoryButtonTapped: Driver<IndexPath> = input.itemAccessoryButtonTapped.map { $0 }
@@ -89,10 +89,10 @@ struct DCTAddressViewModel: WLBaseViewModel {
 }
 extension DCTAddressViewModel {
     
-    static func removeAddress(_ encode: String) -> Driver<WLBaseResult> {
+    static func removeAddress(_ encode: String) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.deleteAddress(encode))
-            .flatMapLatest({ return Driver.just(WLBaseResult.ok("移除成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .flatMapLatest({ return Driver.just(DCTResult.ok("移除成功")) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
 }

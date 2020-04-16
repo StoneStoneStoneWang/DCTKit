@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
+
 import DCTBean
-import WLBaseResult
+import DCTResult
 import DCTRReq
 import DCTApi
 
-struct DCTCommentViewModel: WLBaseViewModel {
+struct DCTCommentViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -43,9 +43,9 @@ struct DCTCommentViewModel: WLBaseViewModel {
         
         let tableData: BehaviorRelay<[DCTCommentBean]> = BehaviorRelay<[DCTCommentBean]>(value: [])
         
-        let endHeaderRefreshing: Driver<WLBaseResult>
+        let endHeaderRefreshing: Driver<DCTResult>
         
-        let endFooterRefreshing: Driver<WLBaseResult>
+        let endFooterRefreshing: Driver<DCTResult>
         
         let footerHidden: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: true)
     }
@@ -62,8 +62,8 @@ struct DCTCommentViewModel: WLBaseViewModel {
                 
                 return DCTArrayResp(DCTApi.fetchComments(1, targetEncoded: input.encoded))
                     .mapArray(type: DCTCommentBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -74,8 +74,8 @@ struct DCTCommentViewModel: WLBaseViewModel {
                 
                 return DCTArrayResp(DCTApi.fetchComments(input.page.value, targetEncoded: input.encoded))
                     .mapArray(type: DCTCommentBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let endFooterRefreshing = footerRefreshData.map { $0 }
@@ -224,11 +224,11 @@ struct DCTCommentViewModel: WLBaseViewModel {
         self.output = output
     }
     
-    static func addComment(_ encoded: String,content: String) -> Driver<WLBaseResult> {
+    static func addComment(_ encoded: String,content: String) -> Driver<DCTResult> {
         
         return DCTDictResp(DCTApi.addComment(encoded, content: content, tablename: "CircleFriends", type: "0"))
             .mapObject(type: DCTCommentBean.self)
-            .map({ WLBaseResult.operation($0) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .map({ DCTResult.operation($0) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
 }

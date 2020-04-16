@@ -7,18 +7,17 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLBaseResult
+import DCTResult
 import DCTCheck
 import DCTApi
 import DCTRReq
 import DCTBean
 import DCTCache
-import WLReqKit
 
-public struct DCTRegViewModel: WLBaseViewModel {
+public struct DCTRegViewModel: DCTViewModel {
     
     public var input: WLInput
     
@@ -47,11 +46,11 @@ public struct DCTRegViewModel: WLBaseViewModel {
         /* 登录中 序列*/
         let logining: Driver<Void>
         /* 登录结果  本地判断手机号是否合法、验证码是否合法 之后我再进行网络请求 序列*/
-        let logined: Driver<WLBaseResult>
+        let logined: Driver<DCTResult>
         /* 获取验证码中 序列*/
         let verifying: Driver<Void>
         /* 获取验证码结果 序列*/
-        let verifyed: Driver<WLBaseResult>
+        let verifyed: Driver<DCTResult>
         
         let backLogin: Driver<Void>
         /*  协议... 序列*/
@@ -74,7 +73,7 @@ public struct DCTRegViewModel: WLBaseViewModel {
         
         
         // 登录完成返回
-        let logined: Driver<WLBaseResult> = input.loginTaps.withLatestFrom(usernameAndVcode).flatMapLatest {
+        let logined: Driver<DCTResult> = input.loginTaps.withLatestFrom(usernameAndVcode).flatMapLatest {
             
             switch DCTCheckUsernameAndVCode($0.0, vcode: $0.1) {
             case .ok:
@@ -85,12 +84,12 @@ public struct DCTRegViewModel: WLBaseViewModel {
                     .map({ $0.toJSON()})
                     .mapObject(type: DCTUserBean.self)
                     .map({ DCTUserInfoCache.default.saveUser(data: $0) })
-                    .map({ _ in WLBaseResult.logined })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ _ in DCTResult.logined })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
                 
-            case let .failed(message: msg): return Driver<WLBaseResult>.just(WLBaseResult.failed(msg))
+            case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed(msg))
                 
-            default: return Driver<WLBaseResult>.empty()
+            default: return Driver<DCTResult>.empty()
             }
         }
         
@@ -98,7 +97,7 @@ public struct DCTRegViewModel: WLBaseViewModel {
         
         let verifying: Driver<Void> = input.verifyTaps.flatMap { Driver.just($0) }
         
-        let verifyed: Driver<WLBaseResult> = input
+        let verifyed: Driver<DCTResult> = input
             .verifyTaps
             .withLatestFrom(input.username)
             .flatMapLatest({ (username) in
@@ -106,11 +105,11 @@ public struct DCTRegViewModel: WLBaseViewModel {
                 switch DCTCheckUsername(username) {
                 case .ok:
                     //
-                    let result: Observable<WLBaseResult> = Observable<WLBaseResult>.create({ (ob) -> Disposable in
+                    let result: Observable<DCTResult> = Observable<DCTResult>.create({ (ob) -> Disposable in
                         DCTVoidResp(DCTApi.smsCode(username))
                             .subscribe(onNext: { (_) in
                                 
-                                ob.onNext(WLBaseResult.ok("验证码已发送到您的手机，请注意查收"))
+                                ob.onNext(DCTResult.ok("验证码已发送到您的手机，请注意查收"))
                                 
                                 let duration: Int = 60
                                 
@@ -118,7 +117,7 @@ public struct DCTRegViewModel: WLBaseViewModel {
                                     .map({ duration - $0 })
                                     .take(61)
                                     .map({ smsResult(count: $0) })
-                                    .map({ WLBaseResult.smsOk(isEnabled: $0, title: $1)})
+                                    .map({ DCTResult.smsOk(isEnabled: $0, title: $1)})
                                     .subscribe(onNext: { ob.onNext($0) })
                                     .disposed(by: disposed)
                                 
@@ -132,11 +131,11 @@ public struct DCTRegViewModel: WLBaseViewModel {
                         return Disposables.create { }
                     })
                     
-                    return result.asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    return result.asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
                     
-                case let .failed(message: msg): return Driver<WLBaseResult>.just(WLBaseResult.failed( msg))
+                case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
                     
-                default: return Driver<WLBaseResult>.empty()
+                default: return Driver<DCTResult>.empty()
                     
                 }
             })

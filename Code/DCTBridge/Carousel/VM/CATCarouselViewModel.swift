@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import WLToolsKit
@@ -53,7 +53,7 @@ public enum DCTCarouselStyle: Int {
     case card
 }
 
-struct DCTCarouselViewModel: WLBaseViewModel {
+struct DCTCarouselViewModel: DCTViewModel {
     
     var input: WLInput
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import DCTBean
@@ -21,7 +21,7 @@ public class DCTAreaHeaderBean: NSObject {
 }
 
 
-struct DCTAreaHeaderViewModel: WLBaseViewModel {
+struct DCTAreaHeaderViewModel: DCTViewModel {
     
     var input: WLInput
     

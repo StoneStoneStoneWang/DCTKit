@@ -8,11 +8,11 @@
 
 import Foundation
 import RxSwift
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import DCTSign
 
-public struct DCTProtocolViewModel: WLBaseViewModel {
+public struct DCTProtocolViewModel: DCTViewModel {
     
     public var input: WLInput
     

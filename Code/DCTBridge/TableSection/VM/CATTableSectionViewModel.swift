@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxSwift
 import RxCocoa
 
@@ -81,7 +81,7 @@ public final class DCTTableRowBean: NSObject {
     private override init() { }
 }
 
-struct DCTTableSectionViewModel: WLBaseViewModel {
+struct DCTTableSectionViewModel: DCTViewModel {
     
     var input: WLInput
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxSwift
 import RxCocoa
 
@@ -74,7 +74,7 @@ public final class DCTCollectionItemBean: NSObject {
     private override init() { }
 }
 
-struct DCTCollectionSectionViewModel: WLBaseViewModel {
+struct DCTCollectionSectionViewModel: DCTViewModel {
     
     var input: WLInput
     

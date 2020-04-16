@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTCache
 import DCTApi
 import DCTRReq
@@ -142,7 +142,7 @@ extension DCTUserInfoType {
     }
 }
 
-public struct DCTUserInfoViewModel: WLBaseViewModel {
+public struct DCTUserInfoViewModel: DCTViewModel {
     
     public var input: WLInput
     
@@ -213,19 +213,19 @@ public struct DCTUserInfoViewModel: WLBaseViewModel {
         self.output = output
     }
     
-    public static func updateUserInfo(type: DCTUserInfoType,value: String) -> Driver<WLBaseResult>{
+    public static func updateUserInfo(type: DCTUserInfoType,value: String) -> Driver<DCTResult>{
         
         return DCTDictResp(DCTApi.updateUserInfo(type.updateKey, value: value))
             .mapObject(type: DCTUserBean.self)
             .map({ DCTUserInfoCache.default.saveUser(data: $0) })
-            .map { _ in WLBaseResult.ok("")}
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .map { _ in DCTResult.ok("")}
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
     
-    public static func fetchAliToken() -> Driver<WLBaseResult> {
+    public static func fetchAliToken() -> Driver<DCTResult> {
         
         return DCTAliResp(DCTApi.aliToken)
-            .map { WLBaseResult.fetchSomeObject($0 as AnyObject)}
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .map { DCTResult.fetchSomeObject($0 as AnyObject)}
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
 }

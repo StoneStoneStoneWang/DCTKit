@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTCheck
 import DCTApi
 import DCTRReq
 
-public struct DCTFindPasswordModel: WLBaseViewModel {
+public struct DCTFindPasswordModel: DCTViewModel {
     
     public var input: WLInput
     
@@ -45,11 +45,11 @@ public struct DCTFindPasswordModel: WLBaseViewModel {
         /* 获取验证码中 序列*/
         let verifying: Driver<Void>
         /* 获取验证码结果 序列*/
-        let verifyed: Driver<WLBaseResult>
+        let verifyed: Driver<DCTResult>
         
         let completing: Driver<Void>
         
-        let completed: Driver<WLBaseResult>
+        let completed: Driver<DCTResult>
         @available(*, depreDCTed, message: "Please use smsRelay")
         let sms: Variable<(Bool,String)> = Variable<(Bool,String)>((true,"获取验证码"))
         
@@ -70,7 +70,7 @@ public struct DCTFindPasswordModel: WLBaseViewModel {
         
         let duration: Int = 60
         
-        let verifyed: Driver<WLBaseResult> = input
+        let verifyed: Driver<DCTResult> = input
             .verifyTaps
             .withLatestFrom(input.username)
             .flatMapLatest({ (username) in
@@ -78,18 +78,18 @@ public struct DCTFindPasswordModel: WLBaseViewModel {
                 switch DCTCheckUsername(username) {
                 case .ok:
                     
-                    let result: Observable<WLBaseResult> = Observable<WLBaseResult>.create({ (ob) -> Disposable in
+                    let result: Observable<DCTResult> = Observable<DCTResult>.create({ (ob) -> Disposable in
  
                         DCTVoidResp(DCTApi.smsPassword(username))
                             .subscribe(onNext: { (_) in
                                 
-                                ob.onNext(WLBaseResult.ok("验证码已发送到您的手机，请注意查收"))
+                                ob.onNext(DCTResult.ok("验证码已发送到您的手机，请注意查收"))
                                 
                                 input.timer
                                     .map({ duration - $0 })
                                     .take(61)
                                     .map({ smsResult(count: $0) })
-                                    .map({ WLBaseResult.smsOk(isEnabled: $0, title: $1)})
+                                    .map({ DCTResult.smsOk(isEnabled: $0, title: $1)})
                                     .subscribe(onNext: { (result) in
                                         
                                         ob.onNext(result)
@@ -106,18 +106,18 @@ public struct DCTFindPasswordModel: WLBaseViewModel {
                         return Disposables.create { }
                     })
                     
-                    return result.asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    return result.asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
                     
-                case let .failed(message: msg): return Driver<WLBaseResult>.just(WLBaseResult.failed( msg))
+                case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
                     
-                default: return Driver<WLBaseResult>.empty()
+                default: return Driver<DCTResult>.empty()
                     
                 }
             })
         
         let completing: Driver<Void> = input.completeTaps.flatMap { Driver.just($0) }
         
-        let completed: Driver<WLBaseResult> = input
+        let completed: Driver<DCTResult> = input
             .completeTaps
             .withLatestFrom(uvp)
             .flatMapLatest {
@@ -126,11 +126,11 @@ public struct DCTFindPasswordModel: WLBaseViewModel {
                 case .ok:
                     
                     return DCTVoidResp(DCTApi.resettingPassword($0.0, password: $0.2, code: $0.1))
-                        .map({ WLBaseResult.ok("找回密码成功") })
-                        .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                        .map({ DCTResult.ok("找回密码成功") })
+                        .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
                     
-                case let .failed(message: msg): return Driver<WLBaseResult>.just(WLBaseResult.failed( msg))
-                default: return Driver<WLBaseResult>.empty()
+                case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
+                default: return Driver<DCTResult>.empty()
                     
                 }
         }

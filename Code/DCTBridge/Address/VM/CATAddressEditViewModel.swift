@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLBaseResult
-import WLReqKit
+import DCTResult
+
 import DCTBean
 import RxDataSources
 import DCTApi
@@ -132,7 +132,7 @@ extension DCTAddressEditType {
 }
 
 
-struct DCTAddressEditViewModel: WLBaseViewModel {
+struct DCTAddressEditViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -169,7 +169,7 @@ struct DCTAddressEditViewModel: WLBaseViewModel {
         
         let completing: Driver<Void>
         
-        let completed: Driver<WLBaseResult>
+        let completed: Driver<DCTResult>
         
         let tableData: BehaviorRelay<[DCTAddressEditBean]> = BehaviorRelay<[DCTAddressEditBean]>(value: DCTAddressEditBean.editTypes)
     }
@@ -184,38 +184,38 @@ struct DCTAddressEditViewModel: WLBaseViewModel {
         let uap = Driver.combineLatest(input.name
             ,input.phone,input.detail,input.province, input.city,input.region,input.def)
         
-        let completed: Driver<WLBaseResult> = input
+        let completed: Driver<DCTResult> = input
             .completeTaps
             .withLatestFrom(uap)
             .flatMapLatest {
                 
                 if $0.0.wl_isEmpty {
                     
-                    return Driver<WLBaseResult>.just(WLBaseResult.failed("请填写收货人姓名"))
+                    return Driver<DCTResult>.just(DCTResult.failed("请填写收货人姓名"))
                 }
                 if $0.1.wl_isEmpty {
                     
-                    return Driver<WLBaseResult>.just(WLBaseResult.failed("请填写收货人手机号"))
+                    return Driver<DCTResult>.just(DCTResult.failed("请填写收货人手机号"))
                 }
                 if !String.validPhone(phone: $0.1) {
                     
-                    return Driver<WLBaseResult>.just(WLBaseResult.failed("请填写收货人11位手机号"))
+                    return Driver<DCTResult>.just(DCTResult.failed("请填写收货人11位手机号"))
                 }
                 
                 if $0.3.name.wl_isEmpty {
                     
-                    return Driver<WLBaseResult>.just(WLBaseResult.failed("请选择所在地区"))
+                    return Driver<DCTResult>.just(DCTResult.failed("请选择所在地区"))
                 }
                 
                 if $0.2.wl_isEmpty {
                     
-                    return Driver<WLBaseResult>.just(WLBaseResult.failed("请填写详细地址"))
+                    return Driver<DCTResult>.just(DCTResult.failed("请填写详细地址"))
                 }
                 
                 return DCTDictResp(DCTApi.editAddress(input.encode, name: $0.0, phone: $0.1, plcl: $0.3.areaId, plclne: $0.3.name, city: $0.4.areaId, cityne: $0.4.name, region: $0.5.areaId, regionne: $0.5.name, addr: $0.2, isdef: $0.6, zipCode: ""))
                     .mapObject(type: DCTAddressBean.self)
-                    .map({ WLBaseResult.operation($0) })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ DCTResult.operation($0) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
         }
         self.output = WLOutput(zip: zip, completing: completing,completed: completed)
         

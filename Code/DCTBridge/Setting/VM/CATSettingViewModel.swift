@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import DCTCache
@@ -134,7 +134,7 @@ extension DCTSettingType {
     }
 }
 
-public struct DCTSettingViewModel: WLBaseViewModel {
+public struct DCTSettingViewModel: DCTViewModel {
     
     public var input: WLInput
     

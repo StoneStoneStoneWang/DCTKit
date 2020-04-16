@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTBean
 import DCTRReq
 import DCTApi
 
-struct DCTCollectionsViewModel: WLBaseViewModel {
+struct DCTCollectionsViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -45,9 +45,9 @@ struct DCTCollectionsViewModel: WLBaseViewModel {
         
         let collectionData: BehaviorRelay<[DCTCircleBean]> = BehaviorRelay<[DCTCircleBean]>(value: [])
         
-        let endHeaderRefreshing: Driver<WLBaseResult>
+        let endHeaderRefreshing: Driver<DCTResult>
         
-        let endFooterRefreshing: Driver<WLBaseResult>
+        let endFooterRefreshing: Driver<DCTResult>
         
         let footerHidden: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: true)
     }
@@ -63,8 +63,8 @@ struct DCTCollectionsViewModel: WLBaseViewModel {
   
                 return DCTArrayResp(input.isMy ? DCTApi.fetchMyList(input.tag, page: 1) : DCTApi.fetchList(input.tag, page: 1))
                     .mapArray(type: DCTCircleBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -75,8 +75,8 @@ struct DCTCollectionsViewModel: WLBaseViewModel {
                 
                 return DCTArrayResp(input.isMy ? DCTApi.fetchMyList(input.tag, page: input.page.value) : DCTApi.fetchList(input.tag, page: input.page.value))
                     .mapArray(type: DCTCircleBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let endFooterRefreshing = footerRefreshData.map { $0 }
@@ -157,29 +157,29 @@ struct DCTCollectionsViewModel: WLBaseViewModel {
         self.output = output
     }
     
-    static func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String) -> Driver<WLBaseResult> {
+    static func addBlack(_ OUsEncoded: String,targetEncoded: String ,content: String) -> Driver<DCTResult> {
 
         return DCTVoidResp(DCTApi.addBlack(OUsEncoded, targetEncoded: targetEncoded, content: content))
-            .map({ _ in WLBaseResult.ok("添加黑名单成功")})
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .map({ _ in DCTResult.ok("添加黑名单成功")})
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
-    static func focus(_ uid: String ,encode: String) -> Driver<WLBaseResult> {
+    static func focus(_ uid: String ,encode: String) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.focus(uid, targetEncoded: encode))
-            .flatMapLatest({ return Driver.just(WLBaseResult.ok("关注或取消关注成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .flatMapLatest({ return Driver.just(DCTResult.ok("关注或取消关注成功")) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
     
-    static func like(_ encoded: String ,isLike: Bool) -> Driver<WLBaseResult> {
+    static func like(_ encoded: String ,isLike: Bool) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.like(encoded))
-            .flatMapLatest({ return Driver.just(WLBaseResult.ok( isLike ? "点赞成功" : "取消点赞成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .flatMapLatest({ return Driver.just(DCTResult.ok( isLike ? "点赞成功" : "取消点赞成功")) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
-    static func removeMyCircle(_ encoded: String ) -> Driver<WLBaseResult> {
+    static func removeMyCircle(_ encoded: String ) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.deleteMyCircle(encoded))
-            .map({ WLBaseResult.ok("删除成功！")  })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .map({ DCTResult.ok("删除成功！")  })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
 }

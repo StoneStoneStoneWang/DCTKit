@@ -8,15 +8,15 @@
 
 import Foundation
 import RxCocoa
-import WLReqKit
-import WLBaseViewModel
-import WLBaseResult
+
+import DCTViewModel
+import DCTResult
 import DCTRReq
 import DCTApi
 import DCTBean
 import DCTCache
 
-struct DCTNameViewModel: WLBaseViewModel {
+struct DCTNameViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -37,7 +37,7 @@ struct DCTNameViewModel: WLBaseViewModel {
         
         let completing: Driver<Void>
         
-        let completed: Driver<WLBaseResult>
+        let completed: Driver<DCTResult>
     }
     
     init(_ input: WLInput) {
@@ -50,14 +50,14 @@ struct DCTNameViewModel: WLBaseViewModel {
         
         let completing: Driver<Void> = input.completTaps.flatMap { Driver.just($0) }
         
-        let completed: Driver<WLBaseResult> = input.completTaps
+        let completed: Driver<DCTResult> = input.completTaps
             .withLatestFrom(input.updated)
             .flatMapLatest({
                 return DCTDictResp(DCTApi.updateUserInfo("users.nickname", value: $0))
                     .mapObject(type: DCTUserBean.self)
                     .map({ DCTUserInfoCache.default.saveUser(data: $0) })
-                    .map { WLBaseResult.updateUserInfoSucc($0, msg: "昵称修改成功")}
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) }) })
+                    .map { DCTResult.updateUserInfoSucc($0, msg: "昵称修改成功")}
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) }) })
         
         self.output = WLOutput(completeEnabled: completEnabled, completing: completing, completed: completed)
     }

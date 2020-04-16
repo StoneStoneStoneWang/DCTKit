@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import WLToolsKit
 
-public struct DCTWelcomViewModel: WLBaseViewModel {
+public struct DCTWelcomViewModel: DCTViewModel {
     
     public var input: WLInput
     

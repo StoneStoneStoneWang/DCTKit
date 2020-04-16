@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import ObjectMapper
 import RxDataSources
 import DCTApi
@@ -48,7 +48,7 @@ import DCTRReq
 }
 
 
-struct DCTReportViewModel: WLBaseViewModel {
+struct DCTReportViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -83,7 +83,7 @@ struct DCTReportViewModel: WLBaseViewModel {
         /* 完成中... 序列*/
         let completing: Driver<Void>
         /* 完成结果... 序列*/
-        let completed: Driver<WLBaseResult>
+        let completed: Driver<DCTResult>
     }
     
     init(_ input: WLInput ,disposed: DisposeBag) {
@@ -96,14 +96,14 @@ struct DCTReportViewModel: WLBaseViewModel {
         
         let completing = input.completeTaps.flatMap { Driver.just($0) }
         
-        let completed: Driver<WLBaseResult> = input
+        let completed: Driver<DCTResult> = input
             .completeTaps
             .withLatestFrom(combine)
             .flatMapLatest {
 
                 return DCTVoidResp(DCTApi.report(input.uid, targetEncoded: input.encode, type: $0.0, content: $0.1))
-                    .map({ _ in WLBaseResult.ok("举报成功") })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ _ in DCTResult.ok("举报成功") })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
         }
         
         let output = WLOutput(zip: zip, completing: completing, completed: completed)

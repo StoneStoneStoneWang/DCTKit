@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import DCTBean
@@ -154,7 +154,7 @@ extension DCTProfileType {
     }
 }
 
-struct DCTProfileViewModel: WLBaseViewModel {
+struct DCTProfileViewModel: DCTViewModel {
     
     var input: WLInput
     

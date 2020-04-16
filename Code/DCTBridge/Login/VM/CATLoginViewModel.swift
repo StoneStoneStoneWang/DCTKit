@@ -7,18 +7,18 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxSwift
 import RxCocoa
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTApi
 import DCTRReq
 import DCTBean
 import DCTCheck
 import DCTCache
 
-public struct DCTLoginViewModel: WLBaseViewModel {
+public struct DCTLoginViewModel: DCTViewModel {
     
     public var input: WLInput
     
@@ -46,7 +46,7 @@ public struct DCTLoginViewModel: WLBaseViewModel {
         /* 登录中... 序列*/
         let logining: Driver<Void>
         /* 登录结果... 序列*/
-        let logined: Driver<WLBaseResult>
+        let logined: Driver<DCTResult>
         // 忘记密码点击回掉
         let swiftLogined: Driver<Void>
         
@@ -65,7 +65,7 @@ public struct DCTLoginViewModel: WLBaseViewModel {
         
         let logining = input.loginTaps.flatMap { Driver.just($0) }
         
-        let logined: Driver<WLBaseResult> = input
+        let logined: Driver<DCTResult> = input
             .loginTaps
             .withLatestFrom(uap)
             .flatMapLatest {
@@ -79,12 +79,12 @@ public struct DCTLoginViewModel: WLBaseViewModel {
                         .map({ $0.toJSON()})
                         .mapObject(type: DCTUserBean.self)
                         .map({ DCTUserInfoCache.default.saveUser(data: $0) })
-                        .map({ _ in WLBaseResult.logined })
-                        .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                        .map({ _ in DCTResult.logined })
+                        .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
                     
-                case let .failed(msg): return Driver<WLBaseResult>.just(WLBaseResult.failed(msg))
+                case let .failed(msg): return Driver<DCTResult>.just(DCTResult.failed(msg))
                     
-                default: return Driver<WLBaseResult>.empty()
+                default: return Driver<DCTResult>.empty()
                 }
         }
         

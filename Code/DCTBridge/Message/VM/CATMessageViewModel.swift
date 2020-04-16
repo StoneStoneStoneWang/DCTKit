@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
-import WLReqKit
-import WLBaseResult
+
+import DCTResult
 import DCTApi
 import DCTBean
 import DCTRReq
 
-struct DCTMessageViewModel: WLBaseViewModel {
+struct DCTMessageViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -38,7 +38,7 @@ struct DCTMessageViewModel: WLBaseViewModel {
         
         let collectionData: BehaviorRelay<[DCTMessageBean]> = BehaviorRelay<[DCTMessageBean]>(value: [])
         
-        let endHeaderRefreshing: Driver<WLBaseResult>
+        let endHeaderRefreshing: Driver<DCTResult>
     }
     init(_ input: WLInput ,disposed: DisposeBag) {
         
@@ -52,8 +52,8 @@ struct DCTMessageViewModel: WLBaseViewModel {
             .flatMapLatest({_ in
                 return DCTArrayResp(DCTApi.fetchSystemMsg(1))
                     .mapArray(type: DCTMessageBean.self)
-                    .map({ return $0.count > 0 ? WLBaseResult.fetchList($0) : WLBaseResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+                    .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -78,18 +78,18 @@ struct DCTMessageViewModel: WLBaseViewModel {
 }
 extension DCTMessageViewModel {
     
-    static func messageRead(_ encode: String) -> Driver<WLBaseResult> {
+    static func messageRead(_ encode: String) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.readMsg(encode))
-            .flatMapLatest({ return Driver.just(WLBaseResult.ok("")) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .flatMapLatest({ return Driver.just(DCTResult.ok("")) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
     
-    static func fetchFirstMessage() -> Driver<WLBaseResult> {
+    static func fetchFirstMessage() -> Driver<DCTResult> {
         
         return DCTArrayResp(DCTApi.fetchFirstMsg)
             .mapArray(type: DCTMessageBean.self)
-            .flatMapLatest({ return Driver.just(WLBaseResult.fetchList($0)) })
-            .asDriver(onErrorRecover: { return Driver.just(WLBaseResult.failed(($0 as! WLBaseError).description.0)) })
+            .flatMapLatest({ return Driver.just(DCTResult.fetchList($0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
     }
 }

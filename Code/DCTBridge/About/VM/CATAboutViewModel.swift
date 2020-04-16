@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WLBaseViewModel
+import DCTViewModel
 import RxCocoa
 import RxSwift
 import WLToolsKit
@@ -110,7 +110,7 @@ extension DCTAboutType {
     }
 }
 
-struct DCTAboutViewModel: WLBaseViewModel {
+struct DCTAboutViewModel: DCTViewModel {
     
     var input: WLInput
     
