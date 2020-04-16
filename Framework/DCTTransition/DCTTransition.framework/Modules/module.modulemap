@@ -1,0 +1,6 @@
+framework module DCTTransition {
+  umbrella header "DCTTransition.h"
+
+  export *
+  module * { export * }
+}
