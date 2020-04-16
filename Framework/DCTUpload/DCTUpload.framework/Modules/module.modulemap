@@ -1,0 +1,6 @@
+framework module DCTUpload {
+  umbrella header "DCTUpload.h"
+
+  export *
+  module * { export * }
+}
