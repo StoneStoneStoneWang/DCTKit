@@ -1,0 +1,6 @@
+framework module DCTSign {
+  umbrella header "DCTSign.h"
+
+  export *
+  module * { export * }
+}

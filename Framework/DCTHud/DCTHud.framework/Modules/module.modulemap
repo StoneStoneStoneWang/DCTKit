@@ -1,0 +1,6 @@
+framework module DCTHud {
+  umbrella header "DCTHud.h"
+
+  export *
+  module * { export * }
+}
