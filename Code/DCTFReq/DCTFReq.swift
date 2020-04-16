@@ -10,9 +10,10 @@ import Foundation
 import Alamofire
 import RxSwift
 import WLToolsKit
+import DCTOR
 
 // MARK: onSendReq
-public func onSendReq<T : WLObserverReq>(_ req: T) -> Observable<[String:Any]> {
+public func onSendReq<T : DCTOR>(_ req: T) -> Observable<[String:Any]> {
     
     return Observable<[String:Any]>.create({ (observer) -> Disposable in
         
@@ -48,7 +49,7 @@ public enum WLUploadStatus {
 }
 
 // MARK: uploadImage
-public func uploadImage<T : WLObserverReq>(_ req: T,img: UIImage ,filename: String) -> Observable<WLUploadStatus> {
+public func uploadImage<T : DCTOR>(_ req: T,img: UIImage ,filename: String) -> Observable<WLUploadStatus> {
     
     return Observable<WLUploadStatus>.create({ (observer) -> Disposable in
         
@@ -76,7 +77,7 @@ public func uploadImage<T : WLObserverReq>(_ req: T,img: UIImage ,filename: Stri
     })
 }
 // MARK: uploadVideo
-public func uploadVideo<T : WLObserverReq>(_ req: T ,data: Data,filename: String) -> Observable<WLUploadStatus> {
+public func uploadVideo<T : DCTOR>(_ req: T ,data: Data,filename: String) -> Observable<WLUploadStatus> {
     
     return Observable<WLUploadStatus>.create({ (observer) -> Disposable in
         
