@@ -1,0 +1,6 @@
+framework module DCTTab {
+  umbrella header "DCTTab.h"
+
+  export *
+  module * { export * }
+}

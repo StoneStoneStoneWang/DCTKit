@@ -1,0 +1,6 @@
+framework module DCTLoading {
+  umbrella header "DCTLoading.h"
+
+  export *
+  module * { export * }
+}
