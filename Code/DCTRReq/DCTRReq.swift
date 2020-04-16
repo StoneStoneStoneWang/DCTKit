@@ -13,6 +13,7 @@ import DCTReq
 import DCTUpload
 import DCTSign
 import DCTError
+import DCTOR
 
 public func DCTDictResp<T : DCTOR>(_ req: T) -> Observable<[String:Any]> {
     

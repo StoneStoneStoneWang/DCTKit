@@ -28,7 +28,11 @@ Pod::Spec.new do |spec|
   
   spec.dependency 'DCTCache/Account'
   
-  spec.dependency 'WLReqKit'
+  spec.dependency 'DCTOR'
+  
+  spec.dependency 'RxSwift'
+  
+  spec.dependency 'DCTError'
   
   spec.dependency 'DCTUpload'
   
