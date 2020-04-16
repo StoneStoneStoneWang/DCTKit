@@ -1,11 +1,11 @@
 
 Pod::Spec.new do |spec|
   
-  spec.name         = "DCTResult"
+  spec.name         = "DCTOR"
   spec.version      = "0.0.1"
-  spec.summary      = "A Lib For result."
+  spec.summary      = "A Lib For oberverable req."
   spec.description  = <<-DESC
-  DCTResult结果
+  DCTOR
   DESC
   
   spec.homepage     = "https://github.com/StoneStoneStoneWang/DCTKit.git"
@@ -24,8 +24,8 @@ Pod::Spec.new do |spec|
   
   spec.source = { :git => "https://github.com/StoneStoneStoneWang/DCTKit.git", :tag => "#{spec.version}" }
   
-  spec.source_files = "Code/DCTResult/*.{swift}"
+  spec.source_files = "Code/DCTOR/*.{swift}"
   
-  spec.dependency 'ObjectMapper'
+  spec.dependency 'Alamofire'
   
 end
