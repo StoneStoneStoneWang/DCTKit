@@ -10,7 +10,7 @@ import Foundation
 import WLBaseResult
 import WLToolsKit
 
-public func CATCheckUsernameAndPassword(_ username: String ,password: String) -> WLBaseResult {
+public func DCTCheckUsernameAndPassword(_ username: String ,password: String) -> WLBaseResult {
     
     if username.isEmpty || username.wl_isEmpty {
         
@@ -34,7 +34,7 @@ public func CATCheckUsernameAndPassword(_ username: String ,password: String) ->
     return WLBaseResult.ok("验证成功")
 }
 
-public func CATCheckUsernameAndVCode(_ mobile: String ,vcode: String) -> WLBaseResult {
+public func DCTCheckUsernameAndVCode(_ mobile: String ,vcode: String) -> WLBaseResult {
     
     if mobile.isEmpty || mobile.wl_isEmpty {
         
@@ -57,7 +57,7 @@ public func CATCheckUsernameAndVCode(_ mobile: String ,vcode: String) -> WLBaseR
     
     return WLBaseResult.ok( "")
 }
-public func CATCheckUsername(_ mobile: String ) -> WLBaseResult {
+public func DCTCheckUsername(_ mobile: String ) -> WLBaseResult {
     
     if mobile.isEmpty || mobile.wl_isEmpty {
         
@@ -77,7 +77,7 @@ public func smsResult(count: Int) -> (Bool ,String) {
     else { return (false ,"(\(count)s)")}
 }
 
-public func CATCheckPasswordForget(_ mobile: String ,vcode: String ,password: String) -> WLBaseResult {
+public func DCTCheckPasswordForget(_ mobile: String ,vcode: String ,password: String) -> WLBaseResult {
     
     if mobile.isEmpty || mobile.wl_isEmpty {
         
@@ -111,7 +111,7 @@ public func CATCheckPasswordForget(_ mobile: String ,vcode: String ,password: St
     return WLBaseResult.ok( "")
 }
 
-public func CATCheckPasswordModify(_ oldpassword: String,password: String ,passwordAgain: String) -> WLBaseResult {
+public func DCTCheckPasswordModify(_ oldpassword: String,password: String ,passwordAgain: String) -> WLBaseResult {
     
     if oldpassword.isEmpty || oldpassword.wl_isEmpty {
         

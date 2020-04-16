@@ -1,5 +1,5 @@
 //
-//  CATAccountCache.swift
+//  DCTAccountCache.swift
 //  ZUserKit
 //
 //  Created by three stone 王 on 2019/3/15.
@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import CATBean
+import DCTBean
 
-@objc (CATAccountCache)
-public final class CATAccountCache: NSObject {
+@objc (DCTAccountCache)
+public final class DCTAccountCache: NSObject {
     @objc (shared)
-    public static let `default`: CATAccountCache = CATAccountCache()
+    public static let `default`: DCTAccountCache = DCTAccountCache()
     
     private override init() { }
     
@@ -23,7 +23,7 @@ public final class CATAccountCache: NSObject {
     @objc public var uid: String = ""
 }
 
-extension CATAccountCache {
+extension DCTAccountCache {
     
     @objc public func isPushOn() -> Bool {
         
@@ -48,7 +48,7 @@ extension CATAccountCache {
         return !token.isEmpty && token != ""
     }
     
-    public func saveAccount(acc: CATAccountBean) -> CATAccountBean {
+    public func saveAccount(acc: DCTAccountBean) -> DCTAccountBean {
         
         UserDefaults.standard.setValue(acc.token, forKey: "token")
         
@@ -67,14 +67,14 @@ extension CATAccountCache {
         return acc
     }
     
-    public func queryAccount() -> CATAccountBean! {
+    public func queryAccount() -> DCTAccountBean! {
         
         guard let id = UserDefaults.standard.object(forKey: "uid") else {
             
             return nil
         }
         
-        var acc = CATAccountBean()
+        var acc = DCTAccountBean()
         
         acc.token = UserDefaults.standard.object(forKey: "token") as? String ?? ""
         
@@ -100,7 +100,7 @@ extension CATAccountCache {
             return
         }
         
-        var acc = CATAccountBean()
+        var acc = DCTAccountBean()
         
         acc.token = UserDefaults.standard.object(forKey: "token") as? String ?? ""
         
