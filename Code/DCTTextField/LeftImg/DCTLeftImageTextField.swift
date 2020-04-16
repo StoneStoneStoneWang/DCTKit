@@ -1,5 +1,5 @@
 //
-//  CATLeftImageTextField.swift
+//  DCTLeftImageTextField.swift
 //  TSTFKit_Swift
 //
 //  Created by three stone 王 on 2018/11/22.
@@ -7,8 +7,8 @@
 //
 
 import UIKit
-@objc (CATLeftImageTextField)
-open class CATLeftImageTextField: CATBaseTextField {
+@objc (DCTLeftImageTextField)
+open class DCTLeftImageTextField: DCTBaseTextField {
     
     fileprivate final let leftImageView: UIImageView = UIImageView()
     
@@ -50,10 +50,10 @@ open class CATLeftImageTextField: CATBaseTextField {
         return leftImageFrame
     }
 }
-extension CATLeftImageTextField {
+extension DCTLeftImageTextField {
     
     
-    @objc open override func makeAttribute(_ closure: @escaping (CATLeftImageTextField) -> ()) {
+    @objc open override func makeAttribute(_ closure: @escaping (DCTLeftImageTextField) -> ()) {
         
         closure(self)
     }

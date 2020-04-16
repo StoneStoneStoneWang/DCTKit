@@ -10,67 +10,67 @@ import Foundation
 import UIKit
 
 extension UITextField {
-    @objc (CAT_backgroundColor:)
-    public func CAT_backgroundColor(_ color: UIColor) {
+    @objc (DCT_backgroundColor:)
+    public func DCT_backgroundColor(_ color: UIColor) {
         
         backgroundColor = color
     }
-    @objc (CAT_font:)
-    public func CAT_font(_ font: UIFont) {
+    @objc (DCT_font:)
+    public func DCT_font(_ font: UIFont) {
         
         self.font = font
     }
-    @objc (CAT_textColor:)
-    public func CAT_textColor(_ color: UIColor) {
+    @objc (DCT_textColor:)
+    public func DCT_textColor(_ color: UIColor) {
         
         textColor = color
     }
-    @objc (CAT_textAlignment:)
-    public func CAT_textAlignment(_ alignment: NSTextAlignment) {
+    @objc (DCT_textAlignment:)
+    public func DCT_textAlignment(_ alignment: NSTextAlignment) {
         
         textAlignment = alignment
     }
-    @objc (CAT_keyboardType:)
-    public func CAT_keyboardType(_ keyboardType: UIKeyboardType) {
+    @objc (DCT_keyboardType:)
+    public func DCT_keyboardType(_ keyboardType: UIKeyboardType) {
         
         self.keyboardType = keyboardType
     }
-    @objc (CAT_clearButtonMode:)
-    public func CAT_clearButtonMode(_ clearButtonMode: UITextField.ViewMode) {
+    @objc (DCT_clearButtonMode:)
+    public func DCT_clearButtonMode(_ clearButtonMode: UITextField.ViewMode) {
         
         self.clearButtonMode = clearButtonMode
         
     }
-    @objc (CAT_returnKeyType:)
-    public func CAT_returnKeyType(_ returnKeyType: UIReturnKeyType) {
+    @objc (DCT_returnKeyType:)
+    public func DCT_returnKeyType(_ returnKeyType: UIReturnKeyType) {
         
         self.returnKeyType = returnKeyType
     }
-    @objc (CAT_rightViewMode:)
-    public func CAT_rightViewMode(_ rightViewMode: UITextField.ViewMode) {
+    @objc (DCT_rightViewMode:)
+    public func DCT_rightViewMode(_ rightViewMode: UITextField.ViewMode) {
         
         self.rightViewMode = rightViewMode
     }
-    @objc (CAT_leftViewMode:)
-    public func CAT_leftViewMode(_ leftViewMode: UITextField.ViewMode) {
+    @objc (DCT_leftViewMode:)
+    public func DCT_leftViewMode(_ leftViewMode: UITextField.ViewMode) {
         
         self.leftViewMode = leftViewMode
     }
-    @objc (CAT_leftView:)
-    public func CAT_leftView(_ leftView: UIView) {
+    @objc (DCT_leftView:)
+    public func DCT_leftView(_ leftView: UIView) {
         
         self.leftView = leftView
     }
-    @objc (CAT_rightView:)
-    public func CAT_rightView(_ rightView: UIView) {
+    @objc (DCT_rightView:)
+    public func DCT_rightView(_ rightView: UIView) {
         
         self.rightView = rightView
     }
 }
 
-public typealias CATShouldReturn = () -> Bool
+public typealias DCTShouldReturn = () -> Bool
 
-public typealias CATShouldClear = () -> Bool
+public typealias DCTShouldClear = () -> Bool
 
 extension UITextField: UITextFieldDelegate {
     
@@ -79,18 +79,18 @@ extension UITextField: UITextFieldDelegate {
         return true
     }
     
-    fileprivate var shouldReturn: CATShouldReturn! {
+    fileprivate var shouldReturn: DCTShouldReturn! {
         set {
             
             objc_setAssociatedObject(self, "shouldReturn", newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
         get {
             
-            return objc_getAssociatedObject(self, "shouldReturn") as? CATShouldReturn
+            return objc_getAssociatedObject(self, "shouldReturn") as? DCTShouldReturn
         }
     }
-    @objc (CAT_shouldReturn:)
-    public func CAT_shouldReturn(_ shouldReturn: @escaping () -> Bool) {
+    @objc (DCT_shouldReturn:)
+    public func DCT_shouldReturn(_ shouldReturn: @escaping () -> Bool) {
         
         self.shouldReturn = shouldReturn
     }
@@ -105,7 +105,7 @@ extension UITextField: UITextFieldDelegate {
         return shouldReturn!()
     }
     
-    fileprivate var shouldClear: CATShouldClear! {
+    fileprivate var shouldClear: DCTShouldClear! {
         
         set {
             
@@ -113,11 +113,11 @@ extension UITextField: UITextFieldDelegate {
         }
         get {
             
-            return objc_getAssociatedObject(self, "shouldClear") as? CATShouldClear
+            return objc_getAssociatedObject(self, "shouldClear") as? DCTShouldClear
         }
     }
-    @objc (CAT_shouldClear:)
-    public func CAT_shouldClear(_ shouldClear: @escaping () -> Bool) {
+    @objc (DCT_shouldClear:)
+    public func DCT_shouldClear(_ shouldClear: @escaping () -> Bool) {
         
         self.shouldClear = shouldClear
     }

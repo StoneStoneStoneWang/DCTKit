@@ -1,5 +1,5 @@
 //
-//  CATLeftTitleTextField.swift
+//  DCTLeftTitleTextField.swift
 //  TSTFKit_Swift
 //
 //  Created by three stone 王 on 2018/11/22.
@@ -9,8 +9,8 @@
 import UIKit
 import WLToolsKit
 
-@objc (CATLeftTitleTextField)
-open class CATLeftTitleTextField: CATBaseTextField {
+@objc (DCTLeftTitleTextField)
+open class DCTLeftTitleTextField: DCTBaseTextField {
     
     open var leftTitleLabel: UILabel = UILabel()
     @objc (leftTitle)
@@ -50,9 +50,9 @@ open class CATLeftTitleTextField: CATBaseTextField {
     
 }
 
-extension CATLeftTitleTextField {
+extension DCTLeftTitleTextField {
     
-    @objc open override func makeAttribute(_ closure: @escaping (CATLeftTitleTextField) -> ()) {
+    @objc open override func makeAttribute(_ closure: @escaping (DCTLeftTitleTextField) -> ()) {
         
         closure(self)
     }

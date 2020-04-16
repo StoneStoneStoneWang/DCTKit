@@ -1,5 +1,5 @@
 //
-//  CATBaseTextField.swift
+//  DCTBaseTextField.swift
 //  WLTFKit_Swift
 //
 //  Created by three stone 王 on 2018/11/14.
@@ -30,10 +30,10 @@ fileprivate let WLNUMBERANDCHAR_PARTTERN: String = "^[0-9a-zA-Z]*$"
 
 fileprivate let WL_ZH_CN: String = "[^\\u4E00-\\u9FA5]"
 
-fileprivate typealias WLTextChanged = (CATBaseTextField) -> ()
+fileprivate typealias WLTextChanged = (DCTBaseTextField) -> ()
 
-@objc (CATBaseTextField)
-open class CATBaseTextField: UITextField {
+@objc (DCTBaseTextField)
+open class DCTBaseTextField: UITextField {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -92,7 +92,7 @@ open class CATBaseTextField: UITextField {
     // MARK: maxLength 默认Int.max
     fileprivate var maxLength: Int = Int.max
     // MARK: 编辑类型 详情参考 枚举
-    fileprivate var editType: CATTextFiledEditType = .phone {
+    fileprivate var editType: DCTTextFiledEditType = .phone {
         
         willSet {
             switch newValue {
@@ -119,7 +119,7 @@ open class CATBaseTextField: UITextField {
                 
                 NotificationCenter
                     .default
-                    .addObserver(self, selector: #selector(greetingTextFieldChanged), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"), object: self)
+                    .addObserver(self, selector: #selector(greetingTextFieldChanged), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotifiDCTion"), object: self)
                 
                 maxLength = 10
                 
@@ -128,7 +128,7 @@ open class CATBaseTextField: UITextField {
                 
                 NotificationCenter
                     .default
-                    .addObserver(self, selector: #selector(greetingTextFieldChanged), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"), object: self)
+                    .addObserver(self, selector: #selector(greetingTextFieldChanged), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotifiDCTion"), object: self)
                 keyboardType = .default
             case .default:
                 
@@ -149,7 +149,7 @@ open class CATBaseTextField: UITextField {
     
     deinit {
         
-        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"), object: self)
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotifiDCTion"), object: self)
     }
     
     // MARK: 限制输入的正则表达式字符串
@@ -161,7 +161,7 @@ open class CATBaseTextField: UITextField {
     
 }
 
-extension CATBaseTextField {
+extension DCTBaseTextField {
     @objc (commitInit)
     open func commitInit() {
         
@@ -186,10 +186,10 @@ extension CATBaseTextField {
 }
 
 /** 文本框内容 样式 */
-extension CATBaseTextField {
-    @objc (CATTextFiledEditType)
-    public enum CATTextFiledEditType: Int {
-        @objc (CATTextFiledEditTypepriceEdit)
+extension DCTBaseTextField {
+    @objc (DCTTextFiledEditType)
+    public enum DCTTextFiledEditType: Int {
+        @objc (DCTTextFiledEditTypepriceEdit)
         case priceEdit
         /** 手机号 默认判断是长度11位 首位为1的+86手机号 如果是复制过去的 加入了-处理机制 比如从通讯录复制*/
         case phone
@@ -212,71 +212,71 @@ extension CATBaseTextField {
         //        case `default` // 默认 这个在swift中弃用
     }
 }
-extension CATBaseTextField {
+extension DCTBaseTextField {
     @objc (makeAttributeWithClosure:)
-    open func makeAttribute(_ closure: @escaping (CATBaseTextField) -> ()) {
+    open func makeAttribute(_ closure: @escaping (DCTBaseTextField) -> ()) {
         
         closure(self)
     }
 }
 
 // 新增属性的处理
-extension CATBaseTextField {
-    @objc (CAT_maxLength:)
-    public func CAT_maxLength(_ maxLength: Int) {
+extension DCTBaseTextField {
+    @objc (DCT_maxLength:)
+    public func DCT_maxLength(_ maxLength: Int) {
         
         self.maxLength = maxLength
     }
-    @objc (CAT_editType:)
-    public func CAT_editType(_ editType: CATTextFiledEditType) {
+    @objc (DCT_editType:)
+    public func DCT_editType(_ editType: DCTTextFiledEditType) {
         
         self.editType = editType
     }
-    @objc (CAT_pattern:)
-    public func CAT_pattern(_ pattern: String) {
+    @objc (DCT_pattern:)
+    public func DCT_pattern(_ pattern: String) {
         
         self.pattern = pattern
     }
-    @objc (CAT_textChanged:)
-    public func CAT_textChanged(_ textChanged: @escaping (CATBaseTextField) -> ()) {
+    @objc (DCT_textChanged:)
+    public func DCT_textChanged(_ textChanged: @escaping (DCTBaseTextField) -> ()) {
         
         self.textChanged = textChanged
     }
-    @objc (CAT_topLineFrame:)
-    public func CAT_topLineFrame(_ frame: CGRect) {
+    @objc (DCT_topLineFrame:)
+    public func DCT_topLineFrame(_ frame: CGRect) {
         
         topLineFrame = frame
     }
-    @objc (CAT_bottomLineFrame:)
-    public func CAT_bottomLineFrame(_ frame: CGRect) {
+    @objc (DCT_bottomLineFrame:)
+    public func DCT_bottomLineFrame(_ frame: CGRect) {
         
         bottomLineFrame = frame
     }
-    @objc (CAT_topLineColor:)
-    public func CAT_topLineColor(_ color: UIColor) {
+    @objc (DCT_topLineColor:)
+    public func DCT_topLineColor(_ color: UIColor) {
         
         topLineColor = color
     }
-    @objc (CAT_bottomLineColor:)
-    public func CAT_bottomLineColor(_ color: UIColor) {
+    @objc (DCT_bottomLineColor:)
+    public func DCT_bottomLineColor(_ color: UIColor) {
         
         bottomLineColor = color
     }
-    @objc (CAT_secureTextEntry:)
-    public func CAT_secureTextEntry(_ isSecureTextEntry: Bool) {
+    @objc (DCT_secureTextEntry:)
+    public func DCT_secureTextEntry(_ isSecureTextEntry: Bool) {
         
         self.isSecureTextEntry = isSecureTextEntry
     }
 }
 // MARK: UITextFieldDelegate
-extension CATBaseTextField {
+extension DCTBaseTextField {
     
     open override func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        return __shouldChangeCharacters(target: textField as! CATBaseTextField,range: range,string: string)
+        return __shouldChangeCharacters(target: textField as! DCTBaseTextField,range: range,string: string)
     }
     
-    private func __shouldChangeCharacters(target: CATBaseTextField , range: NSRange, string: String) -> Bool {
+    private func __shouldChangeCharacters(target: DCTBaseTextField , range: NSRange, string: String) -> Bool {
         
         if editType == .defineLength || editType == .only_zh_cn || editType == .default {
             
@@ -342,9 +342,9 @@ extension CATBaseTextField {
 
 
 // MARK: textFieldDidChange
-extension CATBaseTextField {
+extension DCTBaseTextField {
     @objc (greetingTextFieldChangedWithNoti:)
-    open func greetingTextFieldChanged(obj: Notification) {
+    open func greetingTextFieldChanged(obj: NSNotification) {
         
         guard let _: UITextRange = markedTextRange else{
             //当前光标的位置（后面会对其做修改）
@@ -375,13 +375,13 @@ extension CATBaseTextField {
         }
     }
     
-    @objc open func textFieldDidChange(_ textField: CATBaseTextField) {
+    @objc open func textFieldDidChange(_ textField: DCTBaseTextField) {
         
         __textDidChange(target: textField)
     }
     
     // MARK: editChanged
-    private func __textDidChange(target: CATBaseTextField) {
+    private func __textDidChange(target: DCTBaseTextField) {
         
         switch target.editType {
         case .defineLength: break
@@ -421,7 +421,7 @@ extension CATBaseTextField {
 }
 
 // MARK: editingRect and textRect rightViewRect leftViewRect
-extension CATBaseTextField {
+extension DCTBaseTextField {
     
     
 }

@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-@objc (CATPasswordImageTextFiled)
-public final class CATPasswordImageTextFiled: CATLeftImageTextField {
+@objc (DCTPasswordImageTextFiled)
+public final class DCTPasswordImageTextFiled: DCTLeftImageTextField {
     
     @objc (passwordItem)
     public final let passwordItem: UIButton = UIButton(type: .custom)
@@ -51,19 +51,19 @@ public final class CATPasswordImageTextFiled: CATLeftImageTextField {
     public override func commitInit() {
         super.commitInit()
         
-        CAT_rightViewMode(.always)
+        DCT_rightViewMode(.always)
     
-        CAT_editType(.secret)
+        DCT_editType(.secret)
         
-        CAT_maxLength(18)
+        DCT_maxLength(18)
         
-        CAT_secureTextEntry(true)
+        DCT_secureTextEntry(true)
         
     }
 }
 
-@objc (CATPasswordTitleTextFiled)
-public final class CATPasswordTitleTextFiled: CATLeftTitleTextField {
+@objc (DCTPasswordTitleTextFiled)
+public final class DCTPasswordTitleTextFiled: DCTLeftTitleTextField {
     
     @objc (passwordItem)
     public final let passwordItem: UIButton = UIButton(type: .custom)
@@ -103,15 +103,15 @@ public final class CATPasswordTitleTextFiled: CATLeftTitleTextField {
     public override func commitInit() {
         super.commitInit()
         
-        CAT_rightViewMode(.always)
+        DCT_rightViewMode(.always)
         
-        CAT_rightView(passwordItem)
+        DCT_rightView(passwordItem)
         
-        CAT_editType(.secret)
+        DCT_editType(.secret)
         
-        CAT_maxLength(18)
+        DCT_maxLength(18)
         
-        CAT_secureTextEntry(true)
+        DCT_secureTextEntry(true)
         
     }
 }

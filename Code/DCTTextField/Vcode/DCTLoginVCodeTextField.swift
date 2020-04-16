@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-@objc (CATVCodeTextField)
-public final class CATVCodeTextField: CATLeftImageTextField {
+@objc (DCTVCodeTextField)
+public final class DCTVCodeTextField: DCTLeftImageTextField {
     
     public final let vcodeItem: UIButton = UIButton(type: .custom).then {
         

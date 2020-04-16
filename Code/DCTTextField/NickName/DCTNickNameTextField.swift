@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-@objc (CATNickNameTextField)
-public final class CATNickNameTextField: CATBaseTextField {
+@objc (DCTNickNameTextField)
+public final class DCTNickNameTextField: DCTBaseTextField {
     @objc (margin)
     public var margin: CGFloat = 15
     
@@ -31,6 +31,6 @@ public final class CATNickNameTextField: CATBaseTextField {
     public override func commitInit() {
         super.commitInit()
         
-        CAT_editType(.default)
+        DCT_editType(.default)
     }
 }
