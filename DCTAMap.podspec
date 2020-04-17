@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
   spec.source = { :git => "https://github.com/StoneStoneStoneWang/DCTKit.git", :tag => "#{spec.version}" }
   
   spec.vendored_frameworks = 'Framework/DCTAMap/DCTAMap.framework'
-  spec.dependency 'AMapLocattion-NO-IDFA'
+  spec.dependency 'AMapLocation-NO-IDFA'
   spec.dependency 'AMap2DMap-NO-IDFA'
   spec.dependency 'AMapSearch-NO-IDFA'
   
