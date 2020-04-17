@@ -13,10 +13,11 @@ import RxCocoa
 import DCTResult
 import RxSwift
 import DCTReq
-
 import DCTApi
 import Alamofire
 import DCTRReq
+import DCTOM
+import DCTError
 
 @objc (DCTAreaManager)
 public class DCTAreaManager: NSObject {
@@ -64,7 +65,7 @@ extension DCTAreaManager {
                 return DCTAreaResp(DCTApi.fetchAreaJson)
                     .map({ DCTAreaManager.default.saveArea($0) })
                     .map({ _ in DCTResult.fetchList(DCTAreaManager.default.allAreas)  })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
             }
         }
     }

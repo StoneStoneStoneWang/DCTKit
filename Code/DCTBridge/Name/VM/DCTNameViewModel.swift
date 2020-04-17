@@ -8,13 +8,14 @@
 
 import Foundation
 import RxCocoa
-
 import DCTViewModel
 import DCTResult
 import DCTRReq
 import DCTApi
 import DCTBean
 import DCTCache
+import DCTError
+import DCTOM
 
 struct DCTNameViewModel: DCTViewModel {
     
@@ -57,7 +58,7 @@ struct DCTNameViewModel: DCTViewModel {
                     .mapObject(type: DCTUserBean.self)
                     .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                     .map { DCTResult.updateUserInfoSucc($0, msg: "昵称修改成功")}
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) }) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) }) })
         
         self.output = WLOutput(completeEnabled: completEnabled, completing: completing, completed: completed)
     }

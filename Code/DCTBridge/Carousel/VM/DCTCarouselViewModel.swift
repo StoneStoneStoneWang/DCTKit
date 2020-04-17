@@ -19,7 +19,6 @@ import ObjectMapper
         
     }
     
-    
     @objc public static func createCarousel(_ title: String ,icon: String) -> DCTCarouselBean {
         
         let carousel = DCTCarouselBean()

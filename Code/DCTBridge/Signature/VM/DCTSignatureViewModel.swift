@@ -8,7 +8,6 @@
 
 import Foundation
 import RxCocoa
-
 import DCTViewModel
 import WLToolsKit
 import DCTResult
@@ -16,6 +15,8 @@ import DCTRReq
 import DCTApi
 import DCTBean
 import DCTCache
+import DCTError
+import DCTOM
 
 struct DCTSignatureViewModel: DCTViewModel {
     
@@ -59,7 +60,7 @@ struct DCTSignatureViewModel: DCTViewModel {
                 .mapObject(type: DCTUserBean.self)
                 .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                 .map { DCTResult.updateUserInfoSucc($0, msg: "个性签名修改成功")}
-                .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) }) })
+                .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) }) })
         
         let placeholderHidden: Driver<Bool> = input.updated.flatMapLatest { Driver.just(!$0.wl_isEmpty)}
         

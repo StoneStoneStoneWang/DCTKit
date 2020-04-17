@@ -295,6 +295,17 @@ extension DCTTablesBridge {
         return IndexPath(item: 0, section: 0)
         
     }
+    @objc public func fetchSingleData(_ ip: IndexPath) -> DCTCircleBean? {
+        
+        guard let dataSource = dataSource else { return nil }
+        
+        return dataSource[ip]
+    }
+    @objc public func fetchTableDatas() -> [DCTCircleBean] {
+        
+        return viewModel.output.tableData.value
+    }
+    
     @objc public func converToJson(_ circle: DCTCircleBean) -> [String: Any] {
         
         return circle.toJSON()

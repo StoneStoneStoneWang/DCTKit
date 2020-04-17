@@ -10,11 +10,12 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
 import DCTResult
 import DCTApi
 import DCTBean
 import DCTRReq
+import DCTError
+import DCTOM
 
 struct DCTMessageViewModel: DCTViewModel {
     
@@ -53,7 +54,7 @@ struct DCTMessageViewModel: DCTViewModel {
                 return DCTArrayResp(DCTApi.fetchSystemMsg(1))
                     .mapArray(type: DCTMessageBean.self)
                     .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -82,7 +83,7 @@ extension DCTMessageViewModel {
         
         return DCTVoidResp(DCTApi.readMsg(encode))
             .flatMapLatest({ return Driver.just(DCTResult.ok("")) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
     
     static func fetchFirstMessage() -> Driver<DCTResult> {
@@ -90,6 +91,6 @@ extension DCTMessageViewModel {
         return DCTArrayResp(DCTApi.fetchFirstMsg)
             .mapArray(type: DCTMessageBean.self)
             .flatMapLatest({ return Driver.just(DCTResult.fetchList($0)) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
 }

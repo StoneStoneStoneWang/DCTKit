@@ -10,7 +10,8 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
+import DCTOM
+import DCTError
 import DCTResult
 import DCTApi
 import DCTRReq
@@ -56,7 +57,7 @@ public struct DCTModifyPasswordViewModel: DCTViewModel {
                 switch DCTCheckPasswordModify($0.0, password: $0.2, passwordAgain: $0.1) {
                 case .ok: return DCTVoidResp(DCTApi.modifyPassword($0.0, password: $0.1))
                     .map({ DCTResult.ok("修改密码成功") })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
                     
                 case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
                 default: return Driver<DCTResult>.empty()

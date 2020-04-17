@@ -16,6 +16,9 @@ import DCTCache
 import DCTApi
 import DCTRReq
 import DCTBean
+import DCTError
+import DCTOM
+
 
 @objc public final class DCTUserInfoBean: NSObject {
     
@@ -219,13 +222,13 @@ public struct DCTUserInfoViewModel: DCTViewModel {
             .mapObject(type: DCTUserBean.self)
             .map({ DCTUserInfoCache.default.saveUser(data: $0) })
             .map { _ in DCTResult.ok("")}
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
     
     public static func fetchAliToken() -> Driver<DCTResult> {
         
         return DCTAliResp(DCTApi.aliToken)
             .map { DCTResult.fetchSomeObject($0 as AnyObject)}
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
 }

@@ -1,9 +1,9 @@
 //
-//  DCTUserCenterViewModel.swift
+//  DCTProfileViewModel.swift
 //  DCTBridge
 //
-//  Created by 王磊 on 2020/3/30.
-//  Copyright © 2020 王磊. All rights reserved.
+//  Created by three stone 王 on 2019/8/27.
+//  Copyright © 2019 three stone 王. All rights reserved.
 //
 
 import Foundation
@@ -15,16 +15,17 @@ import DCTSign
 import DCTApi
 import DCTRReq
 import DCTCache
+import DCTOM
 
-@objc public final class DCTUserCenterBean: NSObject {
+@objc public final class DCTProfileBean: NSObject {
     
-    @objc public var type: DCTUserCenterType = .userInfo
+    @objc public var type: DCTProfileType = .space
     
     @objc public var title: String = ""
     
-    @objc public static func createUserCenter(_ type: DCTUserCenterType ,title: String) -> DCTUserCenterBean {
+    @objc public static func createProfile(_ type: DCTProfileType ,title: String) -> DCTProfileBean {
         
-        let profile = DCTUserCenterBean()
+        let profile = DCTProfileBean()
         
         profile.type = type
         
@@ -33,13 +34,23 @@ import DCTCache
         return profile
     }
     
-    static public func createUserCenterTypes() -> [DCTUserCenterBean] {
+    static public func createProfileTypes(_ hasSpace: Bool) -> [DCTProfileBean] {
         
-        var result: [DCTUserCenterBean] = []
+        var result: [DCTProfileBean] = []
         
-        for item in DCTUserCenterType.types {
+        if hasSpace {
             
-            result += [DCTUserCenterBean.createUserCenter(item, title: item.title)]
+            for item in DCTProfileType.spaceTypes {
+                
+                result += [DCTProfileBean.createProfile(item, title: item.title)]
+            }
+            
+        } else {
+            
+            for item in DCTProfileType.types {
+                
+                result += [DCTProfileBean.createProfile(item, title: item.title)]
+            }
         }
         
         return result
@@ -49,8 +60,8 @@ import DCTCache
     }
 }
 
-@objc (DCTUserCenterType)
-public enum DCTUserCenterType : Int{
+@objc (DCTProfileType)
+public enum DCTProfileType : Int{
     
     case about
     
@@ -64,6 +75,8 @@ public enum DCTUserCenterType : Int{
     
     case focus
     
+    case space
+    
     case myCircle
     
     case order
@@ -73,23 +86,36 @@ public enum DCTUserCenterType : Int{
     case characters
     
     case feedBack
+    
+    case favor
 }
 
-extension DCTUserCenterType {
+extension DCTProfileType {
     
-    static var types: [DCTUserCenterType] {
+    static var spaceTypes: [DCTProfileType] {
         
         if DCTConfigure.fetchPType() == .cleaner {
             
-            return [.order,.privacy,.contactUS,.feedBack,.setting]
+            return [.space,userInfo,.order,.address,.favor,.space,.contactUS,.privacy,.about,.space,.feedBack,.setting]
         }
         
+        return [.space,userInfo,.space,.contactUS,.privacy,.about,.space,.feedBack,.setting]
+        
+    }
+    
+    static var types: [DCTProfileType] {
+        
+        if DCTConfigure.fetchPType() == .cleaner {
+            
+            return [userInfo,.order,.address,.favor,.contactUS,.privacy,.about,.feedBack,.setting]
+        }
         return [userInfo,.contactUS,.privacy,.about,.feedBack,.setting]
     }
     
     var cellHeight: CGFloat {
         
         switch self {
+        case .space: return 10
             
         default: return 55
         }
@@ -113,20 +139,23 @@ extension DCTUserCenterType {
             
         case .myCircle: return "我的发布"
             
-        case .address: return "我的地址"
+        case .address: return "地址管理"
             
         case .order: return "订单管理"
             
         case .characters: return "角色信息"
             
         case .feedBack: return "意见建议"
+            
+        case .favor: return "我的收藏"
+            
         default: return ""
             
         }
     }
 }
 
-struct DCTUserCenterViewModel: DCTViewModel {
+struct DCTProfileViewModel: DCTViewModel {
     
     var input: WLInput
     
@@ -134,16 +163,18 @@ struct DCTUserCenterViewModel: DCTViewModel {
     
     struct WLInput {
         
-        let modelSelect: ControlEvent<DCTUserCenterBean>
+        let modelSelect: ControlEvent<DCTProfileBean>
         
         let itemSelect: ControlEvent<IndexPath>
+        
+        let hasSpace: Bool
     }
     
     struct WLOutput {
         
-        let zip: Observable<(DCTUserCenterBean,IndexPath)>
+        let zip: Observable<(DCTProfileBean,IndexPath)>
         
-        let tableData: BehaviorRelay<[DCTUserCenterBean]> = BehaviorRelay<[DCTUserCenterBean]>(value: [])
+        let tableData: BehaviorRelay<[DCTProfileBean]> = BehaviorRelay<[DCTProfileBean]>(value: [])
         
         let userInfo: Observable<DCTUserBean?>
     }
@@ -165,7 +196,7 @@ struct DCTUserCenterViewModel: DCTViewModel {
         
         self.output = WLOutput(zip: zip, userInfo: userInfo)
         
-        self.output.tableData.accept(DCTUserCenterBean.createUserCenterTypes())
+        self.output.tableData.accept(DCTProfileBean.createProfileTypes(input.hasSpace))
     }
 }
 

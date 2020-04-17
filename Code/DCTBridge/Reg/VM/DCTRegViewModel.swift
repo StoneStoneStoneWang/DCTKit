@@ -16,6 +16,8 @@ import DCTApi
 import DCTRReq
 import DCTBean
 import DCTCache
+import DCTOM
+import DCTError
 
 public struct DCTRegViewModel: DCTViewModel {
     
@@ -85,7 +87,7 @@ public struct DCTRegViewModel: DCTViewModel {
                     .mapObject(type: DCTUserBean.self)
                     .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                     .map({ _ in DCTResult.logined })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
                 
             case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed(msg))
                 
@@ -131,7 +133,7 @@ public struct DCTRegViewModel: DCTViewModel {
                         return Disposables.create { }
                     })
                     
-                    return result.asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    return result.asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
                     
                 case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
                     

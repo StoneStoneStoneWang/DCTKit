@@ -10,10 +10,10 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
 import DCTResult
 import DCTRReq
 import DCTApi
+import DCTError
 
 struct DCTVideoViewModel: DCTViewModel {
     
@@ -39,19 +39,19 @@ struct DCTVideoViewModel: DCTViewModel {
         
         return DCTVoidResp(DCTApi.addBlack(OUsEncoded, targetEncoded: targetEncoded, content: content))
             .map({ _ in DCTResult.ok("添加黑名单成功")})
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
     static func focus(_ uid: String ,encode: String) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.focus(uid, targetEncoded: encode))
             .flatMapLatest({ return Driver.just(DCTResult.ok("关注或取消关注成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
     
     static func like(_ encoded: String ,isLike: Bool) -> Driver<DCTResult> {
         
         return DCTVoidResp(DCTApi.like(encoded))
             .flatMapLatest({ return Driver.just(DCTResult.ok( isLike ? "点赞成功" : "取消点赞成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
 }

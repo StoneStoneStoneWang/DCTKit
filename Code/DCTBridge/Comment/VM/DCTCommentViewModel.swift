@@ -10,11 +10,12 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
 import DCTBean
 import DCTResult
 import DCTRReq
 import DCTApi
+import DCTError
+import DCTOM
 
 struct DCTCommentViewModel: DCTViewModel {
     
@@ -63,7 +64,7 @@ struct DCTCommentViewModel: DCTViewModel {
                 return DCTArrayResp(DCTApi.fetchComments(1, targetEncoded: input.encoded))
                     .mapArray(type: DCTCommentBean.self)
                     .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -75,7 +76,7 @@ struct DCTCommentViewModel: DCTViewModel {
                 return DCTArrayResp(DCTApi.fetchComments(input.page.value, targetEncoded: input.encoded))
                     .mapArray(type: DCTCommentBean.self)
                     .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
             })
         
         let endFooterRefreshing = footerRefreshData.map { $0 }
@@ -229,6 +230,6 @@ struct DCTCommentViewModel: DCTViewModel {
         return DCTDictResp(DCTApi.addComment(encoded, content: content, tablename: "CircleFriends", type: "0"))
             .mapObject(type: DCTCommentBean.self)
             .map({ DCTResult.operation($0) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
 }

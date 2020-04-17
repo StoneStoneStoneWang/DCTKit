@@ -34,7 +34,7 @@ Pod::Spec.new do |spec|
     welcome.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Welcome/VM/*.{swift}"
       vm.dependency 'WLToolsKit/Common'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'RxCocoa'
       vm.dependency 'RxSwift'
     end
@@ -56,7 +56,7 @@ Pod::Spec.new do |spec|
       vm.source_files = "Code/DCTBridge/Protocol/VM/*.{swift}"
       vm.dependency 'RxCocoa'
       vm.dependency 'RxSwift'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTSign'
     end
     
@@ -74,7 +74,7 @@ Pod::Spec.new do |spec|
       vm.source_files = "Code/DCTBridge/Privacy/VM/*.{swift}"
       vm.dependency 'RxCocoa'
       vm.dependency 'RxSwift'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTSign'
     end
     
@@ -87,16 +87,20 @@ Pod::Spec.new do |spec|
     end
   end
   
+  
+  
   # 登陆
   spec.subspec 'Login' do |login|
     
     login.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Login/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTCheck'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
+      vm.dependency 'DCTOM'
+      vm.dependency 'DCTError'
     end
     
     login.subspec 'Bridge' do |bridge|
@@ -114,10 +118,12 @@ Pod::Spec.new do |spec|
     reg.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Reg/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTCheck'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
+      vm.dependency 'DCTOM'
+      vm.dependency 'DCTError'
     end
     
     reg.subspec 'Bridge' do |bridge|
@@ -136,10 +142,12 @@ Pod::Spec.new do |spec|
     password.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Password/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTCheck'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
+      vm.dependency 'DCTOM'
+      vm.dependency 'DCTError'
     end
     
     password.subspec 'Bridge' do |bridge|
@@ -158,7 +166,7 @@ Pod::Spec.new do |spec|
     setting.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Setting/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTCache/Account'
       vm.dependency 'DCTSign'
     end
@@ -179,7 +187,7 @@ Pod::Spec.new do |spec|
     about.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/About/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'WLToolsKit/String'
     end
     
@@ -188,10 +196,10 @@ Pod::Spec.new do |spec|
       bridge.dependency 'DCTBridge/About/VM'
       bridge.dependency 'DCTTable'
       bridge.dependency 'DCTCocoa/SM'
-      bridge.dependency 'RxDataSources'
       bridge.dependency 'DCTBridge/Base'
     end
   end
+  
   # 昵称
   spec.subspec 'Name' do |name|
     
@@ -202,8 +210,10 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTCache/User'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTOM'
+      vm.dependency 'DCTError'
     end
     
     name.subspec 'Bridge' do |bridge|
@@ -223,8 +233,10 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTCache/User'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTOM'
+      vm.dependency 'DCTError'
     end
     
     signature.subspec 'Bridge' do |bridge|
@@ -242,11 +254,13 @@ Pod::Spec.new do |spec|
     userinfo.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/UserInfo/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTResult'
       vm.dependency 'DCTCache/User'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
+      vm.dependency 'DCTOM'
+      vm.dependency 'DCTError'
     end
     
     userinfo.subspec 'Bridge' do |bridge|
@@ -260,30 +274,28 @@ Pod::Spec.new do |spec|
     end
   end
   
-  # 评论
-  spec.subspec 'Comment' do |comment|
+  # 轮播
+  spec.subspec 'Carousel' do |welcome|
     
-    comment.subspec 'VM' do |vm|
-      
-      vm.source_files = "Code/DCTBridge/Comment/VM/*.{swift}"
+    welcome.subspec 'VM' do |vm|
+      vm.source_files = "Code/DCTBridge/Carousel/VM/*.{swift}"
+      vm.dependency 'WLToolsKit/Common'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'RxCocoa'
-      vm.dependency 'DCTRReq'
-      vm.dependency 'DCTApi'
-      vm.dependency 'DCTBean/Comment'
-      vm.dependency 'DCTResult'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'RxSwift'
+      vm.dependency 'ObjectMapper'
     end
     
-    comment.subspec 'Bridge' do |bridge|
-      bridge.source_files = "Code/DCTBridge/Comment/Bridge/*.{swift}"
-      bridge.dependency 'DCTBridge/Comment/VM'
-      bridge.dependency 'DCTHud'
-      bridge.dependency 'DCTTable'
-      bridge.dependency 'DCTCocoa/ASM'
-      bridge.dependency 'DCTCocoa/Refresh'
+    welcome.subspec 'Bridge' do |bridge|
+      bridge.source_files = "Code/DCTBridge/Carousel/Bridge/*.{swift}"
+      bridge.dependency 'DCTBridge/Carousel/VM'
+      bridge.dependency 'DCTCollection'
+      bridge.dependency 'DCTCocoa/SM'
       bridge.dependency 'DCTBridge/Base'
+      bridge.dependency 'RxDataSources'
     end
   end
+  
   # 举报
   spec.subspec 'Report' do |report|
     
@@ -296,7 +308,8 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTResult'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
+      vm.dependency 'DCTError'
     end
     
     report.subspec 'Bridge' do |bridge|
@@ -316,11 +329,13 @@ Pod::Spec.new do |spec|
     black.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Black/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTBean/Black'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTError'
+      vm.dependency 'DCTOM'
     end
     
     black.subspec 'Bridge' do |bridge|
@@ -340,11 +355,13 @@ Pod::Spec.new do |spec|
       
       vm.source_files = "Code/DCTBridge/Focus/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTBean/Focus'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTError'
+      vm.dependency 'DCTOM'
     end
     
     focus.subspec 'Bridge' do |bridge|
@@ -358,51 +375,6 @@ Pod::Spec.new do |spec|
     end
   end
   
-  # 翻译
-  spec.subspec 'Translate' do |translate|
-    
-    translate.subspec 'VM' do |vm|
-      
-      vm.source_files = "Code/DCTBridge/Translate/VM/*.{swift}"
-      vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
-      vm.dependency 'ObjectMapper'
-      vm.dependency 'DCTApi'
-      vm.dependency 'DCTRReq'
-      vm.dependency 'DCTResult'
-    end
-    
-    translate.subspec 'Bridge' do |bridge|
-      bridge.source_files = "Code/DCTBridge/Translate/Bridge/*.{swift}"
-      bridge.dependency 'DCTBridge/Translate/VM'
-      bridge.dependency 'DCTTransition'
-      bridge.dependency 'DCTBridge/Base'
-      bridge.dependency 'DCTHud'
-    end
-  end
-  
-  spec.subspec 'Video' do |video|
-    
-    video.subspec 'VM' do |vm|
-      
-      vm.source_files = "Code/DCTBridge/Video/VM/*.{swift}"
-      vm.dependency 'RxCocoa'
-      vm.dependency 'DCTApi'
-      vm.dependency 'DCTRReq'
-      vm.dependency 'DCTResult'
-      vm.dependency 'WLBaseViewModel'
-    end
-    
-    video.subspec 'Bridge' do |bridge|
-      bridge.source_files = "Code/DCTBridge/Video/Bridge/*.{swift}"
-      bridge.dependency 'DCTBridge/Video/VM'
-      bridge.dependency 'DCTTransition'
-      bridge.dependency 'DCTCache/Account'
-      bridge.dependency 'DCTBridge/Base'
-      bridge.dependency 'DCTHud'
-    end
-  end
-  
   spec.subspec 'Profile' do |profile|
     
     profile.subspec 'VM' do |vm|
@@ -413,7 +385,8 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTCache/User'
       vm.dependency 'DCTResult'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
+      vm.dependency 'DCTOM'
     end
     
     profile.subspec 'Bridge' do |bridge|
@@ -426,6 +399,7 @@ Pod::Spec.new do |spec|
       bridge.dependency 'DCTCocoa/SM'
     end
   end
+  # 个人中心
   spec.subspec 'UserCenter' do |userCenter|
     
     userCenter.subspec 'VM' do |vm|
@@ -436,7 +410,8 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTCache/User'
       vm.dependency 'DCTResult'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
+      vm.dependency 'DCTOM'
     end
     
     userCenter.subspec 'Bridge' do |bridge|
@@ -457,8 +432,9 @@ Pod::Spec.new do |spec|
       vm.dependency 'RxCocoa'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTError'
     end
     
     feedBack.subspec 'Bridge' do |bridge|
@@ -476,11 +452,13 @@ Pod::Spec.new do |spec|
     comment.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Comment/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTBean/Comment'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTError'
+      vm.dependency 'DCTOM'
     end
     
     comment.subspec 'Bridge' do |bridge|
@@ -495,17 +473,20 @@ Pod::Spec.new do |spec|
     end
   end
   
+  
   # Collections 列表
   spec.subspec 'Collections' do |collections|
     
     collections.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Collections/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTBean/Circle'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTError'
+      vm.dependency 'DCTOM'
     end
     
     collections.subspec 'Bridge' do |bridge|
@@ -520,17 +501,19 @@ Pod::Spec.new do |spec|
     end
   end
   
-  # 黑名单
+  # 列表
   spec.subspec 'Tables' do |tables|
     
     tables.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/Tables/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTBean/Circle'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTResult'
+      vm.dependency 'DCTError'
+      vm.dependency 'DCTOM'
     end
     
     tables.subspec 'Bridge' do |bridge|
@@ -545,34 +528,14 @@ Pod::Spec.new do |spec|
     end
   end
   
-  # 轮播
-  spec.subspec 'Carousel' do |welcome|
-    
-    welcome.subspec 'VM' do |vm|
-      vm.source_files = "Code/DCTBridge/Carousel/VM/*.{swift}"
-      vm.dependency 'WLToolsKit/Common'
-      vm.dependency 'WLBaseViewModel'
-      vm.dependency 'RxCocoa'
-      vm.dependency 'RxSwift'
-      vm.dependency 'ObjectMapper'
-    end
-    
-    welcome.subspec 'Bridge' do |bridge|
-      bridge.source_files = "Code/DCTBridge/Carousel/Bridge/*.{swift}"
-      bridge.dependency 'DCTBridge/Carousel/VM'
-      bridge.dependency 'DCTCollection'
-      bridge.dependency 'DCTCocoa/SM'
-      bridge.dependency 'DCTBridge/Base'
-      bridge.dependency 'RxDataSources'
-    end
-  end
+  
   
   # 1
   spec.subspec 'CollectionSection' do |cs|
     
     cs.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/CollectionSection/VM/*.{swift}"
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'RxCocoa'
       vm.dependency 'RxSwift'
     end
@@ -592,7 +555,7 @@ Pod::Spec.new do |spec|
     
     cs.subspec 'VM' do |vm|
       vm.source_files = "Code/DCTBridge/TableSection/VM/*.{swift}"
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'RxCocoa'
       vm.dependency 'RxSwift'
     end
@@ -613,19 +576,21 @@ Pod::Spec.new do |spec|
       
       manager.source_files = "Code/DCTBridge/Area/Manager/*.{swift}"
       manager.dependency 'RxCocoa'
-      manager.dependency 'WLBaseViewModel'
+      manager.dependency 'DCTViewModel'
       manager.dependency 'DCTApi'
       manager.dependency 'DCTRReq'
       manager.dependency 'DCTResult'
       manager.dependency 'DCTYY'
       manager.dependency 'DCTBean/Area'
       manager.dependency 'DCTRReq'
+      manager.dependency 'DCTError'
+      manager.dependency 'DCTOM'
     end
     area.subspec 'VM' do |vm|
       
       vm.source_files = "Code/DCTBridge/Area/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTResult'
       vm.dependency 'DCTBean/Area'
     end
@@ -644,6 +609,8 @@ Pod::Spec.new do |spec|
   spec.subspec 'AreaJson' do |areaJson|
     
     areaJson.source_files = "Code/DCTBridge/AreaJson/*.{swift}"
+    areaJson.dependency 'DCTBridge/Area/Manager'
+    areaJson.dependency 'DCTBridge/Base'
   end
   
   spec.subspec 'Address' do |address|
@@ -652,7 +619,7 @@ Pod::Spec.new do |spec|
       
       vm.source_files = "Code/DCTBridge/Address/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'ObjectMapper'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
@@ -660,7 +627,8 @@ Pod::Spec.new do |spec|
       vm.dependency 'DCTBean/Area'
       vm.dependency 'DCTBean/Address'
       vm.dependency 'WLToolsKit/String'
-      
+      vm.dependency 'DCTError'
+      vm.dependency 'DCTOM'
     end
     
     address.subspec 'Bridge' do |bridge|
@@ -680,7 +648,7 @@ Pod::Spec.new do |spec|
       
       vm.source_files = "Code/DCTBridge/Message/VM/*.{swift}"
       vm.dependency 'RxCocoa'
-      vm.dependency 'WLBaseViewModel'
+      vm.dependency 'DCTViewModel'
       vm.dependency 'DCTApi'
       vm.dependency 'DCTRReq'
       vm.dependency 'DCTResult'
@@ -697,4 +665,51 @@ Pod::Spec.new do |spec|
       bridge.dependency 'DCTCocoa/Refresh'
     end
   end
+  
+  # 翻译
+  #  spec.subspec 'Translate' do |translate|
+  #    
+  #    translate.subspec 'VM' do |vm|
+  #      
+  #      vm.source_files = "Code/DCTBridge/Translate/VM/*.{swift}"
+  #      vm.dependency 'RxCocoa'
+  #      vm.dependency 'DCTViewModel'
+  #      vm.dependency 'ObjectMapper'
+  #      vm.dependency 'DCTApi'
+  #      vm.dependency 'DCTRReq'
+  #      vm.dependency 'DCTResult'
+  #    end
+  #    
+  #    translate.subspec 'Bridge' do |bridge|
+  #      bridge.source_files = "Code/DCTBridge/Translate/Bridge/*.{swift}"
+  #      bridge.dependency 'DCTBridge/Translate/VM'
+  #      bridge.dependency 'DCTTransition'
+  #      bridge.dependency 'DCTBridge/Base'
+  #      bridge.dependency 'DCTHud'
+  #    end
+  #  end
+  
+  spec.subspec 'Video' do |video|
+    
+    video.subspec 'VM' do |vm|
+      
+      vm.source_files = "Code/DCTBridge/Video/VM/*.{swift}"
+      vm.dependency 'RxCocoa'
+      vm.dependency 'DCTApi'
+      vm.dependency 'DCTRReq'
+      vm.dependency 'DCTResult'
+      vm.dependency 'DCTViewModel'
+      vm.dependency 'DCTError'
+    end
+    
+    video.subspec 'Bridge' do |bridge|
+      bridge.source_files = "Code/DCTBridge/Video/Bridge/*.{swift}"
+      bridge.dependency 'DCTBridge/Video/VM'
+      bridge.dependency 'DCTTransition'
+      bridge.dependency 'DCTCache/Account'
+      bridge.dependency 'DCTBridge/Base'
+      bridge.dependency 'DCTHud'
+    end
+  end
+  
 end

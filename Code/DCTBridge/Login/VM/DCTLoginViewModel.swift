@@ -10,13 +10,14 @@ import Foundation
 import DCTViewModel
 import RxSwift
 import RxCocoa
-
 import DCTResult
 import DCTApi
 import DCTRReq
 import DCTBean
 import DCTCheck
 import DCTCache
+import DCTError
+import DCTOM
 
 public struct DCTLoginViewModel: DCTViewModel {
     
@@ -80,7 +81,7 @@ public struct DCTLoginViewModel: DCTViewModel {
                         .mapObject(type: DCTUserBean.self)
                         .map({ DCTUserInfoCache.default.saveUser(data: $0) })
                         .map({ _ in DCTResult.logined })
-                        .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                        .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
                     
                 case let .failed(msg): return Driver<DCTResult>.just(DCTResult.failed(msg))
                     

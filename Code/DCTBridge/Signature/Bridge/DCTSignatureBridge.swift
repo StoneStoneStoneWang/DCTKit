@@ -12,6 +12,7 @@ import RxSwift
 import DCTBase
 import DCTHud
 import DCTCache
+
 @objc(DCTSignatureActionType)
 public enum DCTSignatureActionType: Int ,Codable {
     

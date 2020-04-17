@@ -13,7 +13,6 @@ import RxSwift
 import RxDataSources
 import DCTCocoa
 
-
 @objc (DCTAreaHeaderBridge)
 public final class DCTAreaHeaderBridge: DCTBaseBridge {
     

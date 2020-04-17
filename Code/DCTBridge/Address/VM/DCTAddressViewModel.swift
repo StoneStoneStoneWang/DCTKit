@@ -10,11 +10,13 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
 import DCTResult
 import DCTApi
 import DCTBean
 import DCTRReq
+import DCTOM
+import DCTError
+
 
 struct DCTAddressViewModel: DCTViewModel {
     
@@ -60,7 +62,7 @@ struct DCTAddressViewModel: DCTViewModel {
                 return DCTArrayResp(DCTApi.fetchAddress)
                     .mapArray(type: DCTAddressBean.self)
                     .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
             })
         
         let itemAccessoryButtonTapped: Driver<IndexPath> = input.itemAccessoryButtonTapped.map { $0 }
@@ -93,6 +95,6 @@ extension DCTAddressViewModel {
         
         return DCTVoidResp(DCTApi.deleteAddress(encode))
             .flatMapLatest({ return Driver.just(DCTResult.ok("移除成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
 }

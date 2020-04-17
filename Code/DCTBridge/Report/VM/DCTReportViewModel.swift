@@ -16,6 +16,7 @@ import ObjectMapper
 import RxDataSources
 import DCTApi
 import DCTRReq
+import DCTError
 
 @objc public final class DCTReportBean: NSObject,IdentifiableType ,Mappable {
     public init?(map: Map) {
@@ -103,7 +104,7 @@ struct DCTReportViewModel: DCTViewModel {
 
                 return DCTVoidResp(DCTApi.report(input.uid, targetEncoded: input.encode, type: $0.0, content: $0.1))
                     .map({ _ in DCTResult.ok("举报成功") })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
         }
         
         let output = WLOutput(zip: zip, completing: completing, completed: completed)

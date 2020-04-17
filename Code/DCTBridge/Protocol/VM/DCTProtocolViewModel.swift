@@ -34,7 +34,7 @@ public struct DCTProtocolViewModel: DCTViewModel {
         //        https://zhih.ecsoi.com/other/other_PrivacyProtocols?encoded=7e730d5b41f7436da8b1b4a65a5aa49f
         if let url = URL(string: "\(DCTConfigure.fetchDomain())other/other_privacyProtocols?encoded=\(DCTConfigure.fetchAppKey())") {
             //            Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-            if UIAppliDCTion.shared.canOpenURL(url) {
+            if UIApplication.shared.canOpenURL(url) {
                 
                 let queue = DispatchQueue(label: Bundle.main.bundleIdentifier ?? "com.DCT.pro")
                 
@@ -44,7 +44,7 @@ public struct DCTProtocolViewModel: DCTViewModel {
                         
                         output.contented.accept(try String(contentsOf: url))
                         
-                    } DCTch  {
+                    } catch  {
                         
                         debugPrint(error)
                     }

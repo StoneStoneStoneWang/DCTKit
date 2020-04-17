@@ -8,7 +8,7 @@
 
 import Foundation
 import RxCocoa
-
+import DCTError
 import DCTViewModel
 import WLToolsKit
 import DCTResult
@@ -57,7 +57,7 @@ struct DCTFeedBackViewModel: DCTViewModel {
                 
                 return DCTVoidResp(DCTApi.feedback("yuanxingfu1314@163.com", content: $0.0))
                     .map { _ in DCTResult.ok("意见建议提交成功")}
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) }) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) }) })
         
         let placeholderHidden: Driver<Bool> = input.feedBack.flatMapLatest { Driver.just(!$0.wl_isEmpty)}
         

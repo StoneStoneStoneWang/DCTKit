@@ -10,11 +10,12 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
 import DCTResult
 import DCTRReq
 import DCTBean
 import DCTApi
+import DCTError
+import DCTOM
 
 public struct DCTBlackViewModel: DCTViewModel {
     
@@ -53,7 +54,7 @@ public struct DCTBlackViewModel: DCTViewModel {
                 return DCTArrayResp(DCTApi.fetchBlackList)
                     .mapArray(type: DCTBlackBean.self)
                     .map({ return $0.count > 0 ? DCTResult.fetchList($0) : DCTResult.empty })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
             })
         
         let endHeaderRefreshing = headerRefreshData.map { $0 }
@@ -82,6 +83,6 @@ extension DCTBlackViewModel {
         
         return DCTVoidResp(DCTApi.removeBlack(encode))
             .flatMapLatest({ return Driver.just(DCTResult.ok("移除成功")) })
-            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+            .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
     }
 }

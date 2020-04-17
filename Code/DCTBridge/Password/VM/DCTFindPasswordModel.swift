@@ -10,7 +10,8 @@ import Foundation
 import DCTViewModel
 import RxCocoa
 import RxSwift
-
+import DCTOM
+import DCTError
 import DCTResult
 import DCTCheck
 import DCTApi
@@ -106,7 +107,7 @@ public struct DCTFindPasswordModel: DCTViewModel {
                         return Disposables.create { }
                     })
                     
-                    return result.asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    return result.asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
                     
                 case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
                     
@@ -127,7 +128,7 @@ public struct DCTFindPasswordModel: DCTViewModel {
                     
                     return DCTVoidResp(DCTApi.resettingPassword($0.0, password: $0.2, code: $0.1))
                         .map({ DCTResult.ok("找回密码成功") })
-                        .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                        .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
                     
                 case let .failed(message: msg): return Driver<DCTResult>.just(DCTResult.failed( msg))
                 default: return Driver<DCTResult>.empty()

@@ -11,12 +11,13 @@ import DCTViewModel
 import RxCocoa
 import RxSwift
 import DCTResult
-
 import DCTBean
 import RxDataSources
 import DCTApi
 import DCTRReq
 import WLToolsKit
+import DCTOM
+import DCTError
 
 @objc (DCTAddressEditBean)
 public class DCTAddressEditBean: NSObject ,IdentifiableType{
@@ -215,7 +216,7 @@ struct DCTAddressEditViewModel: DCTViewModel {
                 return DCTDictResp(DCTApi.editAddress(input.encode, name: $0.0, phone: $0.1, plcl: $0.3.areaId, plclne: $0.3.name, city: $0.4.areaId, cityne: $0.4.name, region: $0.5.areaId, regionne: $0.5.name, addr: $0.2, isdef: $0.6, zipCode: ""))
                     .mapObject(type: DCTAddressBean.self)
                     .map({ DCTResult.operation($0) })
-                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! WLBaseError).description.0)) })
+                    .asDriver(onErrorRecover: { return Driver.just(DCTResult.failed(($0 as! DCTError).description.0)) })
         }
         self.output = WLOutput(zip: zip, completing: completing,completed: completed)
         

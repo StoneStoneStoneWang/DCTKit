@@ -9,9 +9,9 @@
 import Foundation
 
 @objc (DCTAreaJson)
-public final class DCTAreaJson: DCTBaseBridge { }
+public final class DCTAreaJsonBridge: DCTBaseBridge { }
 
-extension DCTAreaJson {
+extension DCTAreaJsonBridge {
     @objc (fetchAreas)
     public func fetchAreas() {
         
