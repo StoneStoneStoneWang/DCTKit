@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSInteger ,DCTConfigureType) {
     /** 花店  */
-    DCTConfigureTypeCleaner NS_SWIFT_NAME(cleaner) = 1,
+    DCTConfigureTypeNurse NS_SWIFT_NAME(nurse) = 1,
 };
 
 NS_ASSUME_NONNULL_BEGIN

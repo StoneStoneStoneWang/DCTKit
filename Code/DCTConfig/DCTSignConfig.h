@@ -13,11 +13,11 @@
 #define DCTDOMAIN "http://zhihw.ecsoi.com/"
 
 #pragma mark ---- 花店
-#define DCTCONFIGURETYPECLEANER 1
+#define DCTCONFIGURETYPENURSE 1
 
-#if DCTCONFIGURETYPECLEANER
+#if DCTCONFIGURETYPENURSE
 
-#define DCTCONFIGURETYPE DCTConfigureTypeCLEANER
+#define DCTCONFIGURETYPE DCTConfigureTypeNurse
 
 #endif
 

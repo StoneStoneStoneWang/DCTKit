@@ -23,7 +23,7 @@
 #define DCTLOGINNAVALPHA 1
 
 // MARK: 个人中心 导航透明色
-#define DCTPROFILEALPHA 0
+#define DCTPROFILEALPHA 1
 
 #pragma mark ---welcome
 

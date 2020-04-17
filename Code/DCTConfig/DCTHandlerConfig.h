@@ -12,269 +12,269 @@
 
 #else
 
-#define DCTLoginedBlock I43szilQ6tWk
+#define DCTLoginedBlock tXQsSLiJcoN
 
-#define DCTWelcomeCollectionViewCell falvwoM0Y_
+#define DCTWelcomeCollectionViewCell uIkiYK3Ygcv
 
-#define DCTWelcomeViewController QKpXOp0uFs
+#define DCTWelcomeViewController dile3Xv023
 
-#define createWelcomeWithSkipBlock XgE7EAwLBVxe
+#define createWelcomeWithSkipBlock iOk8sTsWhMYG
 
-#define AppDelegate v6V240S98z4c
+#define AppDelegate kl9WwYJkpeA
 
-#define DCTMethod eUfYvXcvnZ
+#define DCTMethod Ej_KT16MOw
 
-#define DCTShared qUni0GnUIKDf
+#define DCTShared knTIIV7lshYR
 
-#define DCTWelcomeSkip ZtfM1A8MHx
+#define DCTWelcomeSkip dA1C4hKer4G
 
-#define DCTUnLogin vhNzNXqYqnIe
+#define DCTUnLogin Ckjkk1bZPp
 
-#define DCTPresentLogin mEXhko5c1gEy
+#define DCTPresentLogin bo2Q5qhGvU
 
-#define DCTRootViewController Ses4fOtVzG
+#define DCTRootViewController jr0AHxOGuV
 
-#define DCTCheckLoginAndPresentLogin IPQgFPxKiJ7
+#define DCTCheckLoginAndPresentLogin yD5j1JmoNY9X
 
-#define DCTLoginSucc JgR9TI9M4f2
+#define DCTLoginSucc zQRD0S7pqmY
 
-#define DCTPushSwiftLogin euhX17hlXcE
+#define DCTPushSwiftLogin b5Qit253gJ
 
-#define DCTSwiftLoginSucc ef3I0gfxJ2kb
+#define DCTSwiftLoginSucc Pop3dvo2cs
 
-#define DCTPushProtocol yLpOabPLvtl
+#define DCTPushProtocol k4cDEoPHbD
 
-#define DCTPushFindPassword o9ATQZN9zA1
+#define DCTPushFindPassword GTGPBb6AGK
 
-#define DCTPushModifyPassword gT8XZ6hIQzs
+#define DCTPushModifyPassword p_fnvGSsXD
 
-#define DCTPushSetting K9sj52ecvky
+#define DCTPushSetting T2efI7mTMH1
 
-#define DCTPushUserInfo pHc4VvBUvaLp
+#define DCTPushUserInfo LheRrOrQDmF
 
-#define DCTPushName EtOC411E8R
+#define DCTPushName qbLf5BPFq1
 
-#define DCTPushSignature pyDSc7dCDP
+#define DCTPushSignature mmOz4B_8UCU
 
-#define DCTLogout eJfdHeNujgz
+#define DCTLogout az1nO5JNrabb
 
-#define DCTDismiss P5COBmhKGQr
+#define DCTDismiss BTBLMhV25n
 
-#define DCTPop AVMSbJ0rTet
+#define DCTPop U9mVHdNzTq
 
-#define DCTTokenInvalid XCk85UvCQN
+#define DCTTokenInvalid UmypAhuerDaS
 
-#define DCTCheckLogin VqM7XsvOCJ
+#define DCTCheckLogin Scfk2xEyODiM
 
-#define DCTCreateProfile Slwoj0JkeJ
+#define DCTCreateProfile G1puFuxVLD9
 
-#define DCTPushPrivacy _DXxpCyh3QW
+#define DCTPushPrivacy z_znxn96tu6
 
-#define DCTPushAbout fo2NaPwXZe
+#define DCTPushAbout DmtzHaUjvth
 
-#define DCTPushFeedBack FBScs18uXWW
+#define DCTPushFeedBack UcrFhi_RfH
 
-#define DCTCreateCarousel pxRE_DFIdr2t
+#define DCTCreateCarousel ggO12ryyr0
 
-#define DCTPushReport f5HVt1Gv0gwD
+#define DCTPushReport TghGBRrJpd
 
-#define DCTLoginBlock RUxHFOqJ5Y
+#define DCTLoginBlock rzRlzH5hZl
 
-#define createLoginWithBlock zDYRp8IEKd
+#define createLoginWithBlock oMvgV7qXzVMa
 
-#define DCTRegBlock t0GK1dDh9Rq
+#define DCTRegBlock brtOFiAbBxF
 
-#define DCTRegViewController MJAdEFBGS_
+#define DCTRegViewController Ap0TxMGH5i7
 
-#define createRegWithBlock PPXejW1cQU
+#define createRegWithBlock _8LMN3fhenOb
 
-#define DCTProtocolViewController eEwvwkevI_
+#define DCTProtocolViewController Ieuge3M0Fgpg
 
-#define DCTFindPassworBlock L0mkSBECPIF
+#define DCTFindPassworBlock chhkWG_UudN
 
-#define createPasswordWithBlock yUKDIFgXXcXa
+#define createPasswordWithBlock kEDlO92vRvCD
 
-#define DCTModifyPasswordBlock j7f_Lny7QSd
+#define DCTModifyPasswordBlock iQwVnJPhUAU3
 
-#define DCTSettingTableViewCell eOcyLXDLxw
+#define DCTSettingTableViewCell EWb1ynbvra
 
-#define DCTSettingBlock AqNCCrkusY5E
+#define DCTSettingBlock vtEaoUDunWs
 
-#define DCTSettingViewController Q78qH2ChEd
+#define DCTSettingViewController hSDC4Susd3VZ
 
-#define createSettingWithBlock XVnx_q4MZ9
+#define createSettingWithBlock vm6GwDZIY_C
 
-#define DCTUserInfoActionType mWqZsduhNO
+#define DCTUserInfoActionType vFEcNK9F8xW
 
-#define DCTUserInfoBlock sNmlwi9lPoc
+#define DCTUserInfoBlock HrjFbYnp8q2l
 
-#define DCTUserInfoViewController Y_FNTBOZfX
+#define DCTUserInfoViewController pzOrNB527nl0
 
-#define DCTUserInfoTableViewCell xeSG7O_8lEU
+#define DCTUserInfoTableViewCell TFAs9K_c6c
 
-#define createUserInfoWithBlock lPUhYWP67i
+#define createUserInfoWithBlock pLxdeE6d4R
 
-#define DCTFeedBackViewController yRKJMWfcGF9t
+#define DCTFeedBackViewController yG6MKY5Ze8K
 
-#define DCTAboutViewController VipFya9BEl
+#define DCTAboutViewController qK8Wg9U2hd
 
-#define DCTAboutTableHeaderView cMxYQGyoRQ0
+#define DCTAboutTableHeaderView VflqedL_St
 
-#define DCTAboutTableViewCell y7J6z_8Svt
+#define DCTAboutTableViewCell wCUPTewbEU
 
-#define DCTReportViewController rSJ4pgaD0g
+#define DCTReportViewController ynjg5H8LGLeu
 
-#define DCTReportTableViewCell jX8UIiQlOT
+#define DCTReportTableViewCell SY594rTpJe
 
-#define DCTReportBlock Mexf7VB3cyp
+#define DCTReportBlock bfeQbjVPZT
 
-#define DCTCarouselViewController LHlc404fr3i
+#define DCTCarouselViewController h0wIt1tsT6si
 
-#define DCTCarouselFormTwoLayout zYOpFOM4Yvl
+#define DCTCarouselFormTwoLayout an9nIKe7jt7q
 
-#define DCTCarouselFormOneLayout Ona3xhUJ3Rir
+#define DCTCarouselFormOneLayout HfCj70u24j5n
 
-#define DCTCarouselCollectionViewCell oNekMerzS4T
+#define DCTCarouselCollectionViewCell mAUINFAHWz
 
-#define DCTUserCenterCollectionViewCell bbreY9Gr6n1
+#define DCTUserCenterCollectionViewCell t9TXmGMdPda
 
-#define DCTUserCentereBlock mVNEttdpuCg
+#define DCTUserCentereBlock CpvslBLwDkTe
 
-#define DCTUserCenterViewController p1fbScphiPF
+#define DCTUserCenterViewController sbowqbQRIeau
 
-#define createUserCenterWithBlock ugnwBdP_Kxyr
+#define createUserCenterWithBlock LLFrr1LWjd
 
-#define DCTPresentNickName hziSP5tsi1
+#define DCTPresentNickName zoOjiZSXPl7
 
-#define DCTPresentSignature UuCAHM9Q3n
+#define DCTPresentSignature rXnfTcg4S12
 
-#define DCTPrivacyViewController eWXRBjKx1S
+#define DCTPrivacyViewController pvS7Rn73Ht5
 
-#define createPrivacy moLTZYUKRqD2
+#define createPrivacy Wv5c3ut53xQ
 
-#define DCTBannerViewController y8v3pd6ts8a
+#define DCTBannerViewController cRNklCQqTMzB
 
-#define createBannerWithBanners o3Xu_4EQufj
+#define createBannerWithBanners fleEHXfv5wj
 
-#define createFeedBackWithBlock BSoQOJTAbfrI
+#define createFeedBackWithBlock PMwh4YtoUlkf
 
-#define DCTNameViewController FSHOi0axfZD
+#define DCTNameViewController WWyaS1YZ3jN
 
-#define createNickNameWithBlock doQZgYad_2
+#define createNickNameWithBlock ytjG9fReJBfp
 
-#define DCTSignatureViewController efS96Zh6rilk
+#define DCTSignatureViewController bUProWBSdZ
 
-#define createSignatureWithBlock PwFfRgXvWNR
+#define createSignatureWithBlock jHOwoCokcI6
 
-#define DCTAreaHeaderViewController RQWi9jShfpI
+#define DCTAreaHeaderViewController bZ5C5X2kS2P
 
-#define DCTAreaHeaderBlock W5E_LE_Q3En6
+#define DCTAreaHeaderBlock YDQZReUXal9
 
-#define createAreaHeaderWithPid AddcgxRQRiR8
+#define createAreaHeaderWithPid TPN9nC6IE3
 
-#define DCTPresentModifyPassword wMTztIBHQxI
+#define DCTPresentModifyPassword ZVUaqWTr1T
 
-#define DCTPresentFindPassword nswRC0KEkV
+#define DCTPresentFindPassword krwvxzw2Ds
 
-#define DCTFindPasswordActionType Au7UUuMmUj
+#define DCTFindPasswordActionType IcG95LCj22
 
-#define DCTModifyPasswordActionType earo82rYDa
+#define DCTModifyPasswordActionType Qajb5ZM0VcF
 
-#define DCTMainViewController sQAEpVHgx80j
+#define DCTMainViewController xGXA3XcGKn
 
-#define DCTProfileViewController slEaTDZj7VB
+#define DCTProfileViewController E7pYeOxe34
 
-#define DCTProfileTableHeaderView AIF55sigLiG
+#define DCTProfileTableHeaderView yruWsqCeYbj
 
-#define DCTProfileTableViewCell tDRCdlrK4aE
+#define DCTProfileTableViewCell Zt1G3CQUdI
 
-#define DCTProfileBlock DfhCqIHoY7
+#define DCTProfileBlock FHb0OYKW2ARc
 
-#define createProfileWithBlock io4PKUTlwjwQ
+#define createProfileWithBlock tUicYhZEUR
 
-#define DCTHomeViewController TlGdajDAGeH
+#define DCTHomeViewController IrBhLUAQRQ
 
-#define DCTAMapTViewController NpL4nyMdy1tf
+#define DCTAMapTViewController CQSxzn2FWR
 
-#define DCTStoreViewController ITUGD9NpC6
+#define DCTStoreViewController KJpiU3KD1R
 
-#define DCTOrderViewController MTTAnmgOj0M
+#define DCTOrderViewController SRnHB0rMpL
 
 #if DCTCONFIGURETYPECleaner
 
-#define DCTPushOrder Q20dRCtWpcZi
+#define DCTPushOrder e2iWDMYtyE
 
-#define DCTPushAddress lhLos0U9Te2
+#define DCTPushAddress YAxfAUalxJ5
 
-#define DCTPushAddressSelected q7RW302zATK
+#define DCTPushAddressSelected _uVxJXaldQQc
 
-#define DCTPushAddressEdit QbLM51oj7Eg
+#define DCTPushAddressEdit PAxwwApK3hG
 
-#define DCTPushAddressEditAdd HDi9BOwIniul
+#define DCTPushAddressEditAdd PKU12ioigj4l
 
-#define DCTAddressEditTableViewCell yTX113Hs6ryu
+#define DCTAddressEditTableViewCell s78WvzpRck
 
-#define DCTPushArea clB3WVTCIo
+#define DCTPushArea u9L5yt9ajl
 
-#define DCTAddressViewController dL3r9BpIWD
+#define DCTAddressViewController mwvpQZIfVijD
 
-#define createAddressWithBlock pFez78ZHHy
+#define createAddressWithBlock aBmkWY2D5yg
 
-#define DCTAddressBlock eXUp2nnWHl_O
+#define DCTAddressBlock SG9toLNJ257F
 
-#define DCTAddressEditTableViewCellDelegate YiBKRqPt4dNf
+#define DCTAddressEditTableViewCellDelegate Ip_uLb0YYzaV
 
-#define DCTAddressSelectedViewController jgGaNLAksYLj
+#define DCTAddressSelectedViewController xpkJ6Dkszim
 
-#define DCTAddressSelectedBlock f5aK4xDvupmS
+#define DCTAddressSelectedBlock ER8FuC6I9KL
 
-#define createAddressSelectedWithBlock rMsF8RMNP6A5
+#define createAddressSelectedWithBlock gh7umUXSV3du
 
-#define DCTAddressTableViewCell QIWVlylOly
+#define DCTAddressTableViewCell _eqsra2Ompq
 
-#define DCTAddressSelectedTableViewCell hXZ38fgnzEx
+#define DCTAddressSelectedTableViewCell GYdh6TsQ8fev
 
-#define DCTAddressEditBlock yFjFG2iRlu
+#define DCTAddressEditBlock ivBoZ9wN7_
 
-#define DCTAddressEditActionType UJFukF_XEyw
+#define DCTAddressEditActionType ufdNEQA6PU8b
 
-#define DCTAddressEditViewController hSDE2aTNai4X
+#define DCTAddressEditViewController Lrkn3jt6EQl
 
-#define creatAddressEditWithAddressBean scvrGw3x_Zn
+#define creatAddressEditWithAddressBean nstXxopEVT
 
-#define updateAddressEditArea Mgra2cy_4a0
+#define updateAddressEditArea zma2B3u9bx6
 
-#define DCTOrderViewController rDw9d49Iwj0
+#define DCTOrderViewController SuRQp8gy_wQ
 
-#define DCTJoinUsViewController PviYmVvqMxS
+#define DCTJoinUsViewController SSpbJNQmN_l
 
-#define DCTNewsViewController SQnuima_QaCw
+#define DCTNewsViewController ZFtdctd0NjpL
 
-#define DCTEpidemicViewController Fpoqs8gNxB8n
+#define DCTEpidemicViewController dvEiK_5DGD
 
-#define DCTEpidemicContentViewController IFnHjI3mwN2o
+#define DCTEpidemicContentViewController AP9tE5WiSg9C
 
-#define DCTOfficialViewController SwsL5zFqkEAS
+#define DCTOfficialViewController dSv6_z56FTZ
 
-#define DCTOfficialContentViewController Zn_rt5k6H1d
+#define DCTOfficialContentViewController X13auI_XV2
 
-#define DCTTrashViewController Iv1xoox1HJB_
+#define DCTTrashViewController slawAV7Vaq
 
-#define DCTKindViewController BrH1UGZnUIq4
+#define DCTKindViewController BsUZbVxJrK
 
-#define DCTSubDCTagoryViewController foM1aH8Jnj4
+#define DCTSubDCTagoryViewController NtVFr48tD_3
 
-#define DCTJoinersViewController ORwJf1gooR
+#define DCTJoinersViewController G1P2cDfzz9
 
-#define DCTHomeItemViewController SdkXkE1kyW
+#define DCTHomeItemViewController McOg3fP6HvN
 
-#define DCTHomeItemHeaderView oATQsovudp
+#define DCTHomeItemHeaderView umnpkMw59RrI
 
-#define DCTHomeItemCell lcJlEgsSTz3x
+#define DCTHomeItemCell IGhhWs87M3
 
-#define DCTTradeViewController gjxhJhUkhnrg
+#define DCTTradeViewController Vugru7FT0OWR
 
-#define DCTHomeViewController fYbqtDFVRJ5G
+#define DCTHomeViewController Dm3rZUgL8UjN
 
 
 #endif
