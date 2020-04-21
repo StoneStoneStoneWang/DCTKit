@@ -79,7 +79,7 @@ extension DCTApi: DCTOR {
             
         case .deleteMyCircle: return "mob/circleFriends_mobDelCircleFriends?"
             
-        case .analysis: return "mob/loDCTion_mobAddLoDCTion?"
+        case .analysis: return "mob/location_mobAddLocation?"
             
         case .fetchTags: return "mob/circleFriends_mobListTag?"
             

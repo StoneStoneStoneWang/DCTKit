@@ -10,6 +10,12 @@
 @import DCTTextField;
 @import SToolsKit;
 @import Masonry;
+#if DCTLoginTwo
+
+@import DCTDraw;
+
+#endif
+
 @interface DCTRegViewController ()
 @property (nonatomic ,strong) DCTRegBridge *bridge;
 
@@ -33,6 +39,8 @@
 #elif DCTLoginTwo
 
 @property (nonatomic ,strong) UIImageView *logoImgView;
+
+@property (nonatomic ,strong) DCTDrawView *drawView;
 
 #elif DCTLoginThree
 
@@ -214,7 +222,10 @@
     
     [self.view insertSubview:self.backgroundImageView atIndex:0];
 #elif DCTLoginTwo
-    [self.view addSubview:self.logoImgView];
+    
+    [self.view insertSubview:self.drawView atIndex:0];
+    
+    [self.view insertSubview:self.logoImgView atIndex:1];
 #elif DCTLoginThree
     [self.view addSubview:self.logoImgView];
     
@@ -268,6 +279,18 @@
         _logoImgView.layer.borderWidth = 1;
     }
     return _logoImgView;
+}
+- (DCTDrawView *)drawView {
+    
+    if (!_drawView) {
+        
+        _drawView = [DCTDrawView createDraw:DCTDrawTypeShape];
+        
+        _drawView.backgroundColor = [UIColor clearColor];
+        
+        _drawView.fillColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff50"];
+    }
+    return _drawView;
 }
 #elif DCTLoginThree
 
@@ -502,22 +525,35 @@
     
     CGFloat w = CGRectGetWidth(self.view.bounds);
     
+    CGFloat h = w - 60;
+    
+    [self.drawView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.mas_equalTo(30);
+        
+        make.right.mas_equalTo(-30);
+        
+        make.centerY.equalTo(self.view);
+        
+        make.height.mas_equalTo(h * 5 / 3);
+    }];
+    
     [self.logoImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.width.height.mas_equalTo(80);
         
-        make.centerX.mas_equalTo(self.view);
+        make.centerX.equalTo(self.view.mas_centerX);
         
-        make.top.mas_equalTo(60);
-        
-        make.width.height.mas_equalTo(@80);
+        make.centerY.equalTo(self.drawView.mas_top);
     }];
     
     [self.phone mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.logoImgView.mas_bottom).offset(60);
+        make.top.mas_equalTo(self.drawView.mas_top).offset(60);
         
-        make.left.mas_equalTo(@15);
+        make.left.equalTo(self.drawView.mas_left).offset(15);
         
-        make.right.mas_equalTo(@-15);
+        make.right.equalTo(self.drawView.mas_right).offset(-15);
         
         make.height.mas_equalTo(@48);
     }];
@@ -597,29 +633,34 @@
     
     [self.loginItem mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.proItem.mas_bottom).offset(10);
+        make.bottom.equalTo(self.drawView.mas_bottom).offset(-15);
         
-        make.left.mas_equalTo(self.phone.mas_left);
+        make.right.equalTo(self.phone.mas_right).offset(5);
         
-        make.right.mas_equalTo(self.phone.mas_right);
-        
-        make.height.mas_equalTo(self.phone.mas_height);
-        
+        make.height.width.equalTo(self.phone.mas_height);
     }];
     
+    [self.loginItem setImage:[UIImage imageNamed:@DCTLoginIcon] forState:UIControlStateNormal];
+    
+    [self.loginItem setImage:[UIImage imageNamed:@DCTLoginIcon] forState:UIControlStateHighlighted];
+    
+    [self.loginItem setTitle:@"" forState:UIControlStateNormal];
+
+    [self.loginItem setTitle:@"" forState:UIControlStateHighlighted];
+    
+    self.loginItem.layer.cornerRadius = 24;
+    
+    self.loginItem.layer.masksToBounds = true;
+    
     [self.loginItem setBackgroundImage:[UIImage s_transformFromHexColor:@"#ffffff"] forState:UIControlStateNormal];
-    
+
     [self.loginItem setBackgroundImage:[UIImage s_transformFromAlphaHexColor:[NSString stringWithFormat:@"%@80",@"#ffffff"]] forState:UIControlStateHighlighted];
-    
-    [self.loginItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@DCTColor] forState:UIControlStateNormal];
-    
-    [self.loginItem setTitleColor:[UIColor s_transformToColorByHexColorStr:[NSString stringWithFormat:@"%@80",@DCTColor]] forState:UIControlStateHighlighted];
     
     [self.backLoginItem mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.vcode.mas_bottom).offset(10);
+        make.bottom.mas_equalTo(-60);
         
-        make.left.mas_equalTo(self.phone.mas_left);
+        make.centerX.equalTo(self.view);
         
         make.height.mas_equalTo(self.phone.mas_height);
         
@@ -628,6 +669,9 @@
     [self.backLoginItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@"#ffffff"] forState:UIControlStateNormal];
     
     [self.backLoginItem setTitleColor:[UIColor s_transformTo_AlphaColorByHexColorStr: [NSString stringWithFormat:@"%@80",@"#ffffff"]] forState:UIControlStateHighlighted];
+    
+    self.backLoginItem.layer.borderColor = [UIColor clearColor].CGColor;
+    
 #elif DCTLoginThree
     
     self.topLine.backgroundColor = [UIColor s_transformToColorByHexColorStr:@DCTColor];

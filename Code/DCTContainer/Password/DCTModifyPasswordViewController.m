@@ -11,6 +11,12 @@
 @import SToolsKit;
 @import Masonry;
 
+#if DCTLoginTwo
+
+@import DCTDraw;
+
+#endif
+
 @interface DCTModifyPasswordViewController ()
 @property (nonatomic ,strong) DCTModifyPasswordBridge *bridge;
 
@@ -35,6 +41,9 @@
 #elif DCTLoginTwo
 
 @property (nonatomic ,strong) UIImageView *logoImgView;
+
+@property (nonatomic ,strong) DCTDrawView *drawView;
+
 
 #elif DCTLoginThree
 
@@ -209,7 +218,9 @@
     [self.view insertSubview:self.backgroundImageView atIndex:0];
 #elif DCTLoginTwo
     
-    [self.view addSubview:self.logoImgView];
+    [self.view insertSubview:self.drawView atIndex:0];
+    
+    [self.view insertSubview:self.logoImgView atIndex:1];
 #elif DCTLoginThree
     [self.view addSubview:self.logoImgView];
     
@@ -264,6 +275,18 @@
         _logoImgView.layer.borderWidth = 1;
     }
     return _logoImgView;
+}
+- (DCTDrawView *)drawView {
+    
+    if (!_drawView) {
+        
+        _drawView = [DCTDrawView createDraw:DCTDrawTypeShape];
+        
+        _drawView.backgroundColor = [UIColor clearColor];
+        
+        _drawView.fillColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff50"];
+    }
+    return _drawView;
 }
 #elif DCTLoginThree
 
@@ -432,22 +455,35 @@
     
     CGFloat w = CGRectGetWidth(self.view.bounds);
     
+    CGFloat h = w - 60;
+    
+    [self.drawView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.mas_equalTo(30);
+        
+        make.right.mas_equalTo(-30);
+        
+        make.centerY.equalTo(self.view);
+        
+        make.height.mas_equalTo(h * 5 / 3);
+    }];
+    
     [self.logoImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.width.height.mas_equalTo(80);
         
-        make.centerX.mas_equalTo(self.view);
+        make.centerX.equalTo(self.view.mas_centerX);
         
-        make.top.mas_equalTo(60);
-        
-        make.width.height.mas_equalTo(@80);
+        make.centerY.equalTo(self.drawView.mas_top);
     }];
     
     [self.oldpassword mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.logoImgView.mas_bottom).offset(60);
+        make.top.mas_equalTo(self.drawView.mas_top).offset(60);
         
-        make.left.mas_equalTo(@15);
+        make.left.equalTo(self.drawView.mas_left).offset(15);
         
-        make.right.mas_equalTo(@-15);
+        make.right.equalTo(self.drawView.mas_right).offset(-15);
         
         make.height.mas_equalTo(@48);
     }];
@@ -498,23 +534,28 @@
     
     [self.completeItem mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.againpassword.mas_bottom).offset(30);
+        make.bottom.equalTo(self.drawView.mas_bottom).offset(-15);
         
-        make.left.mas_equalTo(self.oldpassword.mas_left);
+        make.right.equalTo(self.oldpassword.mas_right).offset(5);
         
-        make.right.mas_equalTo(self.oldpassword.mas_right);
-        
-        make.height.mas_equalTo(self.oldpassword.mas_height);
-        
+        make.height.width.equalTo(self.oldpassword.mas_height);
     }];
     
+    [self.completeItem setImage:[UIImage imageNamed:@DCTLoginIcon] forState:UIControlStateNormal];
+    
+    [self.completeItem setImage:[UIImage imageNamed:@DCTLoginIcon] forState:UIControlStateHighlighted];
+    
+    [self.completeItem setTitle:@"" forState:UIControlStateNormal];
+
+    [self.completeItem setTitle:@"" forState:UIControlStateHighlighted];
+    
+    self.completeItem.layer.cornerRadius = 24;
+    
+    self.completeItem.layer.masksToBounds = true;
+    
     [self.completeItem setBackgroundImage:[UIImage s_transformFromHexColor:@"#ffffff"] forState:UIControlStateNormal];
-    
-    [self.completeItem setBackgroundImage:[UIImage s_transformFromAlphaHexColor:[NSString stringWithFormat:@"%@80",@"#ffffff"]] forState:UIControlStateHighlighted];
-    
-    [self.completeItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@DCTColor] forState:UIControlStateNormal];
-    
-    [self.completeItem setTitleColor:[UIColor s_transformToColorByHexColorStr:[NSString stringWithFormat:@"%@80",@DCTColor]] forState:UIControlStateHighlighted];
+
+    [self.completeItem setBackgroundImage:[UIImage s_transformFromAlphaHexColor:[NSString stringWithFormat:@"%@80",@"#ffffff"]] forState:UIControlStateHighlighted];;
     
     [self.oldpassword setLeftImageFrame:CGRectMake(0, 0, 80, 48)];
     
