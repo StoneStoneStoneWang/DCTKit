@@ -1,0 +1,6 @@
+framework module DCTAMap {
+  umbrella header "DCTAMap.h"
+
+  export *
+  module * { export * }
+}
