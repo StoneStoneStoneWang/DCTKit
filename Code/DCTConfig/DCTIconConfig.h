@@ -70,6 +70,8 @@
 
 #define DCTLoginBackIcon "返回白"
 
+#define DCTLoginIcon "登陆"
+
 #define DCTLogoIcon "Logo"
 
 #define DCTWelcomeImgs @[@"引导页1",@"引导页2",@"引导页3"]
@@ -80,6 +82,8 @@
 @{@"title": @"",@"icon": @"banner3"} ,\
 @{@"title": @"",@"icon": @"banner4"} ,\
 ]
+
+#define DCTArrowIcon "箭头"
 
 #define DCTAboutIcon "关于我们"
 

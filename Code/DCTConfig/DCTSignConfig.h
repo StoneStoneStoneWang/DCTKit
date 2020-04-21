@@ -17,16 +17,15 @@
 
 #define DCTCONFIGURETYPE DCTCONFIGURETYPESWIMMING
 
-#define DCTAPPKEY "156d09d660c444c89d46b15ed5366256"
 
-#define DCTDOMAIN "http://zhihw.ecsoi.com/"
 
 #elif DCTCONFIGURETYPETHERMAL
 
 #define DCTCONFIGURETYPE DCTConfigureTypeThermal
 
+#define DCTAPPKEY "156d09d660c444c89d46b15ed5366256"
 
-
+#define DCTDOMAIN "http://zhihw.ecsoi.com/"
 
 #endif
 

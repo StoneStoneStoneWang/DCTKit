@@ -91,6 +91,8 @@ public final class DCTUserCenterBridge: DCTBaseBridge {
     var viewModel: DCTUserCenterViewModel!
     
     weak var vc: DCTCollectionNoLoadingViewController!
+    
+    @objc public var headerView: DCTCollectionHeaderView!
 }
 
 extension DCTUserCenterBridge {
@@ -105,7 +107,8 @@ extension DCTUserCenterBridge {
         viewModel = DCTUserCenterViewModel(input, disposed: disposed)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<Section>(
-            configureCell: { ds, cv, ip, item in return vc.configCollectionViewCell(item, for: ip)})
+            configureCell: { ds, cv, ip, item in return vc.configCollectionViewCell(item, for: ip)},
+            configureSupplementaryView: { ds, cv, kind, ip in return vc.configCollectionViewHeader(DCTUserInfoCache.default.userBean, for: ip)})
         
         viewModel
             .output
@@ -144,7 +147,7 @@ extension DCTUserCenterBridge {
                 case .share: centerAction(.share)
                 case .version: centerAction(.version)
                 case .contactUS: centerAction(.contactUS)
-                 
+                    
                     
                 default:
                     break
@@ -152,5 +155,29 @@ extension DCTUserCenterBridge {
             })
             .disposed(by: disposed)
         
+    }
+    
+    @objc public func bindUserView(_ headerView: DCTCollectionHeaderView,centerAction:@escaping DCTUserCenterAction) {
+        
+        self.headerView = headerView
+        
+        viewModel
+            .output
+            .userInfo
+            .bind(to: headerView.rx.user)
+            .disposed(by: disposed)
+        
+        headerView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { (_) in
+                
+                let isLogin = DCTAccountCache.default.isLogin()
+                
+                centerAction(isLogin ? .header : .unLogin)
+                
+            })
+            .disposed(by: disposed)
     }
 }

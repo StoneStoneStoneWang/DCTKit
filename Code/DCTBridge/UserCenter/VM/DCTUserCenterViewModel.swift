@@ -90,7 +90,7 @@ extension DCTUserCenterType {
         
         if DCTConfigure.fetchPType() == .thermal {
             
-            return [.header,userInfo,.privacy,.share,.feedBack,.service,.setting]
+            return [userInfo,.privacy,.share,.feedBack,.service,.setting]
         }
         
         return [userInfo,.contactUS,.feedBack,.setting]
