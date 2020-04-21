@@ -61,6 +61,7 @@ Pod::Spec.new do |spec|
     login.dependency 'Masonry'
     login.dependency 'DCTTextField'
     login.dependency 'DCTTransition'
+    login.dependency 'DCTDraw'
   end
   
   # 注册 reg
@@ -72,6 +73,7 @@ Pod::Spec.new do |spec|
     reg.dependency 'Masonry'
     reg.dependency 'DCTTextField'
     reg.dependency 'DCTTransition'
+    reg.dependency 'DCTDraw'
   end
   
   # 密码 password
@@ -83,6 +85,7 @@ Pod::Spec.new do |spec|
     password.dependency 'Masonry'
     password.dependency 'DCTTextField'
     password.dependency 'DCTTransition'
+    password.dependency 'DCTDraw'
   end
   
   # 轮播 carousel
@@ -210,16 +213,15 @@ Pod::Spec.new do |spec|
   #  end
   
   # 举报 举报
-    spec.subspec 'Report' do |report|
-  
-      report.source_files = "Code/DCTContainer/Report/*.{h,m}"
-      report.dependency 'DCTConfig'
-      report.dependency 'DCTBridge/Report/Bridge'
-      report.dependency 'Masonry'
-      report.dependency 'DCTTable'
-      report.dependency 'JXTAlertManager'
-    end
-  
+  spec.subspec 'Report' do |report|
+    
+    report.source_files = "Code/DCTContainer/Report/*.{h,m}"
+    report.dependency 'DCTConfig'
+    report.dependency 'DCTBridge/Report/Bridge'
+    report.dependency 'Masonry'
+    report.dependency 'DCTTable'
+    report.dependency 'JXTAlertManager'
+  end
   
   # 地址 address
   spec.subspec 'Address' do |address|
