@@ -250,7 +250,7 @@ Pod::Spec.new do |spec|
     map.dependency 'DCTAMap'
     map.dependency 'DCTConfig'
     map.dependency 'SToolsKit'
-    map.frameworks = 'UIKit', 'Foundation' ,'CoreLoDCTion'
+    map.frameworks = 'UIKit', 'Foundation' ,'CoreLocation'
   end
   
 end
