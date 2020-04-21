@@ -28,6 +28,8 @@
 
 #elif DCTNameTwo
 
+@property (nonatomic ,strong) UIImageView *backgroundImageView;
+
 //    self.view.backgroundColor = [UIColor s_transformToColorByHexColorStr:@DCTColor];
 
 #elif DCTNameThree
@@ -56,6 +58,14 @@
 
 #elif DCTNameTwo
 
+- (UIImageView *)backgroundImageView {
+    
+    if (!_backgroundImageView) {
+        
+        _backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@DCTBackground]];
+    }
+    return _backgroundImageView;
+}
 
 #elif DCTNameThree
 
@@ -126,6 +136,7 @@
     
 #elif DCTNameTwo
     
+    [self.view insertSubview:self.backgroundImageView atIndex:0];
     
 #elif DCTNameThree
     
@@ -155,10 +166,15 @@
         
         make.left.right.mas_equalTo(0);
         
-        make.top.mas_equalTo(h);
+        make.top.mas_equalTo(h + 8);
         
         make.height.mas_equalTo(48);
     }];
+    
+    self.backgroundImageView.frame = self.view.bounds;
+    
+    self.textField.backgroundColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff80"];
+    
 #elif DCTNameThree
     
     self.topLine.backgroundColor = [UIColor s_transformToColorByHexColorStr:@DCTColor];
@@ -200,8 +216,9 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.completeItem];
     
-    [self.backItem setImage:[UIImage imageNamed:@DCTBackIcon] forState:UIControlStateNormal];
-    
+#if DCTNameTwo
+    [self.backItem setImage:[UIImage imageNamed:@DCTLoginBackIcon] forState:UIControlStateNormal];
+#endif
     [self.backItem sizeToFit];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.backItem];

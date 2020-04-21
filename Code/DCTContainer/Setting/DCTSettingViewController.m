@@ -58,6 +58,7 @@
         
         _swiItem.onTintColor = [UIColor s_transformToColorByHexColorStr:@DCTColor];
         
+        _swiItem.thumbTintColor = [UIColor whiteColor];
     }
     return _swiItem;
 }
@@ -68,7 +69,7 @@
     
     self.titleLabel.textAlignment = NSTextAlignmentLeft;
     
-    self.titleLabel.textColor =  [UIColor s_transformToColorByHexColorStr:@"#333333"];
+    self.titleLabel.textColor =  [UIColor s_transformToColorByHexColorStr:@"#ffffff"];
     
     self.selectionStyle = UITableViewCellSelectionStyleDefault;
     
@@ -80,7 +81,7 @@
     
     self.subTitleLabel.text = setting.subTitle;
     
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff30"];
     
     switch (setting.type) {
         case DCTSettingTypeLogout:
@@ -213,6 +214,12 @@
     [super configOwnSubViews];
     
     [self.tableView registerClass:[DCTSettingTableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@DCTBackground]];
+    
+    background.frame = self.view.bounds;
+    
+    self.tableView.backgroundView = background;
 }
 
 - (UITableViewCell *)configTableViewCell:(id)data forIndexPath:(NSIndexPath *)ip {
@@ -239,7 +246,7 @@
     
 #elif DCTUserInfoTwo
     
-    [self.bridge createSetting:self hasSpace:false settingAction:^(enum DCTSettingActionType actionType) {
+    [self.bridge createSetting:self hasSpace:true settingAction:^(enum DCTSettingActionType actionType) {
         
         weakSelf.block(actionType, weakSelf);
     }];

@@ -34,6 +34,8 @@
 
 #elif DCTNameTwo
 
+@property (nonatomic ,strong) UIImageView *backgroundImageView;
+
 //    self.view.backgroundColor = [UIColor s_transformToColorByHexColorStr:@DCTColor];
 
 #elif DCTNameThree
@@ -132,7 +134,7 @@
         
         _placeholder.tag = 202;
         
-        _placeholder.backgroundColor = [UIColor whiteColor];
+        //        _placeholder.backgroundColor = [UIColor whiteColor];
         
         _placeholder.userInteractionEnabled = false;
         
@@ -152,6 +154,8 @@
         
         [_completeItem setTitle:@"完成" forState:UIControlStateHighlighted];
         
+        [_completeItem setTitle:@"完成" forState:UIControlStateDisabled];
+        
         _completeItem.titleLabel.font = [UIFont systemFontOfSize:15];
         
         _completeItem.tag = 204;
@@ -164,7 +168,14 @@
 
 #elif DCTNameTwo
 
-
+- (UIImageView *)backgroundImageView {
+    
+    if (!_backgroundImageView) {
+        
+        _backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@DCTBackground]];
+    }
+    return _backgroundImageView;
+}
 #elif DCTNameThree
 
 - (UIView *)topLine {
@@ -201,6 +212,9 @@
     
 #elif DCTNameTwo
     
+    [self.view insertSubview:self.backgroundImageView atIndex:0];
+    
+    [self.view addSubview:self.completeItem];
     
 #elif DCTNameThree
     
@@ -271,20 +285,26 @@
     
 #elif DCTNameTwo
     
+    self.backgroundImageView.frame = self.view.bounds;
+    
     [self.whiteView mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.mas_equalTo(0);
         
-        make.top.mas_equalTo(KTOPLAYOUTGUARD + 1);
+        make.top.mas_equalTo(KTOPLAYOUTGUARD + 8);
         
         make.height.mas_equalTo(200);
     }];
+    
+    self.whiteView.backgroundColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff80"];
+    
+    self.placeholder.backgroundColor = [UIColor clearColor];
     
     [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.mas_equalTo(0);
         
-        make.top.mas_equalTo(KTOPLAYOUTGUARD + 1);
+        make.top.mas_equalTo(KTOPLAYOUTGUARD + 8);
         
         make.height.mas_equalTo(200);
     }];
@@ -293,7 +313,7 @@
         
         make.left.right.mas_equalTo(0);
         
-        make.top.mas_equalTo(KTOPLAYOUTGUARD + 1);
+        make.top.mas_equalTo(KTOPLAYOUTGUARD + 8);
         
         make.height.mas_equalTo(200);
     }];
@@ -306,6 +326,34 @@
         
         make.height.mas_equalTo(55);
     }];
+    
+    self.textField.backgroundColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff80"];
+    
+    [self.completeItem mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.mas_equalTo(15);
+        
+        make.right.mas_equalTo(-15);
+        
+        make.height.mas_equalTo(48);
+        
+        make.top.equalTo(self.textField.mas_bottom).offset(10);
+    }];
+    
+    [self.completeItem setBackgroundImage:[UIImage s_transformFromHexColor:@DCTColor] forState:UIControlStateNormal];
+    
+    [self.completeItem setBackgroundImage:[UIImage s_transformFromAlphaHexColor:[NSString stringWithFormat:@"%@80",@DCTColor]] forState:UIControlStateHighlighted];
+    
+    [self.completeItem setBackgroundImage:[UIImage s_transformFromAlphaHexColor:[NSString stringWithFormat:@"%@80",@DCTColor]] forState:UIControlStateDisabled];
+    
+    [self.completeItem setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [self.completeItem setTitleColor:[UIColor s_transformToColorByHexColorStr:[NSString stringWithFormat:@"%@80",@"#ffffff"]] forState:UIControlStateHighlighted];
+    
+    self.completeItem.layer.cornerRadius = 24;
+    
+    self.completeItem.layer.masksToBounds = true;
+    
 #elif DCTNameThree
     
     self.topLine.backgroundColor = [UIColor s_transformToColorByHexColorStr:@DCTColor];

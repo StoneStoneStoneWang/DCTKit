@@ -12,7 +12,6 @@
 
 @property (nonatomic ,strong) DCTProtocolBridge *bridge;
 
-
 #if DCTLoginOne
 
 @property (nonatomic ,strong) UIImageView *backgroundImageView;

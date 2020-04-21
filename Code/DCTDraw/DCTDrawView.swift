@@ -24,7 +24,7 @@ public final class DCTDrawView: UIView {
     
     private var drawType: DCTDrawType = .shape
     
-    @objc public var drawRadius: CGFloat = 30
+    @objc public var drawRadius: CGFloat = 20
     
     @objc (fillColor)
     public var fillColor: UIColor = .white {
@@ -65,7 +65,7 @@ extension DCTDrawView {
             // 1  左线
             context.addLine(to: CGPoint(x: bounds.minX, y: bounds.maxY * 3 / 4 - drawRadius ))
             // 2  左下圆角
-            context.addArc(center: CGPoint(x: bounds.minX + drawRadius, y: bounds.maxY * 2 / 3 ), radius: drawRadius, startAngle: pi, endAngle: pi / 2 + pi / 10, clockwise: true)
+            context.addArc(center: CGPoint(x: bounds.minX + drawRadius, y: bounds.maxY * 3 / 4 ), radius: drawRadius, startAngle: pi, endAngle: pi / 2 + pi / 10, clockwise: true)
             // 3 下线
             context.addLine(to: CGPoint(x: bounds.maxX - drawRadius, y: bounds.maxY))
             // 4 右下圆角

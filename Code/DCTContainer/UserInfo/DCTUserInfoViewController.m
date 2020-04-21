@@ -261,6 +261,12 @@
     [super configOwnSubViews];
     
     [self.tableView registerClass:[DCTUserInfoTableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@DCTBackground]];
+    
+    background.frame = self.view.bounds;
+    
+    self.tableView.backgroundView = background;
 }
 
 - (UITableViewCell *)configTableViewCell:(id)data forIndexPath:(NSIndexPath *)ip {
@@ -280,7 +286,7 @@
     
     [self.bridge createUserInfo:self hasSpace:true];
 #elif DCTUserInfoTwo
-    [self.bridge createUserInfo:self hasSpace:false];
+    [self.bridge createUserInfo:self hasSpace:true];
 #elif DCTUserInfoThree
     [self.bridge createUserInfo:self hasPlace:true];
 #endif

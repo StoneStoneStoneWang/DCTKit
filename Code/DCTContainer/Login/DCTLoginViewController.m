@@ -44,6 +44,8 @@
 
 @property (nonatomic ,strong) DCTDrawView *drawView;
 
+@property (nonatomic ,strong) UIImageView *backgroundImageView;
+
 #elif DCTLoginThree
 
 @property (nonatomic ,strong) UIImageView *logoImgView;
@@ -225,9 +227,11 @@
     [self.view addSubview:self.logoImgView];
 #elif DCTLoginTwo
     
-    [self.view insertSubview:self.drawView atIndex:0];
+    [self.view insertSubview:self.backgroundImageView atIndex:0];
     
-    [self.view insertSubview:self.logoImgView atIndex:1];
+    [self.view insertSubview:self.drawView atIndex:1];
+    
+    [self.view insertSubview:self.logoImgView atIndex:2];
 #elif DCTLoginThree
     [self.view addSubview:self.logoImgView];
     
@@ -290,9 +294,19 @@
         
         _drawView.backgroundColor = [UIColor clearColor];
         
-        _drawView.fillColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff50"];
+        _drawView.fillColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff30"];
     }
     return _drawView;
+}
+- (UIImageView *)backgroundImageView {
+    
+    if (!_backgroundImageView) {
+        
+        _backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@DCTBackground]];
+        
+        _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    return _backgroundImageView;
 }
 #elif DCTLoginThree
 
@@ -369,8 +383,6 @@
     self.title = @"登陆";
     
 #elif DCTLoginTwo
-    
-    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
     
     self.title = @"登陆";
     
@@ -511,6 +523,8 @@
     
 #elif DCTLoginTwo
     
+    self.backgroundImageView.frame = self.view.bounds;
+    
     CGFloat w = CGRectGetWidth(self.view.bounds);
     
     CGFloat h = w - 60;
@@ -521,9 +535,9 @@
         
         make.right.mas_equalTo(-30);
         
-        make.centerY.equalTo(self.view);
+        make.centerY.equalTo(self.view).offset(-30);
         
-        make.height.mas_equalTo(h * 5 / 3);
+        make.height.mas_equalTo(h * 5 / 4);
     }];
     
     [self.logoImgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -589,11 +603,11 @@
     
     [self.loginItem mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.bottom.equalTo(self.drawView.mas_bottom).offset(-15);
+        make.bottom.equalTo(self.drawView.mas_bottom).offset(-30);
         
-        make.right.equalTo(self.phone.mas_right).offset(5);
+        make.right.equalTo(self.phone.mas_right);
         
-        make.height.width.equalTo(self.phone.mas_height);
+        make.height.width.mas_equalTo(80);
     }];
     
     [self.loginItem setImage:[UIImage imageNamed:@DCTLoginIcon] forState:UIControlStateNormal];
@@ -604,7 +618,7 @@
 
     [self.loginItem setTitle:@"" forState:UIControlStateHighlighted];
     
-    self.loginItem.layer.cornerRadius = 24;
+    self.loginItem.layer.cornerRadius = 40;
     
     self.loginItem.layer.masksToBounds = true;
     
