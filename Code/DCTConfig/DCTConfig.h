@@ -10,6 +10,17 @@
 
 #import "DCTIconConfig.h"
 
+#if DCTCONFIGURETYPENURSE
+
 #import "DCTHandlerConfig.h"
 
+#elif DCTCONFIGURETYPETHERMAL
+
+#import "DCTThermalConfig.h"
+
+#endif
+
 #import "DCTShowType.h"
+
+
+

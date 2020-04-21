@@ -11,6 +11,9 @@
 typedef NS_ENUM(NSInteger ,DCTConfigureType) {
     /** 花店  */
     DCTConfigureTypeNurse NS_SWIFT_NAME(nurse) = 1,
+    
+    /** 温泉  */
+    DCTConfigureTypeThermal NS_SWIFT_NAME(thermal) = 1,
 };
 
 NS_ASSUME_NONNULL_BEGIN
