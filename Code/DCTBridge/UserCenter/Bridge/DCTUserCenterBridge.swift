@@ -46,6 +46,12 @@ public enum DCTUserCenterActionType: Int ,Codable {
     case unLogin
     
     case feedBack
+    
+    case share
+    
+    case service
+    
+    case version
 }
 
 public typealias DCTUserCenterAction = (_ action: DCTUserCenterActionType ) -> ()
@@ -89,7 +95,7 @@ public final class DCTUserCenterBridge: DCTBaseBridge {
 
 extension DCTUserCenterBridge {
     
-    @objc public func createUserCenter(_ vc: DCTCollectionNoLoadingViewController,headerView: DCTCollectionHeaderView,centerAction:@escaping DCTUserCenterAction) {
+    @objc public func createUserCenter(_ vc: DCTCollectionNoLoadingViewController,centerAction:@escaping DCTUserCenterAction) {
         
         self.vc = vc
         
@@ -133,62 +139,18 @@ extension DCTUserCenterBridge {
                 case .characters: centerAction(isLogin ? .characters : .unLogin)
                 case .myCircle: centerAction(isLogin ? .myCircle : .unLogin)
                 case .feedBack: centerAction(.feedBack)
-                case .contactUS:
-                    
-                    vc.collectionViewSelectData(type, for: ip)
+                case .service: centerAction(.service)
+                case .header: centerAction(isLogin ? .header : .unLogin)
+                case .share: centerAction(.share)
+                case .version: centerAction(.version)
+                case .contactUS: centerAction(.contactUS)
+                 
                     
                 default:
                     break
                 }
             })
             .disposed(by: disposed)
-        vc
-            .collectionView
-            .rx
-            .setDelegate(self)
-            .disposed(by: disposed)
         
-        viewModel
-            .output
-            .userInfo
-            .bind(to: headerView.rx.user)
-            .disposed(by: disposed)
-        
-        headerView
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { (_) in
-                
-                let isLogin = DCTAccountCache.default.isLogin()
-                
-                centerAction(isLogin ? .header : .unLogin)
-                
-            })
-            .disposed(by: disposed)
-    }
-}
-
-extension DCTUserCenterBridge: UICollectionViewDelegateFlowLayout {
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return vc.configCollectionViewCellItemSize(self.dataSource[indexPath], for: indexPath)
-    }
-    //
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        return vc.configCollectionViewCellSectionInset("", forSection: section)
-    }
-    //
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return vc.configCollectionViewCellMinimumLineSpacing("", forSection: section)
-        
-    }
-    //
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return vc.configCollectionViewCellMinimumInteritemSpacing("", forSection: section)
     }
 }

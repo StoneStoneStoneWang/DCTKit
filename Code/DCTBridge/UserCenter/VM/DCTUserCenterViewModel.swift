@@ -74,23 +74,33 @@ public enum DCTUserCenterType : Int{
     case characters
     
     case feedBack
+    
+    case share
+    
+    case service
+    
+    case header
+    
+    case version
 }
 
 extension DCTUserCenterType {
     
     static var types: [DCTUserCenterType] {
         
-        if DCTConfigure.fetchPType() == .cleaner {
+        if DCTConfigure.fetchPType() == .thermal {
             
-            return [userInfo,.privacy,.contactUS,.feedBack,.setting]
+            return [.header,userInfo,.privacy,.share,.feedBack,.service,.setting]
         }
         
-        return [userInfo,.contactUS,.privacy,.about,.feedBack,.setting]
+        return [userInfo,.contactUS,.feedBack,.setting]
     }
     
     var cellHeight: CGFloat {
         
         switch self {
+            
+        case .header: return 100
             
         default: return 55
         }
@@ -121,6 +131,12 @@ extension DCTUserCenterType {
         case .characters: return "角色信息"
             
         case .feedBack: return "意见建议"
+            
+        case .share: return "分享"
+            
+        case .service: return "服务热线"
+            
+        case .version: return "当前版本"
         default: return ""
             
         }

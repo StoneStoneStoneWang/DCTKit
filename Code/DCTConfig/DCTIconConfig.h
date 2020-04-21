@@ -38,7 +38,7 @@
 
 #define DCTSettingIcon "设置"
 
-#define DCTZPhoneNum "+86 17193244370"
+#define DCTZPhoneNum "+027-87580888"
 
 #define DCTPhoneIcon "手机号"
 

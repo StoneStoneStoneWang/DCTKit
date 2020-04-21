@@ -82,7 +82,7 @@ extension DCTSettingType {
         
         if DCTAccountCache.default.isLogin() {
             
-            if DCTConfigure.fetchPType() == .cleaner {
+            if DCTConfigure.fetchPType() == .nurse {
                 
                 return [.space,.password,.space,.clear,.push,.space,.logout]
             }
@@ -93,7 +93,7 @@ extension DCTSettingType {
         
         if DCTAccountCache.default.isLogin() {
             
-            if DCTConfigure.fetchPType() == .cleaner {
+            if DCTConfigure.fetchPType() == .nurse {
                 
                 return [.password,.black,.clear,.push,.logout]
             }

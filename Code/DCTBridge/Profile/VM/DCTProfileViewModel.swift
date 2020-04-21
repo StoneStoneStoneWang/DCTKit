@@ -94,7 +94,7 @@ extension DCTProfileType {
     
     static var spaceTypes: [DCTProfileType] {
         
-        if DCTConfigure.fetchPType() == .cleaner {
+        if DCTConfigure.fetchPType() == .nurse {
             
             return [.space,userInfo,.order,.address,.favor,.space,.contactUS,.privacy,.about,.space,.feedBack,.setting]
         }
@@ -105,10 +105,11 @@ extension DCTProfileType {
     
     static var types: [DCTProfileType] {
         
-        if DCTConfigure.fetchPType() == .cleaner {
+        if DCTConfigure.fetchPType() == .nurse {
             
             return [userInfo,.order,.address,.favor,.contactUS,.privacy,.about,.feedBack,.setting]
         }
+        
         return [userInfo,.contactUS,.privacy,.about,.feedBack,.setting]
     }
     
