@@ -10,7 +10,7 @@
 
 #import "DCTIconConfig.h"
 
-#if DCTCONFIGURETYPENURSE
+#if DCTCONFIGURETYPESWIMMING
 
 #import "DCTHandlerConfig.h"
 

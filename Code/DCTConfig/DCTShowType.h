@@ -7,7 +7,7 @@
 //
 #import "DCTSignConfig.h"
 
-#if DCTCONFIGURETYPENURSE
+#if DCTCONFIGURETYPESWIMMING
 
 #define DCTColor "#a21362"
 
