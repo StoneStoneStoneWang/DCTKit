@@ -233,6 +233,17 @@ Pod::Spec.new do |spec|
     address.dependency 'DCTTable'
     address.dependency 'JXTAlertManager'
   end
+  # 地址 address
+  spec.subspec 'Comment' do |comment|
+    
+    comment.source_files = "Code/DCTContainer/Comment/*.{h,m}"
+    comment.dependency 'DCTConfig'
+    comment.dependency 'DCTBridge/Comment/Bridge'
+    comment.dependency 'SDWebImage'
+    comment.dependency 'Masonry'
+    comment.dependency 'DCTTable'
+    comment.dependency 'JXTAlertManager'
+  end
   # 地址 area
   spec.subspec 'Area' do |area|
     
