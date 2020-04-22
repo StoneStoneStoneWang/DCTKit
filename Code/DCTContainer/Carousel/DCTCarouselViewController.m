@@ -128,8 +128,14 @@
 - (void)setCarouseBean:(DCTCarouselBean *)carouseBean {
     
     self.iconImageView.image = [UIImage imageNamed:carouseBean.icon];
+#if DCTCarouselOne
     
-//    self.titleLabel.text = carouseBean.title;
+#elif DCTCarouselTwo
+    self.titleLabel.text = carouseBean.title;
+#elif DCTCarouselThree
+    
+#endif
+    //
 }
 
 #if DCTCarouselOne
@@ -486,11 +492,11 @@
     self.bridge = bridge;
 #if DCTCarouselTwo
     
-    [bridge createCarousel:self canPageHidden:false canTimerResp:true carousels:DCTCarouselImgs style:DCTCarouselStyleCard carouseAction:^(DCTCarouselBean * _Nonnull banner) {
-       
+    [bridge createCarousel:self canPageHidden:false canTimerResp:true carousels:DCTCarouselImgs style:DCTCarouselStyleNormal carouseAction:^(DCTCarouselBean * _Nonnull banner) {
+        
         
     }];
-
+    
 #elif DCTCarouselOne || DCTCarouselThree
     
     [bridge createCarousel:self canPageHidden:false canTimerResp:false carousels:DCTCarouselImgs style:DCTCarouselStyleNormal carouseAction:^(DCTCarouselBean * _Nonnull carouse) {
