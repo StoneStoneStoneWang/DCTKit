@@ -43,6 +43,8 @@
         _titleLabel.text = @"全部评论";
         
         _titleLabel.textAlignment = NSTextAlignmentLeft;
+        
+        _titleLabel.textColor = [UIColor whiteColor];
     }
     return _titleLabel;
 }
@@ -106,6 +108,8 @@
         _titleLabel.text = @"没有更多数据了";
         
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+        
+        _titleLabel.textColor = [UIColor whiteColor];
     }
     return _titleLabel;
 }
@@ -200,6 +204,8 @@
         _titleLabel.text = @"暂无评论";
         
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+        
+        _titleLabel.textColor = [UIColor whiteColor];
     }
     return _titleLabel;
 }
@@ -249,8 +255,6 @@
         
         _iconImageView = [UIImageView new];
         
-        _iconImageView.contentMode = UIViewContentModeCenter;
-        
         _iconImageView.layer.cornerRadius = 20;
         
         _iconImageView.layer.masksToBounds = true;
@@ -267,7 +271,7 @@
         
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         
-        _nameLabel.textColor = [UIColor s_transformToColorByHexColorStr:@"#333333"];
+        _nameLabel.textColor = [UIColor s_transformToColorByHexColorStr:@"#ffffff"];
         
     }
     return _nameLabel;
@@ -282,7 +286,7 @@
         
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         
-        _timeLabel.textColor = [UIColor s_transformToColorByHexColorStr:@"#999999"];
+        _timeLabel.textColor = [UIColor s_transformToColorByHexColorStr:@"#ffffff"];
         
     }
     return _timeLabel;
@@ -297,7 +301,7 @@
         
         _titleLabel.font = [UIFont systemFontOfSize:13];
         
-        _titleLabel.textColor = [UIColor s_transformToColorByHexColorStr:@"#666666"];
+        _titleLabel.textColor = [UIColor s_transformToColorByHexColorStr:@"#ffffff"];
         
         _titleLabel.numberOfLines = 0;
         
@@ -461,7 +465,9 @@
         
         _editTF = [[UITextField alloc] initWithFrame:CGRectZero];
         
-        _editTF.placeholder = @"请输入评论内容";
+        _editTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入评论内容" attributes:@{NSForegroundColorAttributeName: [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff80"] }];
+        
+        _editTF.textColor = [UIColor whiteColor];
         
         _editTF.font = [UIFont systemFontOfSize:13];
         
@@ -471,6 +477,7 @@
     }
     return _editTF;
 }
+
 - (UIButton *)coverItem {
     
     if (!_coverItem) {
@@ -489,9 +496,9 @@
         
         [_publishItem setTitle:@"发布" forState:UIControlStateHighlighted];
         
-        [_publishItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@"#333333"] forState:UIControlStateNormal];
+        [_publishItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@"#ffffff"] forState:UIControlStateNormal];
         
-        [_publishItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@"#333333"] forState:UIControlStateHighlighted];
+        [_publishItem setTitleColor:[UIColor s_transformToColorByHexColorStr:@"#ffffff"] forState:UIControlStateHighlighted];
         
         _publishItem.titleLabel.font = [UIFont systemFontOfSize:14];
     }
@@ -501,8 +508,6 @@
 - (void)configOwnSubViews {
     
     [super configOwnSubViews];
-    
-    self.tableView.mj_insetT = -KSTATUSBAR_HEIGHT - 10;
     
     [self.tableView registerClass:[DCTCommentRectangleTableViewCell class] forCellReuseIdentifier:@"rectangle"];
     
@@ -598,11 +603,11 @@
         
     } else if (comment.type == WLCommentTypeTotal ) {
         
-        return 55;
+        return 48;
         
     } else if (comment.type == WLCommentTypeEmpty ) {
         
-        return 100;
+        return 60;
         
     } else if (comment.type == WLCommentTypeFailed ) {
         
@@ -668,6 +673,7 @@
         self.block(self, DCTCommentActionTypeUnLogin, self.circleBean);
     }
 }
+
 - (void)onPublishItemClick:(UIButton *)sender {
     
     __weak typeof(self) weakSelf = self;
@@ -676,7 +682,7 @@
        
         [weakSelf.editTF resignFirstResponder];
 
-        weakSelf.circleBean.countComment += 1;
+        weakSelf.editTF.text = @"";
 
         weakSelf.block(weakSelf, DCTCommentActionTypeComment ,weakSelf.circleBean);
     }];

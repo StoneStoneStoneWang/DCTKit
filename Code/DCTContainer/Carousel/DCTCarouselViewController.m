@@ -25,6 +25,10 @@
 @property (nonatomic ,strong) UIView *titleLabelBackground;
 #elif DCTCarouselTwo
 
+
+@property (nonatomic ,strong) UILabel *titleLabel;
+
+@property (nonatomic ,strong) UIView *titleLabelBackground;
 #elif DCTCarouselThree
 
 #endif
@@ -66,6 +70,32 @@
 
 #elif DCTCarouselTwo
 
+- (UILabel *)titleLabel {
+    
+    if (!_titleLabel) {
+        
+        _titleLabel = [UILabel new];
+        
+        _titleLabel.textAlignment = NSTextAlignmentLeft;
+        
+        _titleLabel.textColor = [UIColor whiteColor];
+        
+        _titleLabel.font = [UIFont systemFontOfSize:13];
+    }
+    return _titleLabel;
+}
+- (UIView *)titleLabelBackground {
+    
+    if (!_titleLabelBackground) {
+        
+        _titleLabelBackground = [UIView new];
+        
+        _titleLabelBackground.backgroundColor = [UIColor blackColor];
+        
+        _titleLabelBackground.alpha = 0.5;
+    }
+    return _titleLabelBackground;
+}
 #elif DCTCarouselThree
 
 
@@ -123,6 +153,9 @@
     
 #elif DCTCarouselTwo
     
+    [self addSubview:self.titleLabelBackground];
+    
+    [self addSubview:self.titleLabel];
 #elif DCTCarouselThree
     
     
@@ -137,6 +170,21 @@
     
 #if DCTCarouselTwo
     
+    [self.titleLabelBackground mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.right.bottom.equalTo(self);
+        
+        make.height.mas_equalTo(30);
+    }];
+    
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.bottom.equalTo(self);
+        
+        make.left.mas_equalTo(15);
+        
+        make.height.mas_equalTo(30);
+    }];
 #elif DCTCarouselOne
     
 #elif DCTCarouselThree
@@ -195,82 +243,110 @@
 
 #elif DCTCarouselTwo
 
-#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
-#define ITEM_ZOOM 0.05
-#define THE_ACTIVE_DISTANCE 230
-#define LEFT_OFFSET 60
-@interface DCTCarouselFormTwoLayout : UICollectionViewFlowLayout
-
 #define DCTCarouselHeight KSSCREEN_WIDTH / 2
+
+@interface DCTCarouselFormOneLayout : UICollectionViewFlowLayout
+
+
+
 @end
-@implementation DCTCarouselFormTwoLayout
+
+@implementation DCTCarouselFormOneLayout
 
 - (void)prepareLayout {
     [super prepareLayout];
     
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    CGSize itemSize = CGSizeMake(KSSCREEN_WIDTH - 80, DCTCarouselHeight);
+    CGSize itemSize = CGSizeMake(KSSCREEN_WIDTH, KSSCREEN_WIDTH / 2);
     
     self.itemSize = itemSize;
     
-    self.minimumLineSpacing = 20.0f;
+    self.minimumLineSpacing = 0.1;
     
-    self.sectionInset = UIEdgeInsetsMake(60, 40, 0, 40);
+    self.minimumInteritemSpacing = 0.1;
     
-}
-
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds
-{
-    return YES;
-}
-
-- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
-{
-    NSArray * array = [[NSArray alloc]initWithArray:[super layoutAttributesForElementsInRect:rect] copyItems:YES];
-    CGRect visiableRect;
-    visiableRect.origin = self.collectionView.contentOffset;
-    visiableRect.size = self.collectionView.bounds.size;
+    self.sectionInset = UIEdgeInsetsZero;
     
-    for (UICollectionViewLayoutAttributes * attributes in array)
-    {
-        if (CGRectIntersectsRect(attributes.frame, rect))
-        {
-            CGFloat distance = CGRectGetMidX(visiableRect) - attributes.center.x;
-            distance = ABS(distance);
-            if (distance < KSSCREEN_WIDTH/2 + self.itemSize.width)
-            {
-                CGFloat zoom = 1 + ITEM_ZOOM * (1 - distance/THE_ACTIVE_DISTANCE);
-                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0f);
-                attributes.transform3D = CATransform3DTranslate(attributes.transform3D, 0, -zoom * 25, 0);
-                attributes.alpha = zoom - ITEM_ZOOM;
-            }
-        }
-    }
-    return array;
-}
-
-- (CGPoint )targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
-{
-    CGFloat offsetAdjustment = MAXFLOAT;
-    
-    CGFloat horizontalCenter_X = proposedContentOffset.x + CGRectGetWidth(self.collectionView.bounds)/2.0;
-    CGRect targetRect = CGRectMake(proposedContentOffset.x, 20, self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
-    NSArray *array = [super layoutAttributesForElementsInRect:targetRect];
-    for (UICollectionViewLayoutAttributes * attributes in array)
-    {
-        CGFloat itemHorizontalCenter_X = attributes.center.x;
-        if (ABS(itemHorizontalCenter_X - horizontalCenter_X) < ABS(offsetAdjustment))
-        {
-            offsetAdjustment = itemHorizontalCenter_X - horizontalCenter_X;
-        }
-    }
-    
-    return CGPointMake(proposedContentOffset.x + offsetAdjustment, proposedContentOffset.y);
 }
 
 @end
+//#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+//#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+//#define ITEM_ZOOM 0.05
+//#define THE_ACTIVE_DISTANCE 230
+//#define LEFT_OFFSET 60
+//@interface DCTCarouselFormTwoLayout : UICollectionViewFlowLayout
+//
+//#define DCTCarouselHeight KSSCREEN_WIDTH / 2
+//@end
+//@implementation DCTCarouselFormTwoLayout
+//
+//- (void)prepareLayout {
+//    [super prepareLayout];
+//
+//    self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+//
+//    CGSize itemSize = CGSizeMake(KSSCREEN_WIDTH - 80, DCTCarouselHeight);
+//
+//    self.itemSize = itemSize;
+//
+//    self.minimumLineSpacing = 20.0f;
+//
+//    self.sectionInset = UIEdgeInsetsMake(60, 40, 0, 40);
+//
+//}
+//
+//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds
+//{
+//    return YES;
+//}
+//
+//- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+//{
+//    NSArray * array = [[NSArray alloc]initWithArray:[super layoutAttributesForElementsInRect:rect] copyItems:YES];
+//    CGRect visiableRect;
+//    visiableRect.origin = self.collectionView.contentOffset;
+//    visiableRect.size = self.collectionView.bounds.size;
+//
+//    for (UICollectionViewLayoutAttributes * attributes in array)
+//    {
+//        if (CGRectIntersectsRect(attributes.frame, rect))
+//        {
+//            CGFloat distance = CGRectGetMidX(visiableRect) - attributes.center.x;
+//            distance = ABS(distance);
+//            if (distance < KSSCREEN_WIDTH/2 + self.itemSize.width)
+//            {
+//                CGFloat zoom = 1 + ITEM_ZOOM * (1 - distance/THE_ACTIVE_DISTANCE);
+//                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0f);
+//                attributes.transform3D = CATransform3DTranslate(attributes.transform3D, 0, -zoom * 25, 0);
+//                attributes.alpha = zoom - ITEM_ZOOM;
+//            }
+//        }
+//    }
+//    return array;
+//}
+//
+//- (CGPoint )targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
+//{
+//    CGFloat offsetAdjustment = MAXFLOAT;
+//
+//    CGFloat horizontalCenter_X = proposedContentOffset.x + CGRectGetWidth(self.collectionView.bounds)/2.0;
+//    CGRect targetRect = CGRectMake(proposedContentOffset.x, 20, self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
+//    NSArray *array = [super layoutAttributesForElementsInRect:targetRect];
+//    for (UICollectionViewLayoutAttributes * attributes in array)
+//    {
+//        CGFloat itemHorizontalCenter_X = attributes.center.x;
+//        if (ABS(itemHorizontalCenter_X - horizontalCenter_X) < ABS(offsetAdjustment))
+//        {
+//            offsetAdjustment = itemHorizontalCenter_X - horizontalCenter_X;
+//        }
+//    }
+//
+//    return CGPointMake(proposedContentOffset.x + offsetAdjustment, proposedContentOffset.y);
+//}
+//
+//@end
 
 #endif
 
@@ -326,7 +402,7 @@
     
 #elif DCTCarouselTwo
     
-    DCTCarouselFormTwoLayout *layout = [DCTCarouselFormTwoLayout new];
+    DCTCarouselFormOneLayout *layout = [DCTCarouselFormOneLayout new];
 #elif DCTCarouselThree
     DCTCarouselFormOneLayout *layout = [DCTCarouselFormOneLayout new];
 #endif
@@ -370,15 +446,19 @@
     }];
 #elif DCTCarouselTwo
     
+    self.pageControl.pageIndicatorTintColor = [UIColor s_transformTo_AlphaColorByHexColorStr:@"#ffffff30"];
+    
+    self.pageControl.currentPageIndicatorTintColor = [UIColor s_transformToColorByHexColorStr:@"#ffffff"];
+    
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.width.mas_equalTo(80);
         
-        make.centerX.mas_equalTo(0);
+        make.right.mas_equalTo(-15);
         
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(30);
         
-        make.top.mas_equalTo(DCTCarouselHeight - 40 );
+        make.top.mas_equalTo(DCTCarouselHeight - 30);
     }];
     
 #elif DCTCarouselThree

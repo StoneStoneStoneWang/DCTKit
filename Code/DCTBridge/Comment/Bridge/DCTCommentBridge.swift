@@ -155,6 +155,8 @@ extension DCTCommentBridge {
                     
                     self.circleBean.countComment += 1
                     
+                    self.insertComment(comment as! DCTCommentBean)
+                    
                     commentAction(comment as? DCTCommentBean ,self.circleBean)
 
                 case .failed(let msg):
