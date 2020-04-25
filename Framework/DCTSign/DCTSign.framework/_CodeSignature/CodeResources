@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		+e4wITqxbRojh9p+KwgNSfEQQGo=
+		YtUGsjr4glQTJ6pP74O7JmHVMSA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -25,6 +25,10 @@
 	<dict>
 		<key>Headers/DCTConfigure.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			mKAV3EEoHHXDGvxQfNjlR78aCkk=
+			</data>
 			<key>hash2</key>
 			<data>
 			NhrqTn6U1X1XVqyrUT50cqS0LTxP4Hqjxsoo1UY/R+s=
@@ -32,6 +36,10 @@
 		</dict>
 		<key>Headers/DCTSign.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			+BaUPkxVcfdJvA7+Nn2mYPTwLHw=
+			</data>
 			<key>hash2</key>
 			<data>
 			H79Eyk2Zka38zgBNYeBKT8uw21J0hJc3ZdV34twMg88=
@@ -39,6 +47,10 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			g9f7Apv0QGV3/tlE6NJoWa8BG4E=
+			</data>
 			<key>hash2</key>
 			<data>
 			8+1fW8J0dQlCKXR6/u2ImSbCsdJKEPb/wfbsU7u7KkM=
