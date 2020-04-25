@@ -233,7 +233,7 @@ Pod::Spec.new do |spec|
     address.dependency 'DCTTable'
     address.dependency 'JXTAlertManager'
   end
-  # 地址 address
+  # 评论 comment
   spec.subspec 'Comment' do |comment|
     
     comment.source_files = "Code/DCTContainer/Comment/*.{h,m}"
