@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(DCTIM)
 @interface DCTIMManager : NSObject
 
-+ (void)initWithAppkey:(NSString * _Nonnull)appkey;
++ (void)initWithAppkey:(NSString * _Nonnull)appkey andAppSecret:(NSString * _Nonnull)appSecret;
 
 + (void)connetWithUserId:(NSString * _Nonnull)userId
                  andName:(NSString * _Nonnull)name
