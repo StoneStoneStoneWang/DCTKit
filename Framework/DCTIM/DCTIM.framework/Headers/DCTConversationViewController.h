@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic ,assign) BOOL canPanResponse;
 
+- (id)initWithConversationType:(RCConversationType)conversationType targetUserInfo:(id )targetUser;
+
 @end
 
 NS_ASSUME_NONNULL_END

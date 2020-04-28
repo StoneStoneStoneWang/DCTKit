@@ -22,12 +22,16 @@ NS_SWIFT_NAME(DCTIM)
               andFailure:( void (^)(NSError * _Nonnull error))failure;
 
 + (void)refreshWithUserId:(NSString * _Nonnull)userId
-                 andName:(NSString * _Nonnull)name
-              andHeadImg:(NSString * _Nonnull)headImg
-          andFetchUserId:( void (^)(NSString * _Nonnull userId))fetchUserId
-              andFailure:( void (^)(NSError * _Nonnull error))failure;
+                  andName:(NSString * _Nonnull)name
+               andHeadImg:(NSString * _Nonnull)headImg
+           andFetchUserId:( void (^)(NSString * _Nonnull userId))fetchUserId
+               andFailure:( void (^)(NSError * _Nonnull error))failure;
 
-+ (void)disconnect;
++ (void)fetchUserInfoWithUserId:(NSString * _Nonnull)userId
+               andFetchUserInfo:( void (^)(id _Nullable userInfo))fetchUserInfo
+                     andFailure:( void (^)(NSError * _Nonnull error))failure;
+
++ (void)logout;
 
 @end
 

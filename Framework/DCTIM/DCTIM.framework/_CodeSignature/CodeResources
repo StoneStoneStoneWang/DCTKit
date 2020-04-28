@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/DCTConversationViewController.h</key>
 		<data>
-		qV3FTpqv3wknAChLG4G3G/gHgP8=
+		YjYLT+aBwRHgBb17wGsAD70wyME=
 		</data>
 		<key>Headers/DCTIM.h</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Headers/DCTIMManager.h</key>
 		<data>
-		eZjkoasPO4/vz0WjV1qsKxvp0yM=
+		EutM6JlBDA7YR7M9ou7zeRKUiJo=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -1549,11 +1549,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qV3FTpqv3wknAChLG4G3G/gHgP8=
+			YjYLT+aBwRHgBb17wGsAD70wyME=
 			</data>
 			<key>hash2</key>
 			<data>
-			8jRG5NGQuw4YuonLPYc9cn+ccge6MZI9upd60pMqPo8=
+			252lYyFFyAUqdAgqINUR46t9ekAI0pWPI1V4dpTye6s=
 			</data>
 		</dict>
 		<key>Headers/DCTIM.h</key>
@@ -1571,11 +1571,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			eZjkoasPO4/vz0WjV1qsKxvp0yM=
+			EutM6JlBDA7YR7M9ou7zeRKUiJo=
 			</data>
 			<key>hash2</key>
 			<data>
-			e1XOqLFgjNoD2lQa8iZEcfDg5s6DH6MOk6mcd50fZJQ=
+			h9y3NC3fsfMGzdKvTAamhQNnp+oWV3GgvpM3l0dqnDo=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

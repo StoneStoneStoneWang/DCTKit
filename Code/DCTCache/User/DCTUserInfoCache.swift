@@ -40,7 +40,7 @@ extension DCTUserInfoCache {
         return data
     }
     
-    public func queryUser() -> DCTUserBean  {
+    @objc public func queryUser() -> DCTUserBean  {
         
         if DCTAccountCache.default.uid != "" {
             
@@ -51,7 +51,7 @@ extension DCTUserInfoCache {
                 return userBean
             }
         }
-    
+        
         return DCTUserBean()
     }
 }
