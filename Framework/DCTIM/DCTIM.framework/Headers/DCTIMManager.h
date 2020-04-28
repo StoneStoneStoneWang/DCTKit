@@ -18,8 +18,16 @@ NS_SWIFT_NAME(DCTIM)
 + (void)connetWithUserId:(NSString * _Nonnull)userId
                  andName:(NSString * _Nonnull)name
               andHeadImg:(NSString * _Nonnull)headImg
-           andFetchUserId:( void (^)(NSString * _Nonnull userId))fetchUserId
-                 andFailure:( void (^)(NSError * _Nonnull error))failure;
+          andFetchUserId:( void (^)(NSString * _Nonnull userId))fetchUserId
+              andFailure:( void (^)(NSError * _Nonnull error))failure;
+
++ (void)refreshWithUserId:(NSString * _Nonnull)userId
+                 andName:(NSString * _Nonnull)name
+              andHeadImg:(NSString * _Nonnull)headImg
+          andFetchUserId:( void (^)(NSString * _Nonnull userId))fetchUserId
+              andFailure:( void (^)(NSError * _Nonnull error))failure;
+
++ (void)disconnect;
 
 @end
 
