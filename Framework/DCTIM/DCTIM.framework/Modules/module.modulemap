@@ -1,0 +1,6 @@
+framework module DCTIM {
+  umbrella header "DCTIM.h"
+
+  export *
+  module * { export * }
+}
