@@ -15,11 +15,11 @@ NS_SWIFT_NAME(DCTIM)
 
 + (void)initWithAppkey:(NSString * _Nonnull)appkey;
 
-+ (void)initWithToken:(NSString * _Nonnull)token;
-
-+ (void)initWithAppSecret:(NSString * _Nonnull)appSecret
-                  andSucc:(void (^)(NSString * _Nonnull))success
-                  andFail:(void (^)(NSError * _Nonnull))failure;
++ (void)connetWithUserId:(NSString * _Nonnull)userId
+                 andName:(NSString * _Nonnull)name
+              andHeadImg:(NSString * _Nonnull)headImg
+           andFetchUserId:( void (^)(NSString * _Nonnull userId))fetchUserId
+                 andFailure:( void (^)(NSError * _Nonnull error))failure;
 
 @end
 
