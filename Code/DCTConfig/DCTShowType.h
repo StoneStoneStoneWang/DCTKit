@@ -13,7 +13,7 @@
 
 #pragma mark --- 是否更新时启用
 
-#define DCTUPDATEVERSION 0
+#define DCTUPDATEVERSION 1
 
 #pragma mark ---
 
